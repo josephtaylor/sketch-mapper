@@ -21,10 +21,7 @@
 package ixagon.SurfaceMapper;
 
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +29,8 @@ import java.util.Set;
 
 import processing.core.*;
 import processing.data.XML;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public class SurfaceMapper {
 	public final String VERSION = "1";
@@ -98,7 +97,7 @@ public class SurfaceMapper {
 	public SurfaceMapper(PApplet parent, int width, int height) {
 		this.parent = parent;
 		this.enableMouseEvents();
-		this.parent.registerKeyEvent(this);
+		this.parent.registerMethod("keyEvent", this);
 		this.width = width;
 		this.height = height;
 		this.ccolor = new int[0];
@@ -236,14 +235,14 @@ public class SurfaceMapper {
 	 * Unregisters Mouse Event listener for the SurfaceMapper
 	 */
 	public void disableMouseEvents() {
-		//this.parent.unregisterMouseEvent(this);
+		this.parent.unregisterMethod("mouseEvent", this);
 	}
 
 	/**
 	 * Registers Mouse Event listener for the SurfaceMapper
 	 */
 	public void enableMouseEvents() {
-		//this.parent.registerMouseEvent(this);
+		this.parent.registerMethod("mouseEvent", this);
 	}
 
 	/**
@@ -796,14 +795,14 @@ public class SurfaceMapper {
 	/**
 	 * Save all projection mapping data to file
 	 * 
-	 * @param filename
+	 * @param file
 	 */
-	public void save(String filename) {
+	public void save(File file) {
 		if (this.MODE == SurfaceMapper.MODE_CALIBRATE) {
 			XML root = new XML("root");
 			this.save(root);
 			try {
-				root.save(new File(parent.dataPath(filename)));
+				root.save(file);
 			} catch (Exception e) {
 				PApplet.println(e.getStackTrace());
 			}
@@ -813,17 +812,16 @@ public class SurfaceMapper {
 	/**
 	 * Load projection map from file
 	 * 
-	 * @param filename
+	 * @param file
 	 */
-	public void load(String filename) {
+	public void load(File file) {
 		if (this.MODE == SurfaceMapper.MODE_CALIBRATE) {
-			File f = new File(parent.dataPath(filename));
-			if (f.exists()) {
+			if (file.exists()) {
 				this.setGrouping(false);
 				selectedSurfaces.clear();
 				surfaces.clear();
 				try {
-					XML root = new XML(f);
+					XML root = new XML(file);
 					for (int i = 0; i < root.getChildCount(); i++) {
 						if (root.getChild(i).getName().equals("surface")) {
 							SuperSurface loaded = null;
@@ -840,7 +838,7 @@ public class SurfaceMapper {
 						}
 					}
 					if (this.getDebug())
-						PApplet.println("Projection layout loaded from " + filename + ". " + surfaces.size() + " surfaces were loaded!");
+						PApplet.println("Projection layout loaded from " + file.getName() + ". " + surfaces.size() + " surfaces were loaded!");
 				} catch (Exception e) {
 					PApplet.println("Error loading configuration!!!");
 					e.printStackTrace();
@@ -1041,19 +1039,19 @@ public class SurfaceMapper {
 		int mX = e.getX();
 		int mY = e.getY();
 
-		switch (e.getID()) {
-		case MouseEvent.MOUSE_PRESSED:
+		switch (e.getAction()) {
+		case MouseEvent.PRESS:
 			selectSurfaces(mX, mY);
 			break;
 
-		case MouseEvent.MOUSE_DRAGGED:
+		case MouseEvent.DRAG:
 			if (this.MODE == SurfaceMapper.MODE_CALIBRATE) {
 
 				float deltaX = mX - prevMouse.x;
 				float deltaY = mY - prevMouse.y;
 
 				// Right mouse button drags very slowly.
-				if (e.getButton() == MouseEvent.BUTTON3) {
+				if (e.getButton() == PApplet.RIGHT) {
 					deltaX *= 0.1;
 					deltaY *= 0.1;
 				}
@@ -1094,9 +1092,12 @@ public class SurfaceMapper {
 									}
 									if (cornerMovementAllowed) {
 										for (int i = 0; i < 4; i++) {
+
 											ss.setCornerPoint(i, ss.getCornerPoint(i).x + deltaX, ss.getCornerPoint(i).y + deltaY);
-											ss.setBezierPoint(i, ss.getBezierPoint(i).x + deltaX, ss.getBezierPoint(i).y + deltaY);
-											ss.setBezierPoint(i + 4, ss.getBezierPoint(i + 4).x + deltaX, ss.getBezierPoint(i + 4).y + deltaY);
+											if (SuperSurface.BEZIER == ss.getSurfaceType()) {
+												ss.setBezierPoint(i, ss.getBezierPoint(i).x + deltaX, ss.getBezierPoint(i).y + deltaY);
+												ss.setBezierPoint(i + 4, ss.getBezierPoint(i + 4).x + deltaX, ss.getBezierPoint(i + 4).y + deltaY);
+											}
 										}
 									}
 									movingPolys[iteration] = true;
@@ -1105,10 +1106,12 @@ public class SurfaceMapper {
 								// Move a corner point.
 								int index = ss.getActivePoint();
 								ss.setCornerPoint(index, ss.getCornerPoint(ss.getActivePoint()).x + deltaX, ss.getCornerPoint(ss.getActivePoint()).y + deltaY);
-								index = index * 2;
-								ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
-								index = index + 1;
-								ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
+								if (SuperSurface.BEZIER == ss.getSurfaceType()) {
+									index = index * 2;
+									ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
+									index = index + 1;
+									ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
+								}
 								movingPolys[iteration] = true;
 
 							}
@@ -1161,7 +1164,7 @@ public class SurfaceMapper {
 
 			break;
 
-		case MouseEvent.MOUSE_RELEASED:
+		case MouseEvent.RELEASE:
 			if (this.MODE == SurfaceMapper.MODE_CALIBRATE) {
 				if (snap) {
 					for (SuperSurface ss : selectedSurfaces) {
@@ -1230,23 +1233,23 @@ public class SurfaceMapper {
 		if (MODE == MODE_RENDER)
 			return; // ignore everything unless we're in calibration mode
 
-		switch (k.getID()) {
-		case KeyEvent.KEY_RELEASED:
+		switch (k.getAction()) {
+		case KeyEvent.RELEASE:
 
 			switch (k.getKeyCode()) {
 
-			case KeyEvent.VK_CONTROL:
+			case KeyEvent.CTRL:
 			case CMD:
 				ctrlDown = false;
 				break;
 
-			case KeyEvent.VK_ALT:
+			case KeyEvent.ALT:
 				altDown = false;
 				break;
 			}
 			break;
 
-		case KeyEvent.KEY_PRESSED:
+		case KeyEvent.PRESS:
 
 			switch (k.getKeyCode()) {
 			case '1':
@@ -1273,7 +1276,7 @@ public class SurfaceMapper {
 					selectedSurfaces.get(0).setId(0);
 				break;
 
-			case KeyEvent.VK_UP:
+			case 38:
 				if (!altDown && !ctrlDown) {
 					for (SuperSurface ss : selectedSurfaces) {
 						movePoint(ss, 0, -1);
@@ -1295,7 +1298,7 @@ public class SurfaceMapper {
 
 				break;
 
-			case KeyEvent.VK_DOWN:
+			case 40:
 				if (!altDown && !ctrlDown) {
 					for (SuperSurface ss : selectedSurfaces) {
 						movePoint(ss, 0, 1);
@@ -1317,7 +1320,7 @@ public class SurfaceMapper {
 
 				break;
 
-			case KeyEvent.VK_LEFT:
+			case 37:
 				if (!altDown && !ctrlDown) {
 					for (SuperSurface ss : selectedSurfaces) {
 						movePoint(ss, -1, 0);
@@ -1340,7 +1343,7 @@ public class SurfaceMapper {
 
 				break;
 
-			case KeyEvent.VK_RIGHT:
+			case 39:
 				if (!altDown && !ctrlDown) {
 					for (SuperSurface ss : selectedSurfaces) {
 						movePoint(ss, 1, 0);
@@ -1378,13 +1381,13 @@ public class SurfaceMapper {
 			 * 
 			 * case KeyEvent.VK_BACK_SPACE: removeSelectedSurfaces(); break;
 			 */
-			case KeyEvent.VK_CONTROL:
+			case KeyEvent.CTRL:
 			case CMD:
 				ctrlDown = true;
 				grouping = true;
 				break;
 
-			case KeyEvent.VK_ALT:
+			case KeyEvent.ALT:
 				altDown = true;
 				break;
 			}

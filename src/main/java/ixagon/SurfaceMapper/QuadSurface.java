@@ -24,6 +24,7 @@ package ixagon.SurfaceMapper;
 //and code from rrrufusss
 //https://forum.processing.org/topic/compensating-for-keystone-distortion-or-creating-some-kind-of-homography-routine
 
+import jto.processing.sketch.Sketch;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -97,6 +98,8 @@ public class QuadSurface implements SuperSurface {
     private PGraphics blendScreen;
     private PGraphics bufferScreen;
     private int bufferScreenWidth = 0;
+
+    private Sketch sketch;
 
     /**
      * Constructor for creating a new surface at X,Y with RES subdivision.
@@ -404,6 +407,10 @@ public class QuadSurface implements SuperSurface {
      */
     public int getSelectedCorner() {
         return this.selectedCorner;
+    }
+
+    public Sketch getSketch() {
+        return sketch;
     }
 
     public PImage getSurfaceMask() {
@@ -1081,6 +1088,10 @@ public class QuadSurface implements SuperSurface {
         this.shakeSpeed = speed;
         this.fallOfSpeed = 1000 - fallOfSpeed;
         shakeAngle = 0;
+    }
+
+    public void setSketch(Sketch sketch) {
+        this.sketch = sketch;
     }
 
     public void setSurfaceMask(PImage mask) {

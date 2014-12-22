@@ -1,139 +1,123 @@
 package jto.processing.surface.mapper;
 
 
+import controlP5.ControlEvent;
+import controlP5.ControlListener;
+import controlP5.ControlP5;
+import ixagon.SurfaceMapper.SuperSurface;
+import ixagon.SurfaceMapper.SurfaceMapper;
+import jto.processing.sketch.Sketch;
+import jto.processing.surface.mapper.menu.BezierOptionsMenu;
+import jto.processing.surface.mapper.menu.ProgramOptionsMenu;
+import jto.processing.surface.mapper.menu.QuadOptionsMenu;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.event.MouseEvent;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SurfaceMapperGui {
 
-    // ArrayLists for textures, movies and lookups
-    ArrayList<GLTexture> textures;          // Actual textures
-    ArrayList<String> textureNames;         // File names of textures
-    ArrayList<Integer> textureLookup;       // Associates surfaces (ID) to texture index
-    ArrayList<GSMovie> movies;              // All videos in textures folder
-    ArrayList<Integer> movieTextureLookup;  // Associates videos to textures
-
-    boolean moviesPlaying = false;
-
+    public static final String LOAD_LAYOUT_HANDLER_METHOD_NAME = "loadLayoutHandler";
+    public static final String SAVE_LAYOUT_HANDLER_METHOD_NAME = "saveLayoutHandler";
     // File types that are accepted as textures
-    String[] imageTypes = {"jpg", "jpeg", "png", "gif", "bmp"};
-    String[] movieTypes = {"mp4", "mov", "avi"};
-
-    // SurfaceMapper variables
-    GLGraphicsOffScreen glos;
-    SurfaceMapper sm;
+    private static final String[] imageTypes = {"jpg", "jpeg", "png", "gif", "bmp"};
+    private static final String[] movieTypes = {"mp4", "mov", "avi"};
+    private final PApplet parent;
     int initialSurfaceResolution = 6;
-
     // Custom GUI objects
-    ControlP5 gui;
-    QuadOptionsMenu quadOptions;
-    BezierOptionsMenu bezierOptions;
-    ProgramOptionsMenu programOptions;
+    ControlP5 controlP5;
     int mostRecentSurface = 0;
+    private List<Sketch> sketchList = new ArrayList<Sketch>();
+    // SurfaceMapper variables
+    private PGraphics graphicsOffScreen;
+    private SurfaceMapper sm;
+    private QuadOptionsMenu quadOptions;
+    private BezierOptionsMenu bezierOptions;
+    private ProgramOptionsMenu programOptions;
 
-    /**
-     * ******************************************
-     * controlEvent(ControlEvent e)
-     * <p/>
-     * Called when some component of the ControLP5
-     * GUI has fired off and event to be handled.
-     * ********************************************
-     */
-    public void controlEvent(ControlEvent e) {
+    public SurfaceMapperGui(final PApplet parent) {
+        this.parent = parent;
+        // Setup the ControlP5 GUI
+        controlP5 = new ControlP5(parent);
+
+        controlP5.addListener(new ControlListener() {
+            @Override
+            public void controlEvent(ControlEvent controlEvent) {
+                controlEventDelegate(controlEvent);
+            }
+        });
+
+        // Initialize custom menus
+        quadOptions = new QuadOptionsMenu(this, parent, controlP5);
+        bezierOptions = new BezierOptionsMenu(parent, controlP5);
+        programOptions = new ProgramOptionsMenu(parent, controlP5);
+
+        // Hide the menus
+        //quadOptions.hide();
+        bezierOptions.hide();
+
+        // Update the GUI for the default surface
+        quadOptions.setSurfaceName("0");
+        bezierOptions.setSurfaceName("0");
+
+        // Create an off-screen buffer (makes graphics go fast!)
+        graphicsOffScreen = parent.createGraphics(parent.width, parent.height, PApplet.OPENGL);
+
+        // Create new instance of SurfaceMapper
+        sm = new SurfaceMapper(parent, parent.width, parent.height);
+        sm.setDisableSelectionTool(true);
+
+        // Creates one surface with subdivision 3, at center of screen
+        SuperSurface superSurface = sm.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+
+    }
+
+    public void addSketch(Sketch sketch) {
+        this.sketchList.add(sketch);
+        if (sm.getSurfaces().size() == 1) {
+            sm.getSurfaces().get(0).setSketch(sketch);
+        }
+    }
+
+    public void controlEventDelegate(ControlEvent e) {
         SuperSurface ss;
         int diff;
 
         switch (e.getId()) {
             // Program Options -> Create quad surface button
             case 1:
-                sm.createQuadSurface(initialSurfaceResolution, width / 2, height / 2);
+                ss = sm.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
-                textureLookup.add(0);
+                ss.setSketch(sketchList.get(0));
 
                 break;
 
             // Program Options -> Create bezier surface button
             case 2:
-                sm.createBezierSurface(initialSurfaceResolution, width / 2, height / 2);
+                ss = sm.createBezierSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
-                textureLookup.add(0);
+                ss.setSketch(sketchList.get(0));
 
                 break;
 
             // Program Options -> Load layout button
             case 3:
-                sm.load(selectInput("Load layout"));
-
-                // Clear out ArrayLists
-                textureLookup.clear();
-                movieTextureLookup.clear();
-
-                // Read textureLookup.txt
-                try {
-                    BufferedReader reader = createReader(sketchPath + "/data/lookups/textureLookup.txt");
-                    String line;
-
-                    try {
-                        while ((line = reader.readLine()) != null)
-                            textureLookup.add(Integer.parseInt(line));
-
-                        println("Texture lookups successfully loaded.");
-                    } catch (IOException ee) {
-                        println("Could not read line from textureLookup.txt");
-                    }
-                } catch (Exception ee) {
-                    println("Could not load textureLookup.txt");
-
-                    ArrayList surfaces = sm.getSurfaces();
-                    for (int i = 0; i < surfaces.size(); i++) {
-                        textureLookup.add(0);
-                    }
-                }
-
-                // Read movieTextureLookup.txt
-                try {
-                    BufferedReader reader = createReader(sketchPath + "/data/lookups/movieTextureLookup.txt");
-                    String line;
-
-                    try {
-                        while ((line = reader.readLine()) != null)
-                            movieTextureLookup.add(Integer.parseInt(line));
-
-                        println("Movie/texture lookups successfully loaded.");
-                    } catch (IOException ee) {
-                        println("Could not read line from movieTextureLookup.txt");
-                    }
-                } catch (Exception ee) {
-                    println("Could not load movieTextureLookup.txt");
-                }
-
-                mostRecentSurface = 0;
+                parent.selectInput("Load layout", LOAD_LAYOUT_HANDLER_METHOD_NAME, null, this);
                 break;
 
             // Program Options -> Save layout button
             case 4:
-                sm.save(selectOutput("Save layout"));
+                parent.selectOutput("Save layout", SAVE_LAYOUT_HANDLER_METHOD_NAME, null, this);
 
-                // Write textureLookup to file
-                PrintWriter output = createWriter(sketchPath + "/data/lookups/textureLookup.txt");
-                for (int i = 0; i < textureLookup.size(); i++) {
-                    int id = (int) textureLookup.get(i);
-                    output.println(id);
-                }
-                output.flush();
-                output.close();
-
-                // Write movieTextureLookup to file
-                output = createWriter(sketchPath + "/data/lookups/movieTextureLookup.txt");
-                for (int i = 0; i < movieTextureLookup.size(); i++) {
-                    int id = (int) movieTextureLookup.get(i);
-                    output.println(id);
-                }
-                output.flush();
-                output.close();
-
-                break;
-
-            // Program Options -> Switch to render mode
+                // Program Options -> Switch to render mode
             case 5:
                 sm.toggleCalibration();
                 break;
@@ -158,19 +142,12 @@ public class SurfaceMapperGui {
 
             // Quad Options -> Source file
             case 9:
-                // Find the index of the filename
-                int textureIndex = -1;
-                for (int i = 0; i < textureNames.size(); i++) {
-                    String textureName = textureNames.get(i);
-
-                    if (e.getGroup().captionLabel().getText().equals(textureName))
-                        textureIndex = i;
+                for (Sketch sketch : sketchList) {
+                    if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
+                        sm.getSurfaces().get(mostRecentSurface).setSketch(sketch);
+                        break;
+                    }
                 }
-
-                // Assign the texture to the correct surface
-                if (textureIndex >= 0)
-                    textureLookup.set(mostRecentSurface, textureIndex);
-
                 break;
 
             // RESERVED for Bezier Options-> name
@@ -214,35 +191,26 @@ public class SurfaceMapperGui {
 
             // Bezier Options -> Source file
             case 17:
-                // Find the index of the filename
-                textureIndex = -1;
-                for (int i = 0; i < textureNames.size(); i++) {
-                    String textureName = textureNames.get(i);
-
-                    if (e.getGroup().captionLabel().getText().equals(textureName))
-                        textureIndex = i;
+                for (Sketch sketch : sketchList) {
+                    if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
+                        sm.getSurfaces().get(mostRecentSurface).setSketch(sketch);
+                        break;
+                    }
                 }
-
-                // Assign the texture to the correct surface
-                if (textureIndex >= 0) {
-                    textureLookup.set(mostRecentSurface, textureIndex);
-                }
-
                 break;
         }
     }
 
-    void draw() {
-        background(0);
+    public void draw() {
+        parent.background(0);
 
         // Empty out the off-screen renderer
-        glos.beginDraw();
-        glos.clear(0);
-        glos.endDraw();
+        graphicsOffScreen.beginDraw();
+        graphicsOffScreen.endDraw();
 
         // Calibration mode
         if (sm.getMode() == sm.MODE_CALIBRATE) {
-            sm.render(glos);
+            sm.render(graphicsOffScreen);
 
             // Show the GUI
             programOptions.show();
@@ -254,20 +222,15 @@ public class SurfaceMapperGui {
             bezierOptions.hide();
             programOptions.hide();
 
-            // Update every texture (gets all new frames from movies)
-            for (int i = 0; i < textures.size(); i++) {
-                GLTexture tex = textures.get(i);
-                tex.putPixelsIntoTexture();
-            }
-
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : sm.getSurfaces()) {
-                ss.render(glos, textures.get(textureLookup.get(ss.getId())));
+                ss.getSketch().draw();
+                ss.render(graphicsOffScreen, ss.getSketch().getGraphics().get());
             }
         }
 
         // Display the GLOS to screen
-        image(glos.getTexture(), 0, 0, width, height);
+        parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
 
         // Render any stray GUI elements over the GLOS
         if (sm.getMode() == sm.MODE_CALIBRATE) {
@@ -282,92 +245,22 @@ public class SurfaceMapperGui {
         }
     }
 
-    void keyReleased() {
-        if (key == ' ') {
-            if (moviesPlaying) {
-                for (int i = 0; i < movies.size(); i++) {
-                    GSMovie movie = movies.get(i);
-                    movie.pause();
-                    movie.jump(0);
-                }
-                moviesPlaying = false;
-            } else {
-                for (int i = 0; i < movies.size(); i++) {
-                    GSMovie movie = movies.get(i);
-                    movie.loop();
-                }
-                moviesPlaying = true;
-            }
-        }
+    public List<Sketch> getSketchList() {
+        return sketchList;
     }
 
-    void loadTextures() {
-        // Load all textures from texture folder
-        File file = new File(sketchPath + "/data/textures");
-
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-
-            for (int i = 0; i < files.length; i++) {
-                // Get and split the filename
-                String filename = files[i].getName();
-                String[] filenameParts = split(filename, ".");
-
-                // Check to see if file is an image
-                boolean isImage = false;
-                for (int j = 0; j < imageTypes.length; j++)
-                    if (filenameParts[1].equals(imageTypes[j]))
-                        isImage = true;
-
-                // Check to see if file is a movie
-                boolean isMovie = false;
-                if (!isImage)
-                    for (int j = 0; j < movieTypes.length; j++)
-                        if (filenameParts[1].equals(movieTypes[j]))
-                            isMovie = true;
-
-                // Create a texture for the files, add to ArrayList
-                GLTexture tex;
-
-                // Images get added directly to textures ArrayList
-                if (isImage) {
-                    tex = new GLTexture(this, sketchPath + "/data/textures/" + filename);
-                    textures.add(tex);
-                    textureNames.add(filename);
-
-                    // Videos need empty texture in textures ArrayList, as well as
-                    // actual video in videos ArrayList (and lookup)
-                } else if (isMovie) {
-                    // Create texture
-                    tex = new GLTexture(this);
-                    textures.add(tex);
-                    textureNames.add(filename);
-
-                    // Create movie
-                    GSMovie movie = new GSMovie(this, sketchPath + "/data/textures/" + filename);
-                    movie.setPixelDest(tex);
-                    movies.add(movie);
-
-                    // Associate movie to texture
-                    movieTextureLookup.add(movies.size() - 1, textures.size() - 1);
-                }
-            }
+    public void loadLayoutHandler(File file) {
+        if (null == file) {
+            throw new RuntimeException("file for layout loading is null");
         }
+        sm.load(file);
+        mostRecentSurface = 0;
     }
 
-    void mouseReleased() {
+    public void mouseReleased(MouseEvent event) {
         // Double click returns to calibration mode
-        if (sm.getMode() == sm.MODE_RENDER && mouseEvent.getClickCount() == 2) {
+        if (sm.getMode() == sm.MODE_RENDER && event.getCount() == 2) {
             sm.toggleCalibration();
-
-            // Stop all videos
-            if (moviesPlaying) {
-                for (int i = 0; i < movies.size(); i++) {
-                    GSMovie movie = movies.get(i);
-                    movie.stop();
-                }
-                moviesPlaying = false;
-            }
         }
 
         // Show and update the appropriate menu
@@ -382,65 +275,25 @@ public class SurfaceMapperGui {
                 bezierOptions.hide();
                 quadOptions.show();
 
-                quadOptions.setSurfaceName("" + ss.getId());
+                quadOptions.setSurfaceName(String.valueOf(ss.getId()));
             } else if (ss.getSurfaceType() == ss.BEZIER) {
                 quadOptions.hide();
                 bezierOptions.show();
 
-                bezierOptions.setSurfaceName("" + ss.getId());
+                bezierOptions.setSurfaceName(String.valueOf(ss.getId()));
             }
         }
     }
 
-    /**
-     * **********************************
-     * Read frames from all videos
-     * ************************************
-     */
-    void movieEvent(GSMovie movie) {
-        movie.read();
+    public void removeSketch(Sketch sketch) {
+        this.sketchList.remove(sketch);
     }
 
-    void setup() {
-//  size(screenWidth, screenHeight, GLConstants.GLGRAPHICS);
-        size(1024, 768, GLConstants.GLGRAPHICS);
+    public void saveLayoutHandler(File file) {
+        sm.save(file);
+    }
 
-        // Setup the ControlP5 GUI
-        gui = new ControlP5(this);
-
-        // Initialize custom menus
-        quadOptions = new QuadOptionsMenu();
-        bezierOptions = new BezierOptionsMenu();
-        programOptions = new ProgramOptionsMenu();
-
-        // Hide the menus
-        //quadOptions.hide();
-        bezierOptions.hide();
-
-        // Update the GUI for the default surface
-        quadOptions.setSurfaceName("0");
-        bezierOptions.setSurfaceName("0");
-
-        // Create an off-screen buffer (makes graphics go fast!)
-        glos = new GLGraphicsOffScreen(this, width, height, false);
-
-        // Create new instance of SurfaceMapper
-        sm = new SurfaceMapper(this, width, height);
-        sm.setDisableSelectionTool(true);
-
-        // Creates one surface with subdivision 3, at center of screen
-        sm.createQuadSurface(initialSurfaceResolution, width / 2, height / 2);
-
-        // Initialize texture ArrayLists
-        textures = new ArrayList();
-        textureNames = new ArrayList();
-        textureLookup = new ArrayList();
-        movies = new ArrayList();
-        movieTextureLookup = new ArrayList();
-
-        // Create reference to default texture for first quad
-        textureLookup.add(0);
-
-        loadTextures();
+    public void setSketchList(List<Sketch> sketchList) {
+        this.sketchList = sketchList;
     }
 }

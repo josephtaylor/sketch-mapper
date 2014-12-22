@@ -20,6 +20,7 @@
 
 package ixagon.SurfaceMapper;
 
+import jto.processing.sketch.Sketch;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -176,6 +177,8 @@ public interface SuperSurface {
      * @return
      */
     public int getSelectedCorner();
+
+    public Sketch getSketch();
 
     public PImage getSurfaceMask();
 
@@ -444,6 +447,8 @@ public interface SuperSurface {
      * @param fallOfSpeed
      */
     public void setShake(int strength, int speed, int fallOfSpeed);
+
+    public void setSketch(final Sketch sketch);
 
     public void setSurfaceMask(PImage mask);
 
