@@ -14,10 +14,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.event.MouseEvent;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +22,6 @@ public class SurfaceMapperGui {
 
     public static final String LOAD_LAYOUT_HANDLER_METHOD_NAME = "loadLayoutHandler";
     public static final String SAVE_LAYOUT_HANDLER_METHOD_NAME = "saveLayoutHandler";
-    // File types that are accepted as textures
-    private static final String[] imageTypes = {"jpg", "jpeg", "png", "gif", "bmp"};
-    private static final String[] movieTypes = {"mp4", "mov", "avi"};
     private final PApplet parent;
     int initialSurfaceResolution = 6;
     // Custom GUI objects
@@ -36,13 +30,15 @@ public class SurfaceMapperGui {
     private List<Sketch> sketchList = new ArrayList<Sketch>();
     // SurfaceMapper variables
     private PGraphics graphicsOffScreen;
-    private SurfaceMapper sm;
+    private SurfaceMapper surfaceMapper;
     private QuadOptionsMenu quadOptions;
     private BezierOptionsMenu bezierOptions;
     private ProgramOptionsMenu programOptions;
 
     public SurfaceMapperGui(final PApplet parent) {
         this.parent = parent;
+        parent.registerMethod("mouseEvent", this);
+
         // Setup the ControlP5 GUI
         controlP5 = new ControlP5(parent);
 
@@ -70,19 +66,24 @@ public class SurfaceMapperGui {
         graphicsOffScreen = parent.createGraphics(parent.width, parent.height, PApplet.OPENGL);
 
         // Create new instance of SurfaceMapper
-        sm = new SurfaceMapper(parent, parent.width, parent.height);
-        sm.setDisableSelectionTool(true);
+        surfaceMapper = new SurfaceMapper(parent, parent.width, parent.height);
+        surfaceMapper.setDisableSelectionTool(true);
 
         // Creates one surface with subdivision 3, at center of screen
-        SuperSurface superSurface = sm.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+        surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
     }
 
     public void addSketch(Sketch sketch) {
         this.sketchList.add(sketch);
-        if (sm.getSurfaces().size() == 1) {
-            sm.getSurfaces().get(0).setSketch(sketch);
+        if (surfaceMapper.getSurfaces().size() == 1) {
+            surfaceMapper.getSurfaces().get(0).setSketch(sketch);
         }
+        compileSourceLists();
+    }
+
+    private void compileSourceLists() {
+        quadOptions.compileSourceList();
     }
 
     public void controlEventDelegate(ControlEvent e) {
@@ -92,7 +93,7 @@ public class SurfaceMapperGui {
         switch (e.getId()) {
             // Program Options -> Create quad surface button
             case 1:
-                ss = sm.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+                ss = surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
                 ss.setSketch(sketchList.get(0));
@@ -101,7 +102,7 @@ public class SurfaceMapperGui {
 
             // Program Options -> Create bezier surface button
             case 2:
-                ss = sm.createBezierSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+                ss = surfaceMapper.createBezierSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
                 ss.setSketch(sketchList.get(0));
@@ -116,10 +117,10 @@ public class SurfaceMapperGui {
             // Program Options -> Save layout button
             case 4:
                 parent.selectOutput("Save layout", SAVE_LAYOUT_HANDLER_METHOD_NAME, null, this);
-
+                break;
                 // Program Options -> Switch to render mode
             case 5:
-                sm.toggleCalibration();
+                surfaceMapper.toggleCalibration();
                 break;
 
             // RESERVED for Quad Options > name
@@ -130,13 +131,13 @@ public class SurfaceMapperGui {
             case 7:
                 // Get the most recently active surface
                 // This throws a bunch of gnarly errors to the console, but seems to work...
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.increaseResolution();
                 break;
 
             // Quad Options -> decrease resolution
             case 8:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.decreaseResolution();
                 break;
 
@@ -144,7 +145,7 @@ public class SurfaceMapperGui {
             case 9:
                 for (Sketch sketch : sketchList) {
                     if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
-                        sm.getSurfaces().get(mostRecentSurface).setSketch(sketch);
+                        surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
                     }
                 }
@@ -156,36 +157,36 @@ public class SurfaceMapperGui {
 
             // Bezier Options -> increase resolution
             case 11:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.increaseResolution();
                 break;
 
             // Bezier Options -> decrease resolution
             case 12:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.decreaseResolution();
                 break;
 
             // Bezier Options -> increase horizontal force
             case 13:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.increaseHorizontalForce();
                 break;
             // Bezier Options -> decrease horizontal force
             case 14:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.decreaseHorizontalForce();
                 break;
 
             // Bezier Options -> increase vertical force
             case 15:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.increaseVerticalForce();
                 break;
 
             // Bezier Options -> decrease vertical force
             case 16:
-                ss = sm.getSurfaceById(mostRecentSurface);
+                ss = surfaceMapper.getSurfaceById(mostRecentSurface);
                 ss.decreaseVerticalForce();
                 break;
 
@@ -193,7 +194,7 @@ public class SurfaceMapperGui {
             case 17:
                 for (Sketch sketch : sketchList) {
                     if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
-                        sm.getSurfaces().get(mostRecentSurface).setSketch(sketch);
+                        surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
                     }
                 }
@@ -206,26 +207,27 @@ public class SurfaceMapperGui {
 
         // Empty out the off-screen renderer
         graphicsOffScreen.beginDraw();
+        graphicsOffScreen.background(0);
         graphicsOffScreen.endDraw();
 
         // Calibration mode
-        if (sm.getMode() == sm.MODE_CALIBRATE) {
-            sm.render(graphicsOffScreen);
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
+            surfaceMapper.render(graphicsOffScreen);
 
             // Show the GUI
             programOptions.show();
 
             // Render mode
-        } else if (sm.getMode() == sm.MODE_RENDER) {
+        } else if (surfaceMapper.getMode() == surfaceMapper.MODE_RENDER) {
             // Hide the GUI
             quadOptions.hide();
             bezierOptions.hide();
             programOptions.hide();
 
             // Render each surface to the GLOS using their textures
-            for (SuperSurface ss : sm.getSurfaces()) {
+            for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                 ss.getSketch().draw();
-                ss.render(graphicsOffScreen, ss.getSketch().getGraphics().get());
+                ss.render(graphicsOffScreen, ss.getSketch().getPGraphics().get());
             }
         }
 
@@ -233,10 +235,10 @@ public class SurfaceMapperGui {
         parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
 
         // Render any stray GUI elements over the GLOS
-        if (sm.getMode() == sm.MODE_CALIBRATE) {
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             programOptions.render();
 
-            SuperSurface ss = sm.getSurfaceById(mostRecentSurface);
+            SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
 
             if (ss.getSurfaceType() == ss.QUAD)
                 quadOptions.render();
@@ -251,25 +253,28 @@ public class SurfaceMapperGui {
 
     public void loadLayoutHandler(File file) {
         if (null == file) {
-            throw new RuntimeException("file for layout loading is null");
+            return;
         }
-        sm.load(file);
+        surfaceMapper.load(file);
         mostRecentSurface = 0;
     }
 
-    public void mouseReleased(MouseEvent event) {
+    public void mouseEvent(MouseEvent event) {
+        if (MouseEvent.RELEASE != event.getAction()) {
+            return;
+        }
         // Double click returns to calibration mode
-        if (sm.getMode() == sm.MODE_RENDER && event.getCount() == 2) {
-            sm.toggleCalibration();
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_RENDER && event.getCount() == 2) {
+            surfaceMapper.toggleCalibration();
         }
 
         // Show and update the appropriate menu
-        if (sm.getMode() == sm.MODE_CALIBRATE) {
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             // Find selected surface
-            for (SuperSurface ss : sm.getSelectedSurfaces())
+            for (SuperSurface ss : surfaceMapper.getSelectedSurfaces())
                 mostRecentSurface = ss.getId();
 
-            SuperSurface ss = sm.getSurfaceById(mostRecentSurface);
+            SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
 
             if (ss.getSurfaceType() == ss.QUAD) {
                 bezierOptions.hide();
@@ -290,7 +295,7 @@ public class SurfaceMapperGui {
     }
 
     public void saveLayoutHandler(File file) {
-        sm.save(file);
+        surfaceMapper.save(file);
     }
 
     public void setSketchList(List<Sketch> sketchList) {

@@ -20,17 +20,17 @@
 
 package ixagon.SurfaceMapper;
 
-import java.awt.Rectangle;
+import processing.core.*;
+import processing.data.XML;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
+
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import processing.core.*;
-import processing.data.XML;
-import processing.event.KeyEvent;
-import processing.event.MouseEvent;
 
 public class SurfaceMapper {
 	public final String VERSION = "1";

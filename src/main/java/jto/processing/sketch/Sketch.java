@@ -14,5 +14,5 @@ public interface Sketch {
 
     public void update();
 
-    public PGraphics getGraphics();
+    public PGraphics getPGraphics();
 }

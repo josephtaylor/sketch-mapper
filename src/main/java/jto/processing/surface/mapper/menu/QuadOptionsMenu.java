@@ -6,17 +6,15 @@ import jto.processing.surface.mapper.SurfaceMapperGui;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-import java.io.File;
-
 public class QuadOptionsMenu {
     private final PApplet parent;
+    private final SurfaceMapperGui surfaceMapperGui;
     private Group quadGroup;
     private Textfield name;
     private Button increaseResolution;
     private Button decreaseResolution;
     private DropdownList sourceList;
     private PFont smallFont;
-    private final SurfaceMapperGui surfaceMapperGui;
 
     public QuadOptionsMenu(SurfaceMapperGui surfaceMapperGui, PApplet parent, ControlP5 controlP5) {
         this.surfaceMapperGui = surfaceMapperGui;
@@ -66,8 +64,6 @@ public class QuadOptionsMenu {
                 .setId(9)
                 .setGroup(quadGroup);
 
-        compileSourceList();
-
         sourceList.captionLabel().set("Source file");
         sourceList.captionLabel().style().marginTop = 5;
     }
@@ -78,7 +74,8 @@ public class QuadOptionsMenu {
      * of all the textures found in data/texures
      * ************************************************
      */
-    private void compileSourceList() {
+    public void compileSourceList() {
+        sourceList.clear();
         int i = 0;
         for (Sketch sketch : surfaceMapperGui.getSketchList()) {
             sourceList.addItem(sketch.getName(), i);

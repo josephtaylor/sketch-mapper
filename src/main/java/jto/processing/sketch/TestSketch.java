@@ -17,8 +17,9 @@ public class TestSketch extends AbstractSketch {
     @Override
     public void draw() {
         graphics.beginDraw();
+        graphics.background(255);
         graphics.fill(0);
-        graphics.ellipse(graphics.width / 2, graphics.height / 2, 100, 100);
+        graphics.ellipse(graphics.width / 2, graphics.height / 2, random(10, 100) , random(10, 100));
         graphics.endDraw();
     }
 

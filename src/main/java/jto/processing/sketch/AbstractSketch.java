@@ -1,8 +1,9 @@
 package jto.processing.sketch;
 
+import processing.core.PApplet;
 import processing.core.PGraphics;
 
-public abstract class AbstractSketch implements Sketch {
+public abstract class AbstractSketch extends PApplet implements Sketch {
     protected final PGraphics graphics;
 
     public AbstractSketch(final PGraphics graphics) {
@@ -19,7 +20,7 @@ public abstract class AbstractSketch implements Sketch {
     }
 
     @Override
-    public PGraphics getGraphics() {
+    public PGraphics getPGraphics() {
         return graphics;
     }
 

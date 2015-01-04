@@ -135,7 +135,7 @@ public class QuadSurface implements SuperSurface {
             this.setLocked(Boolean.valueOf(xml.getString("lock")));
         }
 
-        this.setCornerPoints(xml.getChild(0).getFloat("x"), xml.getChild(0).getFloat("y"), xml.getChild(1).getFloat("x"), xml.getChild(1).getFloat("y"), xml.getChild(2).getFloat("x"), xml.getChild(2).getFloat("y"), xml.getChild(3).getFloat("x"), xml.getChild(3).getFloat("y"));
+        setupCornerPoints(xml);
         PVector offset = new PVector(0, 0);
         PVector size = new PVector(1, 1);
         for (XML xo : xml.getChildren()) {
@@ -160,6 +160,28 @@ public class QuadSurface implements SuperSurface {
         }
         this.setTextureWindow(offset.x, offset.y, size.x, size.y);
 
+    }
+
+    private void setupCornerPoints(XML xml) {
+        PVector[] points = new PVector[4];
+        int index = 0;
+        while (index < 4) {
+            for (XML child : xml.getChildren()) {
+                if (!"cornerpoint".equals(child.getName())) {
+                    continue;
+                }
+                float x = child.getFloat("x");
+                float y = child.getFloat("y");
+                points[index] = new PVector(x, y);
+                index++;
+            }
+        }
+        setCornerPoints(
+                points[0].x, points[0].y,
+                points[1].x, points[1].y,
+                points[2].x, points[2].y,
+                points[3].x, points[3].y
+        );
     }
 
     /**
