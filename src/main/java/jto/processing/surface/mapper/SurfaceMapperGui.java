@@ -12,6 +12,7 @@ import jto.processing.surface.mapper.menu.ProgramOptionsMenu;
 import jto.processing.surface.mapper.menu.QuadOptionsMenu;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.MouseEvent;
 
 import java.io.File;
@@ -34,6 +35,7 @@ public class SurfaceMapperGui {
     private QuadOptionsMenu quadOptions;
     private BezierOptionsMenu bezierOptions;
     private ProgramOptionsMenu programOptions;
+    private PImage backgroundImage;
 
     public SurfaceMapperGui(final PApplet parent) {
         this.parent = parent;
@@ -118,7 +120,7 @@ public class SurfaceMapperGui {
             case 4:
                 parent.selectOutput("Save layout", SAVE_LAYOUT_HANDLER_METHOD_NAME, null, this);
                 break;
-                // Program Options -> Switch to render mode
+            // Program Options -> Switch to render mode
             case 5:
                 surfaceMapper.toggleCalibration();
                 break;
@@ -208,6 +210,9 @@ public class SurfaceMapperGui {
         // Empty out the off-screen renderer
         graphicsOffScreen.beginDraw();
         graphicsOffScreen.background(0);
+        if (null != backgroundImage) {
+            graphicsOffScreen.image(backgroundImage, 0, 0);
+        }
         graphicsOffScreen.endDraw();
 
         // Calibration mode
@@ -271,21 +276,24 @@ public class SurfaceMapperGui {
         // Show and update the appropriate menu
         if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             // Find selected surface
-            for (SuperSurface ss : surfaceMapper.getSelectedSurfaces())
-                mostRecentSurface = ss.getId();
+            for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
+                mostRecentSurface = surface.getId();
+            }
 
-            SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
+            SuperSurface surface = surfaceMapper.getSurfaceById(mostRecentSurface);
 
-            if (ss.getSurfaceType() == ss.QUAD) {
+            if (surface.getSurfaceType() == surface.QUAD) {
                 bezierOptions.hide();
                 quadOptions.show();
 
-                quadOptions.setSurfaceName(String.valueOf(ss.getId()));
-            } else if (ss.getSurfaceType() == ss.BEZIER) {
+                quadOptions.setSurfaceName(String.valueOf(surface.getId()));
+                quadOptions.setSelectedSketch(surface.getSketch().getName());
+            } else if (surface.getSurfaceType() == surface.BEZIER) {
                 quadOptions.hide();
                 bezierOptions.show();
 
-                bezierOptions.setSurfaceName(String.valueOf(ss.getId()));
+                bezierOptions.setSurfaceName(String.valueOf(surface.getId()));
+                quadOptions.setSelectedSketch(surface.getSketch().getName());
             }
         }
     }
@@ -296,6 +304,10 @@ public class SurfaceMapperGui {
 
     public void saveLayoutHandler(File file) {
         surfaceMapper.save(file);
+    }
+
+    public void setBackgroundImage(PImage backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 
     public void setSketchList(List<Sketch> sketchList) {

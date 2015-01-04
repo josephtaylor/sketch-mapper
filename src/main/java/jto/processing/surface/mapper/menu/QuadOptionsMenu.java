@@ -98,6 +98,10 @@ public class QuadOptionsMenu {
         this.name.setValue(name);
     }
 
+    public void setSelectedSketch(String sketch) {
+        this.sourceList.setLabel(sketch);
+    }
+
     public void show() {
         quadGroup.show();
     }

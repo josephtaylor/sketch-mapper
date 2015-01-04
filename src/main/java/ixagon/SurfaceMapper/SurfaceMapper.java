@@ -862,10 +862,12 @@ public class SurfaceMapper {
 		int index = ss.getSelectedCorner();
 
 		ss.setCornerPoint(index, ss.getCornerPoint(index).x + x, ss.getCornerPoint(index).y + y);
-		index = index * 2;
-		ss.setBezierPoint(index, ss.getBezierPoint(index).x + x, ss.getBezierPoint(index).y + y);
-		index = index + 1;
-		ss.setBezierPoint(index, ss.getBezierPoint(index).x + x, ss.getBezierPoint(index).y + y);
+		if (SuperSurface.BEZIER == ss.getSurfaceType()) {
+			index = index * 2;
+			ss.setBezierPoint(index, ss.getBezierPoint(index).x + x, ss.getBezierPoint(index).y + y);
+			index = index + 1;
+			ss.setBezierPoint(index, ss.getBezierPoint(index).x + x, ss.getBezierPoint(index).y + y);
+		}
 	}
 
 	/**

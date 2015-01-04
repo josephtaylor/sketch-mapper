@@ -1,11 +1,10 @@
 package jto.processing.sketch;
 
-
 import processing.core.PApplet;
 
-public class TestSketch extends AbstractSketch {
+public class AnotherSketch extends AbstractSketch {
 
-    public TestSketch(final PApplet parent, final int width, final int height) {
+    public AnotherSketch(final PApplet parent, final int width, final int height) {
         super(parent, width, height);
     }
 
@@ -17,15 +16,13 @@ public class TestSketch extends AbstractSketch {
     @Override
     public void draw() {
         graphics.beginDraw();
-        graphics.background(255);
-        graphics.fill(0);
-        graphics.ellipse(graphics.width / 2, graphics.height / 2, parent.random(10, 100) , parent.random(10, 100));
+        graphics.background(parent.random(255));
         graphics.endDraw();
     }
 
     @Override
     public String getName() {
-        return "TestSketch";
+        return "AnotherSketch";
     }
 
     @Override

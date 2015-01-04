@@ -1,13 +1,17 @@
 package jto.processing.sketch;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 
-public abstract class AbstractSketch extends PApplet implements Sketch {
+public abstract class AbstractSketch implements Sketch {
     protected final PGraphics graphics;
 
-    public AbstractSketch(final PGraphics graphics) {
-        this.graphics = graphics;
+    protected final PApplet parent;
+
+    public AbstractSketch(final PApplet parent, final int width, final int height) {
+        this.parent = parent;
+        this.graphics = parent.createGraphics(width, height, PConstants.OPENGL);
     }
 
     @Override
