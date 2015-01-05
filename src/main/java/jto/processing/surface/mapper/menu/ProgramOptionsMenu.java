@@ -93,9 +93,7 @@ public class ProgramOptionsMenu {
 
             parent.textFont(smallFont);
             parent.fill(255);
-            parent.text("Double click to return", programGroup.getPosition().x + 20, programGroup.getPosition().y + 245);
-
-            parent.text("Hit Escape to close program", programGroup.getPosition().x + 20, programGroup.getPosition().y + 280);
+            parent.text("Double click to return to setup", programGroup.getPosition().x + 20, programGroup.getPosition().y + 245);
         }
     }
 
