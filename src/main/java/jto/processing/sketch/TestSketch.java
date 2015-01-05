@@ -22,7 +22,7 @@ public class TestSketch extends AbstractSketch {
         for(int i = 0; i < 100; i++) {
             graphics.ellipse(parent.random(graphics.width), parent.random(graphics.height), 25, 25);
         }
-        graphics.endDraw();\
+        graphics.endDraw();
     }
 
     @Override
