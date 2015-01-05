@@ -131,6 +131,13 @@ public class QuadSurface implements SuperSurface {
 
         init(parent, ks, xml.getInt("res"), id, name);
 
+        for (Sketch sketch : ks.getSketchList()) {
+            if (sketch.getName().equals(xml.getString("sketch"))) {
+                setSketch(sketch);
+                break;
+            }
+        }
+
         if (Boolean.TRUE.equals(Boolean.valueOf(xml.getString("lock")))) {
             this.setLocked(Boolean.valueOf(xml.getString("lock")));
         }

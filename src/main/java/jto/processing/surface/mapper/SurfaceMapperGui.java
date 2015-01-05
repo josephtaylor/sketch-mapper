@@ -13,10 +13,11 @@ import jto.processing.surface.mapper.menu.QuadOptionsMenu;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SurfaceMapperGui {
@@ -28,7 +29,6 @@ public class SurfaceMapperGui {
     // Custom GUI objects
     ControlP5 controlP5;
     int mostRecentSurface = 0;
-    private List<Sketch> sketchList = new ArrayList<Sketch>();
     // SurfaceMapper variables
     private PGraphics graphicsOffScreen;
     private SurfaceMapper surfaceMapper;
@@ -40,6 +40,7 @@ public class SurfaceMapperGui {
     public SurfaceMapperGui(final PApplet parent) {
         this.parent = parent;
         parent.registerMethod("mouseEvent", this);
+        parent.registerMethod("keyEvent", this);
 
         // Setup the ControlP5 GUI
         controlP5 = new ControlP5(parent);
@@ -77,7 +78,7 @@ public class SurfaceMapperGui {
     }
 
     public void addSketch(Sketch sketch) {
-        this.sketchList.add(sketch);
+        this.surfaceMapper.getSketchList().add(sketch);
         if (surfaceMapper.getSurfaces().size() == 1) {
             surfaceMapper.getSurfaces().get(0).setSketch(sketch);
         }
@@ -98,7 +99,7 @@ public class SurfaceMapperGui {
                 ss = surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
-                ss.setSketch(sketchList.get(0));
+                ss.setSketch(surfaceMapper.getSketchList().get(0));
 
                 break;
 
@@ -107,7 +108,7 @@ public class SurfaceMapperGui {
                 ss = surfaceMapper.createBezierSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
                 // Add a reference to the default texture for this surface
-                ss.setSketch(sketchList.get(0));
+                ss.setSketch(surfaceMapper.getSketchList().get(0));
 
                 break;
 
@@ -145,7 +146,7 @@ public class SurfaceMapperGui {
 
             // Quad Options -> Source file
             case 9:
-                for (Sketch sketch : sketchList) {
+                for (Sketch sketch : surfaceMapper.getSketchList()) {
                     if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
                         surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
@@ -194,13 +195,33 @@ public class SurfaceMapperGui {
 
             // Bezier Options -> Source file
             case 17:
-                for (Sketch sketch : sketchList) {
+                for (Sketch sketch : surfaceMapper.getSketchList()) {
                     if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
                         surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
                     }
                 }
                 break;
+        }
+    }
+
+    public void keyEvent(KeyEvent event) {
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
+            for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
+                mostRecentSurface = surface.getId();
+            }
+
+            if (java.awt.event.KeyEvent.VK_DELETE == event.getKeyCode()) {
+                Iterator<SuperSurface> it = surfaceMapper.getSurfaces().iterator();
+                while(it.hasNext()) {
+                    SuperSurface superSurface = it.next();
+                    if (superSurface.getId() == mostRecentSurface) {
+                        it.remove();
+                        surfaceMapper.getSelectedSurfaces().clear();
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -243,8 +264,15 @@ public class SurfaceMapperGui {
         if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             programOptions.render();
 
+            for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
+                mostRecentSurface = surface.getId();
+            }
+
             SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
 
+            if (null == ss) {
+                return;
+            }
             if (ss.getSurfaceType() == ss.QUAD)
                 quadOptions.render();
             else if (ss.getSurfaceType() == ss.BEZIER)
@@ -253,7 +281,7 @@ public class SurfaceMapperGui {
     }
 
     public List<Sketch> getSketchList() {
-        return sketchList;
+        return surfaceMapper.getSketchList();
     }
 
     public void loadLayoutHandler(File file) {
@@ -282,24 +310,31 @@ public class SurfaceMapperGui {
 
             SuperSurface surface = surfaceMapper.getSurfaceById(mostRecentSurface);
 
+            if (null == surface) {
+                return;
+            }
+
             if (surface.getSurfaceType() == surface.QUAD) {
                 bezierOptions.hide();
                 quadOptions.show();
 
                 quadOptions.setSurfaceName(String.valueOf(surface.getId()));
-                quadOptions.setSelectedSketch(surface.getSketch().getName());
+                if (null != surface.getSketch()) {
+                    quadOptions.setSelectedSketch(surface.getSketch().getName());
+                }
             } else if (surface.getSurfaceType() == surface.BEZIER) {
                 quadOptions.hide();
                 bezierOptions.show();
-
-                bezierOptions.setSurfaceName(String.valueOf(surface.getId()));
-                quadOptions.setSelectedSketch(surface.getSketch().getName());
+                if (null != surface.getSketch()) {
+                    bezierOptions.setSurfaceName(String.valueOf(surface.getId()));
+                    bezierOptions.setSelectedSketch(surface.getSketch().getName());
+                }
             }
         }
     }
 
     public void removeSketch(Sketch sketch) {
-        this.sketchList.remove(sketch);
+        surfaceMapper.getSketchList().remove(sketch);
     }
 
     public void saveLayoutHandler(File file) {
@@ -311,6 +346,6 @@ public class SurfaceMapperGui {
     }
 
     public void setSketchList(List<Sketch> sketchList) {
-        this.sketchList = sketchList;
+        surfaceMapper.setSketchList(sketchList);
     }
 }

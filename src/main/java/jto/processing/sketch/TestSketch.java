@@ -19,8 +19,10 @@ public class TestSketch extends AbstractSketch {
         graphics.beginDraw();
         graphics.background(255);
         graphics.fill(0);
-        graphics.ellipse(graphics.width / 2, graphics.height / 2, parent.random(10, 100) , parent.random(10, 100));
-        graphics.endDraw();
+        for(int i = 0; i < 100; i++) {
+            graphics.ellipse(parent.random(graphics.width), parent.random(graphics.height), 25, 25);
+        }
+        graphics.endDraw();\
     }
 
     @Override

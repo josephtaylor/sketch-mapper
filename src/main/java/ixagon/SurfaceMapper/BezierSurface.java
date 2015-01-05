@@ -173,6 +173,13 @@ public class BezierSurface implements SuperSurface {
             this.toggleLocked();
         }
 
+        for (Sketch sketch : ks.getSketchList()) {
+            if (sketch.getName().equals(xml.getString("sketch"))) {
+                setSketch(sketch);
+                break;
+            }
+        }
+
         // reload the Corners
         for (int i = 0; i < xml.getChildCount(); i++) {
             XML point = xml.getChild(i);

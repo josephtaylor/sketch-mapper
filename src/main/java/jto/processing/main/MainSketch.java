@@ -2,6 +2,7 @@ package jto.processing.main;
 
 
 import jto.processing.sketch.AnotherSketch;
+import jto.processing.sketch.Outline;
 import jto.processing.sketch.TestSketch;
 import jto.processing.surface.mapper.SurfaceMapperGui;
 import processing.core.PApplet;
@@ -31,6 +32,7 @@ public class MainSketch extends PApplet {
         surfaceMapperGui = new SurfaceMapperGui(this);
         surfaceMapperGui.addSketch(new TestSketch(this, width / 2, height / 2));
         surfaceMapperGui.addSketch(new AnotherSketch(this, width / 2, height / 2));
+        surfaceMapperGui.addSketch(new Outline(this, width / 2, height / 2));
         surfaceMapperGui.setBackgroundImage(image);
     }
 
