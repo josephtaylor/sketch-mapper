@@ -78,6 +78,7 @@ public class SurfaceMapperGui {
     }
 
     public void addSketch(Sketch sketch) {
+        sketch.setup();
         this.surfaceMapper.getSketchList().add(sketch);
         if (surfaceMapper.getSurfaces().size() == 1) {
             surfaceMapper.getSurfaces().get(0).setSketch(sketch);
@@ -223,6 +224,9 @@ public class SurfaceMapperGui {
                 }
             }
         }
+        for (Sketch sketch : getSketchList()) {
+            sketch.keyEvent(event);
+        }
     }
 
     public void draw() {
@@ -231,7 +235,7 @@ public class SurfaceMapperGui {
         // Empty out the off-screen renderer
         graphicsOffScreen.beginDraw();
         graphicsOffScreen.background(0);
-        if (null != backgroundImage) {
+        if ((null != backgroundImage) && surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             graphicsOffScreen.image(backgroundImage, 0, 0);
         }
         graphicsOffScreen.endDraw();
@@ -254,6 +258,7 @@ public class SurfaceMapperGui {
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                 ss.getSketch().draw();
                 ss.render(graphicsOffScreen, ss.getSketch().getPGraphics().get());
+                ss.getSketch().update();
             }
         }
 

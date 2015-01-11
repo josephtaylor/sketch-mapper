@@ -1,6 +1,8 @@
 package jto.processing.sketch;
 
 import processing.core.PApplet;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public class AnotherSketch extends AbstractSketch {
 
@@ -23,6 +25,16 @@ public class AnotherSketch extends AbstractSketch {
     @Override
     public String getName() {
         return "AnotherSketch";
+    }
+
+    @Override
+    public void keyEvent(KeyEvent event) {
+
+    }
+
+    @Override
+    public void mouseEvent(MouseEvent event) {
+
     }
 
     @Override

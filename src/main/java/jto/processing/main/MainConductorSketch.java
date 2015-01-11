@@ -1,10 +1,7 @@
 package jto.processing.main;
 
 
-import jto.processing.sketch.AnotherSketch;
-import jto.processing.sketch.Outline;
-import jto.processing.sketch.Outline2;
-import jto.processing.sketch.TestSketch;
+import jto.processing.sketch.ConductableSketch;
 import jto.processing.surface.mapper.SurfaceMapperGui;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -12,8 +9,7 @@ import processing.core.PImage;
 
 import java.net.URL;
 
-public class MainSketch extends PApplet {
-
+public class MainConductorSketch extends PApplet {
     private SurfaceMapperGui surfaceMapperGui;
 
     @Override
@@ -30,15 +26,18 @@ public class MainSketch extends PApplet {
 
         size(image.width, image.height, PConstants.OPENGL);
 
+        Conductor conductor = new Conductor(this);
+        conductor.setup();
+
         surfaceMapperGui = new SurfaceMapperGui(this);
-        surfaceMapperGui.addSketch(new TestSketch(this, width / 2, height / 2));
-        surfaceMapperGui.addSketch(new AnotherSketch(this, width / 2, height / 2));
-        surfaceMapperGui.addSketch(new Outline(this, width / 2, height / 2));
-        surfaceMapperGui.addSketch(new Outline2(this, width / 2, height / 2));
+        for (ConductableSketch conductableSketch : conductor.getSketchList()) {
+            surfaceMapperGui.addSketch(conductableSketch);
+        }
         surfaceMapperGui.setBackgroundImage(image);
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{ MainSketch.class.getName() });
+        PApplet.main(new String[]{ MainConductorSketch.class.getName() });
     }
+
 }

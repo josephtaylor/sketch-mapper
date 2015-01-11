@@ -2,6 +2,8 @@ package jto.processing.sketch;
 
 
 import processing.core.PApplet;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 public class TestSketch extends AbstractSketch {
 
@@ -19,7 +21,7 @@ public class TestSketch extends AbstractSketch {
         graphics.beginDraw();
         graphics.background(255);
         graphics.fill(0);
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             graphics.ellipse(parent.random(graphics.width), parent.random(graphics.height), 25, 25);
         }
         graphics.endDraw();
@@ -28,6 +30,16 @@ public class TestSketch extends AbstractSketch {
     @Override
     public String getName() {
         return "TestSketch";
+    }
+
+    @Override
+    public void keyEvent(KeyEvent event) {
+
+    }
+
+    @Override
+    public void mouseEvent(MouseEvent event) {
+
     }
 
     @Override

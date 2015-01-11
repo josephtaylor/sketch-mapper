@@ -806,28 +806,28 @@ public class QuadSurface implements SuperSurface {
 
 
         if (this.isUsingEdgeBlend() || this.isUsingSurfaceMask()) {
-
-            if (bufferScreen == null || bufferScreen.width != this.getBufferScreenWidth()) {
-                bufferScreen = parent.createGraphics(this.getBufferScreenWidth(), this.getBufferScreenWidth());
-            }
-            bufferScreen.beginDraw();
-            bufferScreen.beginShape(PApplet.QUADS);
-            bufferScreen.texture(tex);
-            bufferScreen.vertex(0, 0, tOffX, tOffY);
-            bufferScreen.vertex(bufferScreen.width, 0, tWidth + tOffX, tOffY);
-            bufferScreen.vertex(bufferScreen.width, bufferScreen.height, tWidth + tOffX, tHeight + tOffY);
-            bufferScreen.vertex(0, bufferScreen.height, tOffX, tHeight + tOffY);
-            bufferScreen.endShape(PApplet.CLOSE);
-            bufferScreen.endDraw();
-
-
-            if (this.isUsingSurfaceMask()) {
-//				maskFilter.setParameterValue("mask_factor", 0.0f);
-//				maskFilter.apply(new GLTexture[]{bufferScreen.getTexture(), surfaceMask}, maskedTex);
-//				applyEdgeBlendToTexture(maskedTex);
-            } else {
-                applyEdgeBlendToTexture(bufferScreen.get());
-            }
+//
+//            if (bufferScreen == null || bufferScreen.width != this.getBufferScreenWidth()) {
+//                bufferScreen = parent.createGraphics(this.getBufferScreenWidth(), this.getBufferScreenWidth());
+//            }
+//            bufferScreen.beginDraw();
+//            bufferScreen.beginShape(PApplet.QUADS);
+//            bufferScreen.texture(tex);
+//            bufferScreen.vertex(0, 0, tOffX, tOffY);
+//            bufferScreen.vertex(bufferScreen.width, 0, tWidth + tOffX, tOffY);
+//            bufferScreen.vertex(bufferScreen.width, bufferScreen.height, tWidth + tOffX, tHeight + tOffY);
+//            bufferScreen.vertex(0, bufferScreen.height, tOffX, tHeight + tOffY);
+//            bufferScreen.endShape(PApplet.CLOSE);
+//            bufferScreen.endDraw();
+//
+//
+//            if (this.isUsingSurfaceMask()) {
+////				maskFilter.setParameterValue("mask_factor", 0.0f);
+////				maskFilter.apply(new GLTexture[]{bufferScreen.getTexture(), surfaceMask}, maskedTex);
+////				applyEdgeBlendToTexture(maskedTex);
+//            } else {
+//                applyEdgeBlendToTexture(bufferScreen.get());
+//            }
         }
 
         g.beginDraw();
