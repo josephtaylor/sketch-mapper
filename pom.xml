@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>org.jogamp.gluegen</groupId>
-            <artifactId>gluegen-rt-main</artifactId>
+            <artifactId>gluegen-rt</artifactId>
             <version>2.2.4</version>
         </dependency>
         <dependency>

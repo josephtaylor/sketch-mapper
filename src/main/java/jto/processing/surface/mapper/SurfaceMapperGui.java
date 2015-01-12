@@ -253,17 +253,19 @@ public class SurfaceMapperGui {
             quadOptions.hide();
             bezierOptions.hide();
             programOptions.hide();
-
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                 ss.getSketch().draw();
-                ss.render(graphicsOffScreen, ss.getSketch().getPGraphics().get());
+                //ss.render(graphicsOffScreen, ss.getSketch().getPGraphics().get());
+                ss.render(parent.g, ss.getSketch().getPGraphics().get());
                 ss.getSketch().update();
             }
         }
 
         // Display the GLOS to screen
-        parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
+        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
+            parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
+        }
 
         // Render any stray GUI elements over the GLOS
         if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {

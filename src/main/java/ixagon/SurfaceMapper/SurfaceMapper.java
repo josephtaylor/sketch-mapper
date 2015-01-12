@@ -1047,8 +1047,8 @@ public class SurfaceMapper {
      * @param glos
      */
     public void render(PGraphics glos) {
-        glos.beginDraw();
-        glos.endDraw();
+//        glos.beginDraw();
+//        glos.endDraw();
         if (MODE == MODE_CALIBRATE) {
             parent.cursor();
             glos.beginDraw();
