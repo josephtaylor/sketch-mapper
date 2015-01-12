@@ -1,14 +1,14 @@
 package jto.processing.sketch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jto.processing.model.Ball;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class BounyBallSketch extends ConductableSketch {
 
@@ -62,7 +62,7 @@ public abstract class BounyBallSketch extends ConductableSketch {
     public void setup() {
         balls = new ArrayList<Ball>();
         //if (this instanceof BigBoxFront) {
-            for (int i =0; i < 100; i++) {
+            for (int i =0; i < 20; i++) {
                 Ball ball = new Ball();
                 ball.setLocation(new PVector(parent.random(10, graphics.width / 4), parent.random(10, graphics.height / 4)));
                 float angle = parent.random(PConstants.TWO_PI);
