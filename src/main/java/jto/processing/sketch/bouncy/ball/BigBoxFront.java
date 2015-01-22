@@ -3,13 +3,13 @@ package jto.processing.sketch.bouncy.ball;
 import jto.processing.event.EdgeEnum;
 import jto.processing.event.EdgeEvent;
 import jto.processing.model.Ball;
-import jto.processing.sketch.BounyBallSketch;
+import jto.processing.sketch.BouncyBallSketch;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.Iterator;
 
-public class BigBoxFront extends BounyBallSketch {
+public class BigBoxFront extends BouncyBallSketch {
     public BigBoxFront(final PApplet parent, final int width, final int height) {
         super(parent, width, height);
     }

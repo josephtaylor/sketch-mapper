@@ -1,8 +1,5 @@
 package jto.processing.sketch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jto.processing.model.Ball;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -10,13 +7,16 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public abstract class BounyBallSketch extends ConductableSketch {
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final float INITIAL_VELOCITY = 10.0f;
+public abstract class BouncyBallSketch extends ConductableSketch {
+
+    public static final float INITIAL_VELOCITY = 10.0f;
 
     protected List<Ball> balls;
 
-    public BounyBallSketch(final PApplet parent, final int width, final int height) {
+    public BouncyBallSketch(final PApplet parent, final int width, final int height) {
         super(parent, width, height);
     }
 
@@ -62,15 +62,32 @@ public abstract class BounyBallSketch extends ConductableSketch {
     public void setup() {
         balls = new ArrayList<Ball>();
         //if (this instanceof BigBoxFront) {
-            for (int i =0; i < 20; i++) {
+            for (int i =0; i < 40; i++) {
                 Ball ball = new Ball();
                 ball.setLocation(new PVector(parent.random(10, graphics.width / 4), parent.random(10, graphics.height / 4)));
                 float angle = parent.random(PConstants.TWO_PI);
                 ball.setVelocity(new PVector(INITIAL_VELOCITY * parent.cos(angle), INITIAL_VELOCITY * parent.sin(angle)));
                 //ball.setVelocity(new PVector(1, -4));
                 balls.add(ball);
-                System.out.println("First ball initialized for " + this.getName() + ": " + ball.getLocation().x + ", " + ball.getLocation().y);
+                System.out.println("Ball initialized for " + this.getName() + ": " + ball.getLocation().x + ", " + ball.getLocation().y);
             }
         //}
+    }
+
+    public void updateBallVectors(PVector velocity) {
+        PVector copy = velocity.get();
+        for (Ball ball : balls) {
+            copy.set(velocity.x + parent.random(-0.25f, 0.25f), velocity.y + parent.random(-0.25f, 0.25f));
+            copy.normalize();
+            copy.mult(BouncyBallSketch.INITIAL_VELOCITY);
+            ball.getVelocity().set(copy.x, copy.y);
+        }
+    }
+
+    public void randomize() {
+        for (Ball ball : balls) {
+            float angle = parent.random(PConstants.TWO_PI);
+            ball.getVelocity().set(INITIAL_VELOCITY * parent.cos(angle), INITIAL_VELOCITY * parent.sin(angle));
+        }
     }
 }
