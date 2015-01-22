@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class BouncyBallSketch extends ConductableSketch {
 
-    public static final float INITIAL_VELOCITY = 10.0f;
+    public static final float INITIAL_VELOCITY = 25.0f;
 
     protected List<Ball> balls;
 
@@ -28,7 +28,7 @@ public abstract class BouncyBallSketch extends ConductableSketch {
     @Override
     public void draw() {
         graphics.beginDraw();
-        graphics.fill(0, 0, 0, 20);
+        graphics.fill(0, 0, 0, 45);
         graphics.rect(-10, -10, graphics.width + 10, graphics.height + 10);
         //graphics.background(0,0,0,10);
         graphics.fill(255);
@@ -62,7 +62,7 @@ public abstract class BouncyBallSketch extends ConductableSketch {
     public void setup() {
         balls = new ArrayList<Ball>();
         //if (this instanceof BigBoxFront) {
-            for (int i =0; i < 100; i++) {
+            for (int i =0; i < 500; i++) {
                 Ball ball = new Ball();
                 ball.setLocation(new PVector(parent.random(10, graphics.width / 4), parent.random(10, graphics.height / 4)));
                 float angle = parent.random(PConstants.TWO_PI);
