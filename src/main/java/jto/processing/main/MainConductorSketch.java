@@ -45,6 +45,13 @@ public class MainConductorSketch extends PApplet {
                     bouncyBallSketch.randomize();
                 }
             }
+        } else if (rand > 0.99) {
+            for (Sketch sketch : surfaceMapperGui.getSketchList()) {
+                if (sketch instanceof BouncyBallSketch) {
+                    BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
+                    bouncyBallSketch.setup();
+                }
+            }
         }
     }
 
@@ -81,9 +88,9 @@ public class MainConductorSketch extends PApplet {
         if (args.length < 1) {
             println("Please provide an ip address");
         }
-        ipAddress = args[0];
-        //PApplet.main(new String[]{"--present", "--display=1", MainConductorSketch.class.getName() });
-        PApplet.main(new String[]{"--display=1", MainConductorSketch.class.getName() });
+        ipAddress = "10.1.10.11";
+        PApplet.main(new String[]{"--present", "--display=1", MainConductorSketch.class.getName() });
+        //PApplet.main(new String[]{"--display=1", MainConductorSketch.class.getName() });
     }
 
     public void clientEvent(Client theClient) {

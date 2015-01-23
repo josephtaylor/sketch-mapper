@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProjectionMap>
+  <surface horizontalForce="0" id="0" lock="false" name="0" res="6" sketch="BigBoxFront" type="0" verticalForce="0">
+    <cornerpoint i="0" x="413.0" y="133.0"/>
+    <cornerpoint i="1" x="519.0" y="22.0"/>
+    <cornerpoint i="2" x="571.0" y="264.0"/>
+    <cornerpoint i="3" x="486.0" y="393.0"/>
+  </surface>
+  <surface horizontalForce="0" id="1" lock="false" name="1" res="6" sketch="SmallBoxTop" type="0" verticalForce="0">
+    <cornerpoint i="0" x="518.0" y="254.0"/>
+    <cornerpoint i="1" x="566.0" y="204.0"/>
+    <cornerpoint i="2" x="649.0" y="214.0"/>
+    <cornerpoint i="3" x="604.0" y="265.0"/>
+  </surface>
+  <surface horizontalForce="0" id="2" lock="false" name="2" res="6" sketch="SmallBoxLeft" type="0" verticalForce="0">
+    <cornerpoint i="0" x="516.0" y="258.0"/>
+    <cornerpoint i="1" x="601.0" y="269.0"/>
+    <cornerpoint i="2" x="616.0" y="353.0"/>
+    <cornerpoint i="3" x="536.0" y="339.0"/>
+  </surface>
+  <surface horizontalForce="0" id="3" lock="false" name="3" res="6" sketch="SmallBoxFront" type="0" verticalForce="0">
+    <cornerpoint i="0" x="601.0" y="269.0"/>
+    <cornerpoint i="1" x="649.0" y="214.0"/>
+    <cornerpoint i="2" x="664.0" y="297.0"/>
+    <cornerpoint i="3" x="619.0" y="351.0"/>
+  </surface>
+  <surface horizontalForce="0" id="4" lock="false" name="4" res="6" sketch="BigBoxTop" type="0" verticalForce="0">
+    <cornerpoint i="0" x="321.0" y="126.0"/>
+    <cornerpoint i="1" x="433.0" y="22.0"/>
+    <cornerpoint i="2" x="518.0" y="22.0"/>
+    <cornerpoint i="3" x="412.0" y="129.0"/>
+  </surface>
+  <surface horizontalForce="0" id="5" lock="false" name="5" res="6" sketch="BigBoxLeft" type="0" verticalForce="0">
+    <cornerpoint i="0" x="321.0" y="126.0"/>
+    <cornerpoint i="1" x="413.0" y="133.0"/>
+    <cornerpoint i="2" x="486.0" y="397.0"/>
+    <cornerpoint i="3" x="406.0" y="384.0"/>
+  </surface>
+</ProjectionMap>

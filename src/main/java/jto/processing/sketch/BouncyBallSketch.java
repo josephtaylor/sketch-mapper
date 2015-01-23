@@ -62,7 +62,7 @@ public abstract class BouncyBallSketch extends ConductableSketch {
     public void setup() {
         balls = new ArrayList<Ball>();
         //if (this instanceof BigBoxFront) {
-            for (int i =0; i < 500; i++) {
+            for (int i =0; i < 800; i++) {
                 Ball ball = new Ball();
                 ball.setLocation(new PVector(parent.random(10, graphics.width / 4), parent.random(10, graphics.height / 4)));
                 float angle = parent.random(PConstants.TWO_PI);
