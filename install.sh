@@ -6,9 +6,9 @@ echo workding dir: `pwd`
 echo 'Downloading maven...'
 wget http://mirror.symnds.com/software/Apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip
 unzip apache-maven-3.2.5-bin.zip
-printf '\nexport MAVEN_HOME=~/apache-maven-3.2.5\n' >> ~/.bashrc
-printf 'export PATH=$PATH:$MAVEN_HOME/bin\n' >> ~/.bashrc
-source ~/.bashrc
+printf '\nexport MAVEN_HOME=~/apache-maven-3.2.5\n' >> ~/.bash_profile
+printf 'export PATH=$PATH:$MAVEN_HOME/bin\n' >> ~/.bash_profile
+source ~/.bash_profile
 mvn -version
 echo 'git is located at' `which git`
 git --version
