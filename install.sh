@@ -14,6 +14,9 @@ echo 'git is located at' `which git`
 git --version
 echo 'Cloning the repository'
 git clone https://github.com/josephtaylor/surface-mapper-gui.git
-cd surface-mapper-gui
+cd ~/surface-mapper-gui
+echo 'checking out the right branch'
 git checkout code-tn
+echo 'building with maven'
 mvn clean compile assembly:single
+echo 'all done!'
