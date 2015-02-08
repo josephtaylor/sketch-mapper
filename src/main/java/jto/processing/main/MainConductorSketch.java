@@ -10,10 +10,6 @@ import processing.core.PConstants;
 import processing.core.PVector;
 import processing.net.Client;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-
 public class MainConductorSketch extends PApplet {
     private SurfaceMapperGui surfaceMapperGui;
     private static String ipAddress;
@@ -22,20 +18,20 @@ public class MainConductorSketch extends PApplet {
 
     @Override
     public void draw() {
-        if (client.available() > 0) {
-            String data = client.readStringUntil('\n');
-            if (null == data) {
-                return;
-            }
-            String[] values = data.split(",");
-            PVector velocity = new PVector(Float.valueOf(values[0]), Float.valueOf(values[1]));
-            for (Sketch sketch : surfaceMapperGui.getSketchList()) {
-                if (sketch instanceof BouncyBallSketch) {
-                    BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
-                    bouncyBallSketch.updateBallVectors(velocity);
-                }
-            }
-        }
+//        if (client.available() > 0) {
+//            String data = client.readStringUntil('\n');
+//            if (null == data) {
+//                return;
+//            }
+//            String[] values = data.split(",");
+//            PVector velocity = new PVector(Float.valueOf(values[0]), Float.valueOf(values[1]));
+//            for (Sketch sketch : surfaceMapperGui.getSketchList()) {
+//                if (sketch instanceof BouncyBallSketch) {
+//                    BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
+//                    bouncyBallSketch.updateBallVectors(velocity);
+//                }
+//            }
+//        }
         surfaceMapperGui.draw();
         float rand = random(1);
         if (rand < 0.04) {
@@ -53,6 +49,17 @@ public class MainConductorSketch extends PApplet {
                 }
             }
         }
+        if (rand < 0.08) {
+            float randomAngle = random(PConstants.TWO_PI);
+            float radius = 20.0f;
+            PVector vector = new PVector(radius * cos(randomAngle), radius * sin(randomAngle));
+            for (Sketch sketch : surfaceMapperGui.getSketchList()) {
+                if (sketch instanceof BouncyBallSketch) {
+                    BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
+                    bouncyBallSketch.updateBallVectors(vector);
+                }
+            }
+        }
     }
 
     @Override
@@ -63,7 +70,9 @@ public class MainConductorSketch extends PApplet {
         //image.resize(image.width / 2, image.height / 2);
 
         //size(image.width, image.height, PConstants.OPENGL);
-        size(800, 600, PConstants.OPENGL);
+        int width = Integer.valueOf(System.getProperty("width"));
+        int height = Integer.valueOf(System.getProperty("height"));
+        size(width, height, PConstants.OPENGL);
 
         Conductor conductor = new Conductor(this);
         conductor.setup();
@@ -72,16 +81,16 @@ public class MainConductorSketch extends PApplet {
         for (ConductableSketch conductableSketch : conductor.getSketchList()) {
             surfaceMapperGui.addSketch(conductableSketch);
         }
-        //surfaceMapperGui.setBackgroundImage(image);
-        println("IP ADDRESS: " + ipAddress);
-        Socket socket = new Socket();
-        try {
-            socket.connect(new InetSocketAddress(ipAddress, 5204), 5000);
-            client = new Client(this, socket);
-        } catch (IOException e) {
-            println("error connecting to socket at " + ipAddress);
-            e.printStackTrace();
-        }
+//        //surfaceMapperGui.setBackgroundImage(image);
+//        println("IP ADDRESS: " + ipAddress);
+//        Socket socket = new Socket();
+//        try {
+//            socket.connect(new InetSocketAddress(ipAddress, 5204), 5000);
+//            client = new Client(this, socket);
+//        } catch (IOException e) {
+//            println("error connecting to socket at " + ipAddress);
+//            e.printStackTrace();
+//        }
     }
 
     public static void main(String[] args) {
@@ -93,21 +102,21 @@ public class MainConductorSketch extends PApplet {
         //PApplet.main(new String[]{"--display=1", MainConductorSketch.class.getName() });
     }
 
-    public void clientEvent(Client theClient) {
-        println("inside clientEvent");
-        String data = theClient.readStringUntil('\n');
-        if (null == data) {
-            return;
-        }
-        print("Data received: " + data);
-        String[] values = data.split(",");
-        PVector velocity = new PVector(Float.valueOf(values[0]), Float.valueOf(values[1]));
-        for (Sketch sketch : surfaceMapperGui.getSketchList()) {
-            if (sketch instanceof BouncyBallSketch) {
-                BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
-                bouncyBallSketch.updateBallVectors(velocity);
-            }
-        }
-    }
+//    public void clientEvent(Client theClient) {
+//        println("inside clientEvent");
+//        String data = theClient.readStringUntil('\n');
+//        if (null == data) {
+//            return;
+//        }
+//        print("Data received: " + data);
+//        String[] values = data.split(",");
+//        PVector velocity = new PVector(Float.valueOf(values[0]), Float.valueOf(values[1]));
+//        for (Sketch sketch : surfaceMapperGui.getSketchList()) {
+//            if (sketch instanceof BouncyBallSketch) {
+//                BouncyBallSketch bouncyBallSketch = (BouncyBallSketch) sketch;
+//                bouncyBallSketch.updateBallVectors(velocity);
+//            }
+//        }
+//    }
 
 }
