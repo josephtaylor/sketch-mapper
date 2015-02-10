@@ -256,9 +256,7 @@ public class SurfaceMapperGui {
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                 ss.getSketch().draw();
-                //ss.render(graphicsOffScreen, ss.getSketch().getPGraphics().get());
                 ss.render(parent.g, ss.getSketch().getPGraphics().get());
-                ss.getSketch().update();
             }
         }
 
