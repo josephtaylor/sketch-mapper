@@ -12,8 +12,16 @@ import processing.core.PGraphics;
  * parent PApplet as well some basic implementations of other methods.
  */
 public abstract class AbstractSketch implements Sketch {
+
+    /**
+     * the PGraphics instance that this sketch will use to draw objects.
+     */
     protected final PGraphics graphics;
 
+    /**
+     * The parent processing sketch of this sketch.
+     * Can be used for PApplet methods.
+     */
     protected final PApplet parent;
 
     /**

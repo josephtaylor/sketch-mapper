@@ -37,8 +37,14 @@ public class SurfaceMapperGui {
     private ProgramOptionsMenu programOptions;
     private PImage backgroundImage;
 
+    /**
+     * Constructor for SurfaceMapperGui objects.
+     * @param parent the parent sketch.
+     */
     public SurfaceMapperGui(final PApplet parent) {
         this.parent = parent;
+
+        //register our handler methods in this object on our parent.
         parent.registerMethod("mouseEvent", this);
         parent.registerMethod("keyEvent", this);
 
@@ -58,7 +64,6 @@ public class SurfaceMapperGui {
         programOptions = new ProgramOptionsMenu(parent, controlP5);
 
         // Hide the menus
-        //quadOptions.hide();
         bezierOptions.hide();
 
         // Update the GUI for the default surface
@@ -72,11 +77,16 @@ public class SurfaceMapperGui {
         surfaceMapper = new SurfaceMapper(parent, parent.width, parent.height);
         surfaceMapper.setDisableSelectionTool(true);
 
-        // Creates one surface with subdivision 3, at center of screen
+        // Creates one surface at center of screen
         surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
     }
 
+    /**
+     * Adds the sketch to the list of sketches.
+     *
+     * @param sketch
+     */
     public void addSketch(Sketch sketch) {
         sketch.setup();
         this.surfaceMapper.getSketchList().add(sketch);
@@ -90,7 +100,7 @@ public class SurfaceMapperGui {
         quadOptions.compileSourceList();
     }
 
-    public void controlEventDelegate(ControlEvent e) {
+    private void controlEventDelegate(ControlEvent e) {
         SuperSurface ss;
         int diff;
 
@@ -206,6 +216,10 @@ public class SurfaceMapperGui {
         }
     }
 
+    /**
+     * Invoked whenever a KeyEvent happens.
+     * @param event the KeyEvent.
+     */
     public void keyEvent(KeyEvent event) {
         if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
             for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
@@ -229,6 +243,10 @@ public class SurfaceMapperGui {
         }
     }
 
+    /**
+     * The draw method. Invoke this in the parent sketch's draw method
+     * which overrides {@link processing.core.PApplet#draw}.
+     */
     public void draw() {
         parent.background(0);
 
@@ -289,6 +307,10 @@ public class SurfaceMapperGui {
         return surfaceMapper.getSketchList();
     }
 
+    /**
+     * callback function for processing's load dialog.
+     * @param file the file to load.
+     */
     public void loadLayoutHandler(File file) {
         if (null == file) {
             return;
@@ -297,6 +319,10 @@ public class SurfaceMapperGui {
         mostRecentSurface = 0;
     }
 
+    /**
+     * Invoked whenever a mouseEvent happens.
+     * @param event the mouse event.
+     */
     public void mouseEvent(MouseEvent event) {
         if (MouseEvent.RELEASE != event.getAction()) {
             return;
@@ -338,14 +364,28 @@ public class SurfaceMapperGui {
         }
     }
 
+    /**
+     * Removes the given sketch from the list of sketches.
+     *
+     * @param sketch the sketch to be removed.
+     */
     public void removeSketch(Sketch sketch) {
         surfaceMapper.getSketchList().remove(sketch);
     }
 
+    /**
+     * callback function for processing's save dialog.
+     * @param file the file to be saved.
+     */
     public void saveLayoutHandler(File file) {
         surfaceMapper.save(file);
     }
 
+    /**
+     * This allows you set a background image. It will be displayed behind
+     * any rendered surfaces.
+     * @param backgroundImage the background image.
+     */
     public void setBackgroundImage(PImage backgroundImage) {
         this.backgroundImage = backgroundImage;
     }

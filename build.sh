@@ -22,6 +22,7 @@ cp -r src target/SurfaceMapperGui/
 cp -r reference target/SurfaceMapperGui/
 cp -r examples target/SurfaceMapperGui/
 cp -r target/library target/SurfaceMapperGui/
+cp library.properties target/SurfaceMapperGui/
 
 echo ' -- generating zip file '
 cd target
