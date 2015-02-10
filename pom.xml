@@ -27,7 +27,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <finalName>ColorScheme</finalName>
+                    <finalName>SurfaceMapperGui</finalName>
                 </configuration>
             </plugin>
 
