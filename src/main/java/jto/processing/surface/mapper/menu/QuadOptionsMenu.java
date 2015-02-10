@@ -64,7 +64,7 @@ public class QuadOptionsMenu {
                 .setId(9)
                 .setGroup(quadGroup);
 
-        sourceList.captionLabel().set("Source file");
+        sourceList.captionLabel().set("Sketches");
         sourceList.captionLabel().style().marginTop = 5;
     }
 

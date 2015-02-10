@@ -99,7 +99,7 @@ public class BezierOptionsMenu {
         controlP5.getTooltip().register("- Decrease   ", "Decrease vertical force");
 
         // Source file dropdown
-        sourceList = controlP5.addDropdownList("Texture source list ")
+        sourceList = controlP5.addDropdownList("Texture sketch list ")
                 .setPosition(20, 260)
                 .setSize(200, 150)
                 .setBarHeight(20)
@@ -109,7 +109,7 @@ public class BezierOptionsMenu {
 
         compileSourceList();
 
-        sourceList.captionLabel().set("Source file");
+        sourceList.captionLabel().set("Sketches");
         sourceList.captionLabel().style().marginTop = 5;
     }
 
