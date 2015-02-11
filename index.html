@@ -25,7 +25,7 @@
   <body>
     <div class="wrapper">
       <header>
-      	<!-- <img src="./colorWheel-01.png" alt="Color Scheme"></img> -->
+        <p><img src="http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png" alt="screenshot" title="" /></p>
         <h1>SketchMapper</h1>
         <p>This is a library for <a href="http://processing.org">processing</a> that allows
         you to map sketches onto surfaces.</p>
@@ -80,8 +80,115 @@
 			<h4>Keywords</h4>
 			<p><small>SketchMapper, projection mapping, geometry, projection</small></p>
       </section>
+      <section>
+            <h2>Usage in Code</h2>
+
+            <p>This section is about how to use the library in your processing sketches.</p>
+
+            <h4>Creating sketches</h4>
+
+            <p>This library provides a <code>Sketch</code> interface and <code>AbstractSketch</code> base implementation that are to be extended to create skeches.  This is a base template for a <code>TestSketch</code> the draws an ellipse in the middle of the screen:
+              ```
+              public class TestSketch extends AbstractSketch {</p>
+
+                <pre><code>public TestSketch(final PApplet parent, final int width, final int height) {
+                  super(parent, width, height);
+                }
+
+                @Override
+                public void draw() {
+                  graphics.beginDraw();
+                  graphics.background(255);
+                  graphics.fill(0);
+                  graphics.ellipse(graphics.width / 2, graphics.height / 2, 25, 25);
+                }
+                graphics.endDraw();
+              }
+
+              @Override
+              public void keyEvent(KeyEvent event) {
+
+              }
+
+              @Override
+              public void mouseEvent(MouseEvent event) {
+
+              }
+
+              @Override
+              public void setup() {
+
+              }
+            </code></pre>
+
+            <p>}
+              <code>``
+                The constructor must be present and at least have that</code>super<code>call.&lt;br/&gt;
+                  Notice in the</code>draw<code>method we are using</code>graphics<code>to do the drawing.</code>graphics<code>is defined in</code>AbstractSketch<code>and is an instance of</code>PGraphics<code>that is unique to this sketch.&lt;br/&gt;
+                  </code>AbstractSketch<code>also has a</code>parent<code>variable that is the parent</code>PApplet<code>class or the main sketch creating this sketch.  Use the</code>parent<code>object when you need to call processing methods.&lt;br/&gt;
+                  </code>setup<code>is invoked once by</code>SketchMapper<code>when the sketch is initialized.&lt;br/&gt;
+                    The</code>keyEvent<code>and</code>mouseEvent` methods get invoked on key events and mouse events respectively.</p>
+
+                    <h4>Using the SketchMapper object</h4>
+
+                    <p>Construct the SketchMapper object by passing it <code>this</code> from your main sketch.
+                      <code>
+                        SketchMapper sketchMapper = new SketchMapper(this);
+                      </code>
+                      Add sketches to the <code>SketchMapper</code> using the <code>addSketch</code> method.
+                      <code>
+                        sketchMapper.addSketch(new TestSketch(500, 500));
+                      </code>
+                      The sketches that are added will show up in the sketch dropdown in the UI.<br/>
+                      The only other requirement is that you call the <code>draw</code> method on the object at the top of your <code>draw</code> function.
+                      <code>
+                        public void draw() {
+                          sketchMapper.draw();
+                        }
+                      </code></p>
+
+                      <h3>Using the GUI Tool</h3>
+
+                      <h4>Adding surfaces</h4>
+
+                      <p>quad surfaces and bezier surfaces can be added to the sketch by using the buttons<br/>
+                        <b>Create a new Quad Surface</b> and <b>Create a new Bezier Surface</b></p>
+
+                        <h4>Selecting a sketch for a surface</h4>
+
+                        <p>Click on a surface to select it.<br/>
+                          Select the desired sketch from the dropdown list of sketches<br/></p>
+
+                          <h4>Setting up your layout</h4>
+
+                          <p>You can move a surface by clicking in the middle of it and dragging it.<br/>
+                            You can change the shape of the surface by dragging it's corners.<br/>
+                            Alternatively, if you click on a corner to highlight it, you can use the arrow keys to move it more precisely<br/></p>
+
+                            <h4>Removing a surface</h4>
+
+                            <p>Surfaces can be removed by clicking on them to highlight them and pressing the <code>delete</code> key.</p>
+
+                            <h3>Saving layouts</h3>
+
+                            <p>Your surface layout can be saved by clicking on <b>Save Layout</b>.<br/>
+                              The sketch will prompt you for a place to save it.<br/>
+                              Layouts are saved in XML format and include the layout of the surfaces and which sketches are on which surfaces.</p>
+
+                              <h3>Loading layouts</h3>
+
+                              <p>To load a layout, click on <b>Load Layout</b> and open the layout in the pop-up dialog.</p>
+
+                              <h3>Running the sketch(es)</h3>
+
+                              <p>To run the thing, click on <b>Switch to render mode</b>.</p>
+
+                              <h3>Returning to the configuration mode.</h3>
+
+                              <p>Double click anywhere on the canvas while in render mode to return to calibration mode.</p>
+      </section>
 	      <footer>
-	        <p><small>This project is maintained by <a href="http://jtoprocesing.tumblr.com">josephtaylor</a></br><a href="https://github.com/josephtaylor/sketch-mapper">View the source code on GitHub</a></br>
+	        <p><small>This project is maintained by <a href="http://jtoprocesing.tumblr.com">josephtaylor</a></br><a href="https://github.com/josephtaylor/ColorScheme">View the source code on GitHub</a></br>
 	        GitHub Pages &mdash; adapted theme from <a href="https://github.com/orderedlist">orderedlist</a></small></p>
 	      </footer>
     </div>
