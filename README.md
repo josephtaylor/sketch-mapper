@@ -95,22 +95,22 @@ You can change the shape of the surface by dragging it's corners.<br/>
 Alternatively, if you click on a corner to highlight it, you can use the arrow keys to move it more precisely<br/>
 #### Removing a surface
 Surfaces can be removed by clicking on them to highlight them and pressing the `delete` key.
-### Saving layouts
+#### Saving layouts
 Your surface layout can be saved by clicking on <b>Save Layout</b>.<br/>
 The sketch will prompt you for a place to save it.<br/>
 Layouts are saved in XML format and include the layout of the surfaces and which sketches are on which surfaces.
-### Loading layouts
+#### Loading layouts
 To load a layout, click on <b>Load Layout</b> and open the layout in the pop-up dialog.
 
-### Running the sketch(es)
+#### Running the sketch(es)
 To run the thing, click on <b>Switch to render mode</b>.
 
-### Returning to the configuration mode.
+#### Returning to the configuration mode.
 Double click anywhere on the canvas while in render mode to return to calibration mode.
 
 
-[surface mapper]:http://http://ixagon.se/SurfaceMapper
-[ixagon]:http://http://ixagon.se/
+[surface mapper]:http://ixagon.se/surfacemapper
+[ixagon]:http://ixagon.se/
 [surfacemappergui]:http://jason-webb.info/2013/11/surfacemappergui-a-simple-processing-interface-for-projection-mapping/
 [maven]:http//maven.apache.org
 [processing-deps]:https://github.com/josephtaylor/processing-deps
