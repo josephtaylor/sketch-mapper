@@ -27,8 +27,8 @@
       <header>
         <p><img src="http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png" alt="screenshot" title="" /></p>
         <h1>SketchMapper</h1>
-        <p>This is a library for <a href="http://processing.org">processing</a> that allows
-        you to map sketches onto surfaces.</p>
+        <p>This is a library for <a href="http://processing.org">processing</a>
+          by <a href="http://jtoprocessing.tumblr.com">Taylor O'Connor</a></p>
       </header>
       <section>
         <h3>SketchMapper</h3>
@@ -40,13 +40,15 @@
           and   <a href="http://jason-webb.info/2013/11/surfacemappergui-a-simple-processing-interface-for-projection-mapping/">
                 SurfaceMapperGui
               </a> by Jason Webb<br/>
+          and works in Processing 2.2.1</br>
           <br/>Last update: 2/10/2015
 				</p>
 
 				<h3>Download</h3>
 
-				<p>You can download the latest version 0.0.1-SNAPSHOT (released 2015-02-10)
-					<a href="./SketchMapper.zip"><u>here</u></a>.
+				<p>
+          <a href="./SketchMapper.zip" class="downloadLink">0.0.1-SNAPSHOT</a>
+          <small>released 2/10/2015</small>
 				</p>
 
 				<h3>Installation</h3>
@@ -60,6 +62,9 @@
 
 			<p>Check out the <a href="./SketchMapper/reference/index.html">Javadocs</a>.</p>
 
+      <h3>Source Code</h3>
+      <p>View the source on <a href="https://github.com/josephtaylor/sketch-mapper">GitHub</a>.
+
 			<h3>Example Sketch</h3>
 
 			<p>
@@ -67,129 +72,135 @@
 				<a href="./SketchMapper/examples/SketchMapperTest/SketchMapperTest.pde">SketchMapperTest.pde</a></br>
 				<a href="./SketchMapper/examples/SketchMapperTest/TestSketch.pde">TestSketch.pde</a></br>
 			</p>
-
-			<h4>Tested</h4>
-
-			<p>
-				<small>
-					<b>Platforms:</b> windows, linux<br>
-			   	<b>Processing:</b> 2.2.1
-			   </small>
-			 </p>
-
-			<h4>Keywords</h4>
-			<p><small>SketchMapper, projection mapping, geometry, projection</small></p>
-      </section>
-      <section>
-            <h2>Usage in Code</h2>
+            <h3>Usage in Code</h3>
 
             <p>This section is about how to use the library in your processing sketches.</p>
 
             <h4>Creating sketches</h4>
 
             <p>This library provides a <code>Sketch</code> interface and <code>AbstractSketch</code> base implementation that are to be extended to create skeches.  This is a base template for a <code>TestSketch</code> the draws an ellipse in the middle of the screen:
-              ```
-              public class TestSketch extends AbstractSketch {</p>
+            <pre><code>
+public class TestSketch extends AbstractSketch
 
-                <pre><code>public TestSketch(final PApplet parent, final int width, final int height) {
-                  super(parent, width, height);
-                }
+  public TestSketch(final PApplet parent,
+                    final int width,
+                    final int height) {
+    super(parent, width, height);
+  }
 
-                @Override
-                public void draw() {
-                  graphics.beginDraw();
-                  graphics.background(255);
-                  graphics.fill(0);
-                  graphics.ellipse(graphics.width / 2, graphics.height / 2, 25, 25);
-                }
-                graphics.endDraw();
-              }
+  @Override
+  public void draw() {
+    graphics.beginDraw();
+    graphics.background(255);
+    graphics.fill(0);
+    graphics.ellipse(graphics.width / 2,
+                     graphics.height / 2,
+                     25, 25);
+    graphics.endDraw();
+  }
 
-              @Override
-              public void keyEvent(KeyEvent event) {
+  @Override
+  public void keyEvent(KeyEvent event) {
 
-              }
+  }
 
-              @Override
-              public void mouseEvent(MouseEvent event) {
+  @Override
+  public void mouseEvent(MouseEvent event) {
 
-              }
+  }
 
-              @Override
-              public void setup() {
+  @Override
+  public void setup() {
 
-              }
-            </code></pre>
-
-            <p>}
-              <code>``
-                The constructor must be present and at least have that</code>super<code>call.&lt;br/&gt;
-                  Notice in the</code>draw<code>method we are using</code>graphics<code>to do the drawing.</code>graphics<code>is defined in</code>AbstractSketch<code>and is an instance of</code>PGraphics<code>that is unique to this sketch.&lt;br/&gt;
-                  </code>AbstractSketch<code>also has a</code>parent<code>variable that is the parent</code>PApplet<code>class or the main sketch creating this sketch.  Use the</code>parent<code>object when you need to call processing methods.&lt;br/&gt;
-                  </code>setup<code>is invoked once by</code>SketchMapper<code>when the sketch is initialized.&lt;br/&gt;
-                    The</code>keyEvent<code>and</code>mouseEvent` methods get invoked on key events and mouse events respectively.</p>
+  }
+}
+          </code></pre></p>
+          <p>
+                The constructor must be present and at least have that<code>super</code>call.<br/>
+                  Notice in the<code>draw</code>method we are using<code>graphics</code>to do the drawing.<code>graphics</code>is defined in
+                  <code>AbstractSketch</code>and is an instance of<code>PGraphics</code>that is unique to this sketch.<br/>
+                  <code>AbstractSketch</code>also has a<code>parent</code>variable that is the parent<code>PApplet</code>
+                    class or the main sketch creating this sketch.  Use the<code>parent</code>object when you need to call processing methods.<br/>
+                  <code>setup</code>is invoked once by<code>SketchMapper</code>when the sketch is initialized.<br/>
+                    The<code>keyEvent</code>and<code>mouseEvent</code> methods get invoked on key events and mouse events respectively.</p>
 
                     <h4>Using the SketchMapper object</h4>
 
-                    <p>Construct the SketchMapper object by passing it <code>this</code> from your main sketch.
-                      <code>
-                        SketchMapper sketchMapper = new SketchMapper(this);
-                      </code>
-                      Add sketches to the <code>SketchMapper</code> using the <code>addSketch</code> method.
-                      <code>
-                        sketchMapper.addSketch(new TestSketch(500, 500));
-                      </code>
-                      The sketches that are added will show up in the sketch dropdown in the UI.<br/>
-                      The only other requirement is that you call the <code>draw</code> method on the object at the top of your <code>draw</code> function.
-                      <code>
-                        public void draw() {
-                          sketchMapper.draw();
-                        }
-                      </code></p>
+                    <p>Construct the SketchMapper object by passing it <code>this</code> from your main sketch.</p>
+                      <p><pre><code>
+  SketchMapper sketchMapper = new SketchMapper(this);
+                      </code></pre></p>
+                      <p>Add sketches to the <code>SketchMapper</code> using the <code>addSketch</code> method.</p>
+                      <pre><code>
+  sketchMapper.addSketch(new TestSketch(500, 500));
+                      </code></pre>
+                      <p>The sketches that are added will show up in the sketch dropdown in the UI.<br/>
+                      The only other requirement is that you call the <code>draw</code>&nbsp;
+                      method on the object at the top of your <code>draw</code> function.</p>
+                      <p>
+                        <pre><code>
+  public void draw() {
+    sketchMapper.draw();
+  }
+                        </code></pre>
+                      </p>
 
-                      <h3>Using the GUI Tool</h3>
+  <h3>Using the GUI Tool</h3>
 
-                      <h4>Adding surfaces</h4>
+  <p>This section is about how to use the gui tool itself.</p>
 
-                      <p>quad surfaces and bezier surfaces can be added to the sketch by using the buttons<br/>
-                        <b>Create a new Quad Surface</b> and <b>Create a new Bezier Surface</b></p>
+  <h4>Adding surfaces</h4>
 
-                        <h4>Selecting a sketch for a surface</h4>
+  <p>quad surfaces and bezier surfaces can be added to the sketch by using the buttons<br/>
+    <b>Create a new Quad Surface</b> and <b>Create a new Bezier Surface</b></p>
 
-                        <p>Click on a surface to select it.<br/>
-                          Select the desired sketch from the dropdown list of sketches<br/></p>
+    <h4>Selecting a sketch for a surface</h4>
 
-                          <h4>Setting up your layout</h4>
+    <p>Click on a surface to select it.<br/>
+      Select the desired sketch from the dropdown list of sketches<br/></p>
 
-                          <p>You can move a surface by clicking in the middle of it and dragging it.<br/>
-                            You can change the shape of the surface by dragging it's corners.<br/>
-                            Alternatively, if you click on a corner to highlight it, you can use the arrow keys to move it more precisely<br/></p>
+      <h4>Setting up your layout</h4>
 
-                            <h4>Removing a surface</h4>
+      <p>You can move a surface by clicking in the middle of it and dragging it.<br/>
+        You can change the shape of the surface by dragging it's corners.<br/>
+        Alternatively, if you click on a corner to highlight it, you can use the arrow keys to move it more precisely<br/></p>
 
-                            <p>Surfaces can be removed by clicking on them to highlight them and pressing the <code>delete</code> key.</p>
+        <h4>Removing a surface</h4>
 
-                            <h3>Saving layouts</h3>
+        <p>Surfaces can be removed by clicking on them to highlight them and pressing the <code>delete</code> key.</p>
 
-                            <p>Your surface layout can be saved by clicking on <b>Save Layout</b>.<br/>
-                              The sketch will prompt you for a place to save it.<br/>
-                              Layouts are saved in XML format and include the layout of the surfaces and which sketches are on which surfaces.</p>
+        <h4>Saving layouts</h4>
 
-                              <h3>Loading layouts</h3>
+        <p>Your surface layout can be saved by clicking on <b>Save Layout</b>.<br/>
+          The sketch will prompt you for a place to save it.<br/>
+          Layouts are saved in XML format and include the layout of the surfaces and which sketches are on which surfaces.</p>
 
-                              <p>To load a layout, click on <b>Load Layout</b> and open the layout in the pop-up dialog.</p>
+          <h4>Loading layouts</h4>
 
-                              <h3>Running the sketch(es)</h3>
+          <p>To load a layout, click on <b>Load Layout</b> and open the layout in the pop-up dialog.</p>
 
-                              <p>To run the thing, click on <b>Switch to render mode</b>.</p>
+          <h4>Running the sketch(es)</h4>
 
-                              <h3>Returning to the configuration mode.</h3>
+          <p>To run the thing, click on <b>Switch to render mode</b>.</p>
 
-                              <p>Double click anywhere on the canvas while in render mode to return to calibration mode.</p>
+          <h4>Returning to the configuration mode.</h4>
+
+          <p>Double click anywhere on the canvas while in render mode to return to calibration mode.</p>
+        <h4>Tested</h4>
+        <p>
+          <small>
+            <b>Platforms:</b> windows, linux<br>
+            <b>Processing:</b> 2.2.1
+          </small>
+        </p>
+
+        <h4>Keywords</h4>
+        <p><small>SketchMapper, projection mapping, geometry, projection</small></p>
       </section>
 	      <footer>
-	        <p><small>This project is maintained by <a href="http://jtoprocesing.tumblr.com">josephtaylor</a></br><a href="https://github.com/josephtaylor/ColorScheme">View the source code on GitHub</a></br>
-	        GitHub Pages &mdash; adapted theme from <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+	        <p><small>This project is maintained by <a href="http://jtoprocesing.tumblr.com">josephtaylor</a></br>
+            <a href="https://github.com/josephtaylor/sketch-mapper">View the source code on GitHub</a></br>
+          </small></p>
 	      </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
