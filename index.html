@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="description" content="A color scheme library for the processing
     programming environment. " />
-    <meta name="keywords" content="processing, color, color scheme, .xml, .ase,
-    processing library, Java, code, programming, Adobe Swatch Exchange, colorschemedesigner" />
+    <meta name="keywords" content="processing, projection mapping, sketch, SketchMapper, surface,
+    processing library, Java, code, programming, SurfaceMapperGui, ixagon, SurfaceMapper, P5" />
     <meta name="ROBOTS" content="index,follow,archive" />
     <meta name="Rating" content="General" />
     <meta name="revisit-after" content="7 Days" />
     <meta name="doc-class" content="Living Document" />
-    <title>ColorScheme - a processing library</title>
+    <title>SketchMapper - a processing library</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -25,63 +25,66 @@
   <body>
     <div class="wrapper">
       <header>
-      	<img src="./colorWheel-01.png" alt="Color Scheme"></img>
-        <h1>ColorScheme</h1>
-        <p>This is a color scheme library for <a href="http://processing.org">processing</a></p>
+      	<!-- <img src="./colorWheel-01.png" alt="Color Scheme"></img> -->
+        <h1>SketchMapper</h1>
+        <p>This is a library for <a href="http://processing.org">processing</a> that allows
+        you to map sketches onto surfaces.</p>
       </header>
       <section>
-        <h3>ColorScheme</h3>
+        <h3>SketchMapper</h3>
 
-				<p>This is a color scheme library designed to allow users to import
- 					<br>.xml files generated from <a href="http://www.colorschemedesigner.com">colorschemedesigner.com</a>
- 					</br>and .ase files from Adobe suite applications. 
-					</br>Colors are provided as Java objects for use in the processing sketch.
-					</br>Future releases will offer support for more file formats.
-					</br>Last update: 8/15/2013
+				<p>The SketchMapper library offers a GUI tool and code to allow you to<br/>
+          create sketches and map them onto surfaces.<br/>
+          This is built off of <a href="http://http://ixagon.se/SurfaceMapper">SurfaceMapper</a> by
+          <a href="http://http://ixagon.se">ixagon</a><br/>
+          and   <a href="http://jason-webb.info/2013/11/surfacemappergui-a-simple-processing-interface-for-projection-mapping/">
+                SurfaceMapperGui
+              </a> by Jason Webb<br/>
+          <br/>Last update: 2/10/2015
 				</p>
 
 				<h3>Download</h3>
 
-				<p>You can download the latest version 0.0.2 (released 2014.06.02)
-					<a href="./ColorScheme.zip"><u>here</u></a>.
+				<p>You can download the latest version 0.0.1-SNAPSHOT (released 2015-02-10)
+					<a href="./SketchMapper.zip"><u>here</u></a>.
 				</p>
 
 				<h3>Installation</h3>
 
-				<p>Unzip the ColorScheme.zip archive and put the extracted ColorScheme
- 					<br>folder into the libraries folder of your processing sketches. 
+				<p>Unzip the SketchMapper.zip archive and put the extracted SketchMapper
+ 					<br>folder into the libraries folder of your processing sketches.
  					<br>The reference, examples, and source are included.
 				</p>
 
 			<h3>Reference</h3>
 
-			<p>Check out the <a href="./ColorScheme/reference/index.html">Javadocs</a>.</p>
+			<p>Check out the <a href="./SketchMapper/reference/index.html">Javadocs</a>.</p>
 
-			<h3>Examples</h3>
+			<h3>Example Sketch</h3>
 
 			<p>
-				<a href="./ColorScheme/examples/Backgrounds/Backgrounds.pde">Backgrounds</a></br>
-				<a href="./ColorScheme/examples/RandomEllipses/RandomEllipses.pde">RandomEllipses</a></br>
-				<a href="./ColorScheme/examples/UsingIntArray/UsingIntArray.pde">UsingIntArray</a></br>
+        To run the example you will need both of these files:<br/>
+				<a href="./SketchMapper/examples/SketchMapperTest/SketchMapperTest.pde">SketchMapperTest.pde</a></br>
+				<a href="./SketchMapper/examples/SketchMapperTest/TestSketch.pde">TestSketch.pde</a></br>
 			</p>
 
 			<h4>Tested</h4>
 
 			<p>
 				<small>
-					<b>Platform:</b> windows<br>
-			   	<b>Processing:</b> 2.0.1
+					<b>Platforms:</b> windows, linux<br>
+			   	<b>Processing:</b> 2.2.1
 			   </small>
 			 </p>
 
 			<h4>Keywords</h4>
-			<p><small>color, color scheme, colorschemedesigner, adbobe swatch exchange</small></p>
+			<p><small>SketchMapper, projection mapping, geometry, projection</small></p>
       </section>
 	      <footer>
-	        <p><small>This project is maintained by <a href="https://twitter.com/josephtaylor">josephtaylor</a></br><a href="https://github.com/josephtaylor/ColorScheme">View the source code on GitHub</a></br>
+	        <p><small>This project is maintained by <a href="http://jtoprocesing.tumblr.com">josephtaylor</a></br><a href="https://github.com/josephtaylor/ColorScheme">View the source code on GitHub</a></br>
 	        GitHub Pages &mdash; adapted theme from <a href="https://github.com/orderedlist">orderedlist</a></small></p>
 	      </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>  
+    <script src="javascripts/scale.fix.js"></script>
   </body>
 </html>
