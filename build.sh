@@ -19,7 +19,7 @@ cp -v ./target/*.jar ./target/library/
 echo ' -- moving everything to target/surface-mapper-gui'
 mkdir target/SketchMapper
 cp -r src target/SketchMapper/
-cp -r reference target/SketchMapper/
+cp -r target/reference target/SketchMapper/
 cp -r examples target/SketchMapper/
 cp -r target/library target/SketchMapper/
 cp library.properties target/SketchMapper/
