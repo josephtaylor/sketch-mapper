@@ -13,7 +13,7 @@ public interface Sketch {
     /**
      * The process draw method.
      * This is invoked when draw is called on
-     * {@link jto.processing.surface.mapper.SurfaceMapperGui}
+     * {@link jto.processing.sketch.mapper.SketchMapper}
      *
      */
     public void draw();
@@ -42,7 +42,7 @@ public interface Sketch {
 
     /**
      * This is the keyEvent callback method that will be propagated through
-     * the {@link jto.processing.surface.mapper.SurfaceMapperGui} object
+     * the {@link jto.processing.sketch.mapper.SketchMapper} object
      * and called on this sketch.
      * @param event the key event.
      */
@@ -50,7 +50,7 @@ public interface Sketch {
 
     /**
      * This is the mouseEvent callback method that will be propagated through
-     * the {@link jto.processing.surface.mapper.SurfaceMapperGui} object and
+     * the {@link jto.processing.sketch.mapper.SketchMapper} object and
      * called on this sketch.
      * @param event the mouse event.
      */

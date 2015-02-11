@@ -1,4 +1,4 @@
-package jto.processing.surface.mapper;
+package jto.processing.sketch.mapper;
 
 
 import controlP5.ControlEvent;
@@ -7,9 +7,9 @@ import controlP5.ControlP5;
 import ixagon.SurfaceMapper.SuperSurface;
 import ixagon.SurfaceMapper.SurfaceMapper;
 import jto.processing.sketch.Sketch;
-import jto.processing.surface.mapper.menu.BezierOptionsMenu;
-import jto.processing.surface.mapper.menu.ProgramOptionsMenu;
-import jto.processing.surface.mapper.menu.QuadOptionsMenu;
+import jto.processing.sketch.mapper.menu.BezierOptionsMenu;
+import jto.processing.sketch.mapper.menu.ProgramOptionsMenu;
+import jto.processing.sketch.mapper.menu.QuadOptionsMenu;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-public class SurfaceMapperGui {
+public class SketchMapper {
 
     public static final String LOAD_LAYOUT_HANDLER_METHOD_NAME = "loadLayoutHandler";
     public static final String SAVE_LAYOUT_HANDLER_METHOD_NAME = "saveLayoutHandler";
@@ -41,7 +41,7 @@ public class SurfaceMapperGui {
      * Constructor for SurfaceMapperGui objects.
      * @param parent the parent sketch.
      */
-    public SurfaceMapperGui(final PApplet parent) {
+    public SketchMapper(final PApplet parent) {
         this.parent = parent;
 
         //register our handler methods in this object on our parent.

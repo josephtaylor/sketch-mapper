@@ -1,14 +1,14 @@
-package jto.processing.surface.mapper.menu;
+package jto.processing.sketch.mapper.menu;
 
 import controlP5.*;
 import jto.processing.sketch.Sketch;
-import jto.processing.surface.mapper.SurfaceMapperGui;
+import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class QuadOptionsMenu {
     private final PApplet parent;
-    private final SurfaceMapperGui surfaceMapperGui;
+    private final SketchMapper sketchMapper;
     private Group quadGroup;
     private Textfield name;
     private Button increaseResolution;
@@ -16,8 +16,8 @@ public class QuadOptionsMenu {
     private DropdownList sourceList;
     private PFont smallFont;
 
-    public QuadOptionsMenu(SurfaceMapperGui surfaceMapperGui, PApplet parent, ControlP5 controlP5) {
-        this.surfaceMapperGui = surfaceMapperGui;
+    public QuadOptionsMenu(SketchMapper sketchMapper, PApplet parent, ControlP5 controlP5) {
+        this.sketchMapper = sketchMapper;
         this.parent = parent;
         smallFont = parent.createFont("Verdana", 11, false);
         ControlFont font = new ControlFont(smallFont, 11);
@@ -77,7 +77,7 @@ public class QuadOptionsMenu {
     public void compileSourceList() {
         sourceList.clear();
         int i = 0;
-        for (Sketch sketch : surfaceMapperGui.getSketchList()) {
+        for (Sketch sketch : sketchMapper.getSketchList()) {
             sourceList.addItem(sketch.getName(), i);
             i++;
         }

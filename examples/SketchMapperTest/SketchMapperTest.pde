@@ -16,7 +16,6 @@ import com.sun.media.jai.codecimpl.util.*;
 import com.sun.media.jai.opimage.*;
 import javax.media.jai.registry.*;
 import javax.media.jai.*;
-import jto.processing.surface.mapper.*;
 import javax.media.jai.operator.*;
 import com.sun.media.jai.rmi.*;
 import com.sun.media.jai.codec.*;
@@ -26,16 +25,16 @@ import javax.media.jai.iterator.*;
 
 
 
-private SurfaceMapperGui surfaceMapperGui;
+private SketchMapper sketchMapper;
 
 public void setup() {
-  size(800, 600, PConstants.OPENGL);
-  surfaceMapperGui = new SurfaceMapperGui(this);
-  surfaceMapperGui.addSketch(new TestSketch(this, width / 2, height / 2));  
+  size(800, 600, OPENGL);
+  sketchMapper = new SketchMapper(this);
+  sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
 }
 
 public void draw() {
-  surfaceMapperGui.draw();
+  sketchMapper.draw();
 }
 
 

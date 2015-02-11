@@ -1,8 +1,8 @@
-# surface-mapper-gui
+# sketch-mapper
 
-This is the SurfaceMapperGui library for processing.
+This is the SketchMapper library for processing.
 ![screenshot](http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png)
-SurfaceMapperGui is a GUI tool that allows you to map processing sketches on surfaces.<br/>
+SketchMapper is a GUI tool that allows you to map processing sketches on surfaces.<br/>
 This was built off of the [Surface Mapper] library by [Ixagon] and the original [SurfaceMapperGui] by Jason Webb.<br/>
 This is mostly *their* work ! This is just adapted to do some different things.
 
@@ -21,7 +21,7 @@ This will install the processing dependencies and a number of libraries in your 
 ```sh
 ./build.sh
 ```
-This will put the library folder called ```SurfaceMapperGui``` in the ```target``` directory as well as a ```SurfaceMapperGui.zip``` archive. Copy the folder to your processing sketchbook's libraries folder to use it in processing.
+This will put the library folder called ```SketchMapper``` in the ```target``` directory as well as a ```SketchMapper.zip``` archive. Copy the folder to your processing sketchbook's libraries folder to use it in processing.
 
 ## Usage in Code
 This section is about how to use the library in your processing sketches.
@@ -63,22 +63,22 @@ public class TestSketch extends AbstractSketch {
 The constructor must be present and at least have that `super` call.<br/>
 Notice in the `draw` method we are using `graphics` to do the drawing. `graphics` is defined in `AbstractSketch` and is an instance of `PGraphics` that is unique to this sketch.<br/>
 `AbstractSketch` also has a `parent` variable that is the parent `PApplet` class or the main sketch creating this sketch.  Use the `parent` object when you need to call processing methods.<br/>
-`setup` is invoked once by `SurfaceMapperGui` when the sketch is initialized.<br/>
+`setup` is invoked once by `SketchMapper` when the sketch is initialized.<br/>
 The `keyEvent` and `mouseEvent` methods get invoked on key events and mouse events respectively.
-#### Using the SurfaceMapperGui object
-Construct the SurfaceMapperGui object by passing it `this` from your main sketch.
+#### Using the SketchMapper object
+Construct the SketchMapper object by passing it `this` from your main sketch.
 ```
-SurfaceMapperGui gui = new SurfaceMapperGui(this);
+SketchMapper sketchMapper = new SketchMapper(this);
 ```
-Add sketches to the `SurfaceMapperGui` using the `addSketch` method.
+Add sketches to the `SketchMapper` using the `addSketch` method.
 ```
-gui.addSketch(new TestSketch(500, 500));
+sketchMapper.addSketch(new TestSketch(500, 500));
 ```
 The sketches that are added will show up in the sketch dropdown in the UI.<br/>
 The only other requirement is that you call the `draw` method on the object at the top of your `draw` function.
 ```
 public void draw() {
-    gui.draw();
+    sketchMapper.draw();
 }
 ```
 

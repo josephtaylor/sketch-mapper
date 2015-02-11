@@ -3,12 +3,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>jto.processing</groupId>
-    <artifactId>surface-mapper-gui</artifactId>
+    <artifactId>sketch-mapper</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>surface-mapper-gui</name>
-    <url>http://maven.apache.org</url>
+    <name>sketch-mapper</name>
+    <url>http://github.com/josephtaylor/sketch-mapper</url>
+    
+    <developers>
+        <developer>
+            <name>J Taylor O'Connor</name>
+            <email>jtomusic@gmail.com</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

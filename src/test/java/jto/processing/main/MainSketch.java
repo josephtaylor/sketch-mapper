@@ -1,24 +1,24 @@
 package jto.processing.main;
 
 
-import jto.processing.surface.mapper.SurfaceMapperGui;
+import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
 public class MainSketch extends PApplet {
 
-    private SurfaceMapperGui surfaceMapperGui;
+    private SketchMapper sketchMapper;
 
     @Override
     public void draw() {
-        surfaceMapperGui.draw();
+        sketchMapper.draw();
     }
 
     @Override
     public void setup() {
         size(800, 600, PConstants.OPENGL);
-        surfaceMapperGui = new SurfaceMapperGui(this);
-        surfaceMapperGui.addSketch(new TestSketch(this, width / 2, height / 2));
+        sketchMapper = new SketchMapper(this);
+        sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
     }
 
     public static void main(String[] args) {
