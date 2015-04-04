@@ -1,4 +1,4 @@
-package jto.processing.sketch;
+package jto.processing.sketch.mapper;
 
 
 import processing.core.PGraphics;

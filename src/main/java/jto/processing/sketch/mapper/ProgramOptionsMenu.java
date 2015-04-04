@@ -1,4 +1,4 @@
-package jto.processing.sketch.mapper.menu;
+package jto.processing.sketch.mapper;
 
 import controlP5.ControlP5;
 import controlP5.Group;

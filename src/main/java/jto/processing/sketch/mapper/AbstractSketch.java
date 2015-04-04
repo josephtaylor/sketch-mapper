@@ -1,4 +1,4 @@
-package jto.processing.sketch;
+package jto.processing.sketch.mapper;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 
 /**
  * This is an abstract implementation of
- * {@link jto.processing.sketch.Sketch}.
+ * {@link Sketch}.
  *
  * This contains protected fields for the graphics and
  * parent PApplet as well some basic implementations of other methods.

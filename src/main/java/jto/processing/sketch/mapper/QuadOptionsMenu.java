@@ -1,8 +1,6 @@
-package jto.processing.sketch.mapper.menu;
+package jto.processing.sketch.mapper;
 
 import controlP5.*;
-import jto.processing.sketch.Sketch;
-import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
 import processing.core.PFont;
 

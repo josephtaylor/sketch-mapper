@@ -18,7 +18,7 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package ixagon.SurfaceMapper;
+package ixagon.surface.mapper;
 
 public class Point3D {
 	public float x = 0;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ' -- building with maven'
-mvn clean compile assembly:single
+mvn clean package
 echo ' -- generating javadocs'
 mvn javadoc:javadoc
 
@@ -11,10 +11,10 @@ cp -rv apidocs/* .
 rm -rf apidocs
 cd ../..
 
-echo ' -- copying jar to library folder'
-mv ./target/*.jar ./target/SketchMapper.jar
+echo ' -- copying jars to library folder'
 mkdir ./target/library
-cp -v ./target/*.jar ./target/library/
+cp -v ./target/SketchMapper.jar ./target/library/
+cp -v ./controlP5.jar ./target/library/
 
 echo ' -- moving everything to target/surface-mapper-gui'
 mkdir target/SketchMapper

@@ -18,15 +18,19 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package ixagon.SurfaceMapper;
+package ixagon.surface.mapper;
 
-import jto.processing.sketch.Sketch;
-import processing.core.*;
+import jto.processing.sketch.mapper.Sketch;
+import processing.core.PApplet;
+import processing.core.PFont;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
 import processing.data.XML;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

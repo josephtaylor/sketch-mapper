@@ -9,6 +9,9 @@ This is mostly *their* work ! This is just adapted to do some different things.
 ### Current Version
 0.0.1-SNAPSHOT
 
+### Library Dependencies
+requires [ControlP5] version 2.0.4
+
 ## Building
 This section will describe how to build the library
 ##### prerequisites
@@ -114,3 +117,4 @@ Double click anywhere on the canvas while in render mode to return to calibratio
 [surfacemappergui]:http://jason-webb.info/2013/11/surfacemappergui-a-simple-processing-interface-for-projection-mapping/
 [maven]:http//maven.apache.org
 [processing-deps]:https://github.com/josephtaylor/processing-deps
+[ControlP5]:http://www.sojamo.de/libraries/controlP5/

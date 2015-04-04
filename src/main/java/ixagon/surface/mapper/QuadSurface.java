@@ -18,13 +18,13 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package ixagon.SurfaceMapper;
+package ixagon.surface.mapper;
 
 //Derived from KeystoneP5 library
 //and code from rrrufusss
 //https://forum.processing.org/topic/compensating-for-keystone-distortion-or-creating-some-kind-of-homography-routine
 
-import jto.processing.sketch.Sketch;
+import jto.processing.sketch.mapper.Sketch;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -32,7 +32,7 @@ import processing.core.PVector;
 import processing.data.XML;
 
 import javax.media.jai.PerspectiveTransform;
-import java.awt.*;
+import java.awt.Polygon;
 import java.io.File;
 
 public class QuadSurface implements SuperSurface {

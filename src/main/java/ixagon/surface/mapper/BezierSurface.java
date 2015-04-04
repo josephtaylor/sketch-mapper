@@ -18,9 +18,9 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package ixagon.SurfaceMapper;
+package ixagon.surface.mapper;
 
-import jto.processing.sketch.Sketch;
+import jto.processing.sketch.mapper.Sketch;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
