@@ -29,7 +29,7 @@ This will put the library folder called ```SketchMapper``` in the ```target``` d
 ## Usage in Code
 This section is about how to use the library in your processing sketches.
 #### Creating sketches
-This library provides a `Sketch` interface and `AbstractSketch` base implementation that are to be extended to create skeches.  This is a base template for a `TestSketch` the draws an ellipse in the middle of the screen:
+This library provides a `Sketch` interface and `AbstractSketch` base implementation that are to be extended to create skeches.  This is a base template for a `TestSketch` that draws an ellipse in the middle of the screen:
 ```
 public class TestSketch extends AbstractSketch {
 
