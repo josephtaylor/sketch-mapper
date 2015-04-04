@@ -75,7 +75,7 @@ SketchMapper sketchMapper = new SketchMapper(this);
 ```
 Add sketches to the `SketchMapper` using the `addSketch` method.
 ```
-sketchMapper.addSketch(new TestSketch(500, 500));
+sketchMapper.addSketch(new TestSketch(this, 500, 500));
 ```
 The sketches that are added will show up in the sketch dropdown in the UI.<br/>
 The only other requirement is that you call the `draw` method on the object at the top of your `draw` function.
