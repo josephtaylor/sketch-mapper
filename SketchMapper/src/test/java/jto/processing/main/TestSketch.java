@@ -1,7 +1,7 @@
 package jto.processing.main;
 
 
-import jto.processing.sketch.AbstractSketch;
+import jto.processing.sketch.mapper.AbstractSketch;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
