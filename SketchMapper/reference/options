@@ -15,10 +15,10 @@
 -docencoding
 'UTF-8'
 -doctitle
-'sketch-mapper 2.0.1 API'
+'sketch-mapper 2.0.2 API'
 -linkoffline
 'http://docs.oracle.com/javase/7/docs/api' '/opt/dev/sketch-mapper/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
-'sketch-mapper 2.0.1 API'
+'sketch-mapper 2.0.2 API'
