@@ -14,7 +14,7 @@ cd ../..
 echo ' -- copying jars to library folder'
 mkdir ./target/library
 cp -v ./target/SketchMapper.jar ./target/library/
-cp -v ./controlP5.jar ./target/library/
+# cp -v ./controlP5.jar ./target/library/
 
 echo ' -- moving everything to target/surface-mapper-gui'
 mkdir target/SketchMapper

@@ -7,10 +7,11 @@ This was built off of the [Surface Mapper] library by [Ixagon] and the original 
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-2.0.1
+2.0.3
 
 ### Library Dependencies
-uses [ControlP5] version 2.0.4
+uses [ControlP5] version 2.0.4   
+when using this library, the ControlP5 library must be imported as well.
 
 ## Building
 This section will describe how to build the library
