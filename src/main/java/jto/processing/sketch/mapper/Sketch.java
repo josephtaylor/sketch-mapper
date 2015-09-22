@@ -16,7 +16,7 @@ public interface Sketch {
      * {@link jto.processing.sketch.mapper.SketchMapper}
      *
      */
-    public void draw();
+    void draw();
 
     /**
      * Returns the name of the sketch.
@@ -26,19 +26,19 @@ public interface Sketch {
      *
      * @return the name of the class of the sketch
      */
-    public String getName();
+    String getName();
 
     /**
      * The processing setup method.
      * This is called when the surfaceMapperGui is initialized.
      */
-    public void setup();
+    void setup();
 
     /**
      * Return the PGraphics associated with this sketch.
      * @return the graphics object associated with this sketch.
      */
-    public PGraphics getPGraphics();
+    PGraphics getPGraphics();
 
     /**
      * This is the keyEvent callback method that will be propagated through
@@ -46,7 +46,7 @@ public interface Sketch {
      * and called on this sketch.
      * @param event the key event.
      */
-    public void keyEvent(KeyEvent event);
+    void keyEvent(KeyEvent event);
 
     /**
      * This is the mouseEvent callback method that will be propagated through
@@ -54,5 +54,5 @@ public interface Sketch {
      * called on this sketch.
      * @param event the mouse event.
      */
-    public void mouseEvent(MouseEvent event);
+    void mouseEvent(MouseEvent event);
 }

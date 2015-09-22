@@ -154,7 +154,7 @@ public class SketchMapper {
             // Quad Options -> Source file
             case 9:
                 for (Sketch sketch : surfaceMapper.getSketchList()) {
-                    if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
+                    if (e.getGroup().getCaptionLabel().getText().equals(sketch.getName())) {
                         surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
                     }
@@ -203,7 +203,7 @@ public class SketchMapper {
             // Bezier Options -> Source file
             case 17:
                 for (Sketch sketch : surfaceMapper.getSketchList()) {
-                    if (e.getGroup().captionLabel().getText().equals(sketch.getName())) {
+                    if (e.getGroup().getCaptionLabel().getText().equals(sketch.getName())) {
                         surfaceMapper.getSurfaces().get(mostRecentSurface).setSketch(sketch);
                         break;
                     }
