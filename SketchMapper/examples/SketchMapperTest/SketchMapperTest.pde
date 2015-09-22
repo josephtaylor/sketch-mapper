@@ -6,7 +6,7 @@
   random ellipses.
 
   *** Note: This library requires that you have
-            ControlP5 v. 2.0.4 installed and imported ! ***
+            ControlP5 v. 2.2.5 installed and imported ! ***
 */
 import controlP5.*;
 import javax.media.jai.*;

@@ -7,10 +7,10 @@ This was built off of the [Surface Mapper] library by [Ixagon] and the original 
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-2.0.1
+3.0.1
 
 ### Libaray Dependencies
-uses [controlP5] version 2.0.4
+uses [controlP5] version 2.2.5
 
 ## Building
 This section will describe how to build the library

@@ -21,7 +21,7 @@ public class ProgramOptionsMenu {
                 .setWidth(280)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
-        programGroup.captionLabel().style().marginTop = 6;
+        programGroup.getCaptionLabel().getStyle().marginTop = 6;
 
         // Create new quad button
         controlP5.addButton("newQuad")
@@ -86,14 +86,14 @@ public class ProgramOptionsMenu {
     public void render() {
         if (programGroup.isOpen()) {
             parent.stroke(255, 150);
-            parent.line(programGroup.getPosition().x, programGroup.getPosition().y + 115, programGroup.getPosition().x + programGroup.getWidth(), programGroup.getPosition().y + 115);
+            parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 115, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 115);
 
             parent.stroke(255, 150);
-            parent.line(programGroup.getPosition().x, programGroup.getPosition().y + 177, programGroup.getPosition().x + programGroup.getWidth(), programGroup.getPosition().y + 177);
+            parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 177, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 177);
 
             parent.textFont(smallFont);
             parent.fill(255);
-            parent.text("Double click to return to setup", programGroup.getPosition().x + 20, programGroup.getPosition().y + 245);
+            parent.text("Double click to return to setup", programGroup.getPosition()[0] + 20, programGroup.getPosition()[1] + 245);
         }
     }
 

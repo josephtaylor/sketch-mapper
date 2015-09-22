@@ -27,7 +27,7 @@ public class QuadOptionsMenu {
                 .setWidth(250)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
-        quadGroup.captionLabel().style().marginTop = 6;
+        quadGroup.getCaptionLabel().getStyle().marginTop = 6;
 
         // Name textfield
         name = controlP5.addTextfield("Quad surface name")
@@ -43,7 +43,7 @@ public class QuadOptionsMenu {
                 .setSize(100, 20)
                 .setId(7)
                 .setGroup(quadGroup);
-        increaseResolution.captionLabel().setFont(font).toUpperCase(false);
+        increaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Decrease resolution button
         decreaseResolution = controlP5.addButton("- Decrease")
@@ -51,7 +51,7 @@ public class QuadOptionsMenu {
                 .setSize(100, 20)
                 .setId(8)
                 .setGroup(quadGroup);
-        decreaseResolution.captionLabel().setFont(font).toUpperCase(false);
+        decreaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Source file dropdown
         sourceList = controlP5.addDropdownList("sourcelist")
@@ -62,8 +62,8 @@ public class QuadOptionsMenu {
                 .setId(9)
                 .setGroup(quadGroup);
 
-        sourceList.captionLabel().set("Sketches");
-        sourceList.captionLabel().style().marginTop = 5;
+        sourceList.setCaptionLabel("Sketches");
+        sourceList.getCaptionLabel().getStyle().marginTop = 5;
     }
 
     /**
@@ -87,8 +87,8 @@ public class QuadOptionsMenu {
 
     public void render() {
         if (quadGroup.isOpen()) {
-            parent.text("Resolution", quadGroup.getPosition().x + 20, quadGroup.getPosition().y + 85);
-            parent.text("Source file", quadGroup.getPosition().x + 20, quadGroup.getPosition().y + 135);
+            parent.text("Resolution", quadGroup.getPosition()[0] + 20, quadGroup.getPosition()[1] + 85);
+            parent.text("Source file", quadGroup.getPosition()[0] + 20, quadGroup.getPosition()[1] + 135);
         }
     }
 

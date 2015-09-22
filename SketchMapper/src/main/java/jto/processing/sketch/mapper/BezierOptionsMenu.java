@@ -33,7 +33,7 @@ public class BezierOptionsMenu {
                 .setWidth(250)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
-        bezierGroup.captionLabel().style().marginTop = 6;
+        bezierGroup.getCaptionLabel().getStyle().marginTop = 6;
 
         // Name textfield
         name = controlP5.addTextfield("Bezier surface name")
@@ -50,7 +50,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(11)
                 .setGroup(bezierGroup);
-        increaseResolution.captionLabel().setFont(font).toUpperCase(false);
+        increaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("+ Increase ", "Increase resolution");
 
         // Decrease resolution button
@@ -59,7 +59,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(12)
                 .setGroup(bezierGroup);
-        decreaseResolution.captionLabel().setFont(font).toUpperCase(false);
+        decreaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("- Decrease ", "Decrease resolution");
 
         // Increase horizontal force button
@@ -68,7 +68,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(13)
                 .setGroup(bezierGroup);
-        increaseHorizontalForce.captionLabel().setFont(font).toUpperCase(false);
+        increaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("+ Increase  ", "Increase horizontal force");
 
         // Decrease horizontal force button
@@ -77,7 +77,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(14)
                 .setGroup(bezierGroup);
-        decreaseHorizontalForce.captionLabel().setFont(font).toUpperCase(false);
+        decreaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("- Decrease  ", "Decrease horizontal force");
 
         // Increase vertical force button
@@ -86,7 +86,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(15)
                 .setGroup(bezierGroup);
-        increaseVerticalForce.captionLabel().setFont(font).toUpperCase(false);
+        increaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("+ Increase   ", "Increase vertical force");
 
         // Decrease vertical force button
@@ -95,7 +95,7 @@ public class BezierOptionsMenu {
                 .setSize(100, 20)
                 .setId(16)
                 .setGroup(bezierGroup);
-        decreaseVerticalForce.captionLabel().setFont(font).toUpperCase(false);
+        decreaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
         controlP5.getTooltip().register("- Decrease   ", "Decrease vertical force");
 
         // Source file dropdown
@@ -109,8 +109,8 @@ public class BezierOptionsMenu {
 
         compileSourceList();
 
-        sourceList.captionLabel().set("Sketches");
-        sourceList.captionLabel().style().marginTop = 5;
+        sourceList.setCaptionLabel("Sketches");
+        sourceList.getCaptionLabel().getStyle().marginTop = 5;
     }
 
     public void compileSourceList() {
@@ -131,10 +131,10 @@ public class BezierOptionsMenu {
 
     public void render() {
         if (bezierGroup.isOpen()) {
-            parent.text("Resolution", bezierGroup.getPosition().x + 20, bezierGroup.getPosition().y + 85);
-            parent.text("Horizontal force", bezierGroup.getPosition().x + 20, bezierGroup.getPosition().y + 135);
-            parent.text("Vertical force", bezierGroup.getPosition().x + 20, bezierGroup.getPosition().y + 185);
-            parent.text("Source file", bezierGroup.getPosition().x + 20, bezierGroup.getPosition().y + 235);
+            parent.text("Resolution", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 85);
+            parent.text("Horizontal force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 135);
+            parent.text("Vertical force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 185);
+            parent.text("Source file", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 235);
         }
     }
 
