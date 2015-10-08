@@ -38,44 +38,51 @@ public class SketchMapper {
      * @param parent the parent sketch.
      */
     public SketchMapper(final PApplet parent) {
-        this.parent = parent;
+        try {
+            this.parent = parent;
 
-        //register our handler methods in this object on our parent.
-        parent.registerMethod("mouseEvent", this);
-        parent.registerMethod("keyEvent", this);
+            //register our handler methods in this object on our parent.
+            parent.registerMethod("mouseEvent", this);
+            parent.registerMethod("keyEvent", this);
 
-        // Setup the ControlP5 GUI
-        controlP5 = new ControlP5(parent);
+            // Setup the ControlP5 GUI
+            controlP5 = new ControlP5(parent);
 
-        controlP5.addListener(new ControlListener() {
-            @Override
-            public void controlEvent(ControlEvent controlEvent) {
-                controlEventDelegate(controlEvent);
-            }
-        });
+            controlP5.addListener(new ControlListener() {
+                @Override
+                public void controlEvent(ControlEvent controlEvent) {
+                    controlEventDelegate(controlEvent);
+                }
+            });
 
-        // Initialize custom menus
-        quadOptions = new QuadOptionsMenu(this, parent, controlP5);
-        bezierOptions = new BezierOptionsMenu(parent, controlP5);
-        programOptions = new ProgramOptionsMenu(parent, controlP5);
+            // Create an off-screen buffer (makes graphics go fast!)
+            graphicsOffScreen = parent.createGraphics(parent.width, parent.height, PApplet.OPENGL);
 
-        // Hide the menus
-        bezierOptions.hide();
+            // Create new instance of SurfaceMapper
+            surfaceMapper = new SurfaceMapper(parent, parent.width, parent.height);
+            surfaceMapper.setDisableSelectionTool(true);
 
-        // Update the GUI for the default surface
-        quadOptions.setSurfaceName("0");
-        bezierOptions.setSurfaceName("0");
+            // Creates one surface at center of screen
+            surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
-        // Create an off-screen buffer (makes graphics go fast!)
-        graphicsOffScreen = parent.createGraphics(parent.width, parent.height, PApplet.OPENGL);
+            // Initialize custom menus
+            quadOptions = new QuadOptionsMenu(this, parent, controlP5);
+            bezierOptions = new BezierOptionsMenu(this, parent, controlP5);
+            programOptions = new ProgramOptionsMenu(parent, controlP5);
 
-        // Create new instance of SurfaceMapper
-        surfaceMapper = new SurfaceMapper(parent, parent.width, parent.height);
-        surfaceMapper.setDisableSelectionTool(true);
+            // Hide the menus
+            bezierOptions.hide();
 
-        // Creates one surface at center of screen
-        surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
-
+            // Update the GUI for the default surface
+            quadOptions.setSurfaceName("0");
+            bezierOptions.setSurfaceName("0");
+        }
+        catch (Exception e) {
+            PApplet.println("Something went wrong in the initialization of SketchMapper");
+            e.printStackTrace();
+            //rethrow so processing halts.
+            throw e;
+        }
     }
 
     /**

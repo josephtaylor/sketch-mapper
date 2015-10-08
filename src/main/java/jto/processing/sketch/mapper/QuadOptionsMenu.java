@@ -35,7 +35,6 @@ public class QuadOptionsMenu {
                 .setSize(200, 25)
                 .setFont(smallFont)
                 .setGroup(quadGroup);
-        controlP5.getTooltip().register("Quad surface name", "Name of quad");
 
         // Increase resolution button
         increaseResolution = controlP5.addButton("+ Increase")

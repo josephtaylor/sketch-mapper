@@ -1,11 +1,14 @@
 package jto.processing.sketch.mapper;
 
 
-import controlP5.*;
+import controlP5.Button;
+import controlP5.ControlFont;
+import controlP5.ControlP5;
+import controlP5.DropdownList;
+import controlP5.Group;
+import controlP5.Textfield;
 import processing.core.PApplet;
 import processing.core.PFont;
-
-import java.io.File;
 
 public class BezierOptionsMenu {
     private final PApplet parent;
@@ -19,8 +22,10 @@ public class BezierOptionsMenu {
     private Button decreaseVerticalForce;
     private DropdownList sourceList;
     private PFont smallFont;
+    private final SketchMapper sketchMapper;
 
-    public BezierOptionsMenu(final PApplet parent, final ControlP5 controlP5) {
+    public BezierOptionsMenu(final SketchMapper sketchMapper, final PApplet parent, final ControlP5 controlP5) {
+        this.sketchMapper = sketchMapper;
         this.parent = parent;
         // Initialize the font
         smallFont = parent.createFont("Verdana", 11, false);
@@ -42,7 +47,6 @@ public class BezierOptionsMenu {
                 .setFont(smallFont)
                 .setId(10)
                 .setGroup(bezierGroup);
-        controlP5.getTooltip().register("Bezier surface name", "Name of bezier surface");
 
         // Increase resolution button
         increaseResolution = controlP5.addButton("+ Increase ")
@@ -51,7 +55,6 @@ public class BezierOptionsMenu {
                 .setId(11)
                 .setGroup(bezierGroup);
         increaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("+ Increase ", "Increase resolution");
 
         // Decrease resolution button
         decreaseResolution = controlP5.addButton("- Decrease ")
@@ -60,7 +63,6 @@ public class BezierOptionsMenu {
                 .setId(12)
                 .setGroup(bezierGroup);
         decreaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("- Decrease ", "Decrease resolution");
 
         // Increase horizontal force button
         increaseHorizontalForce = controlP5.addButton("+ Increase  ")
@@ -69,7 +71,6 @@ public class BezierOptionsMenu {
                 .setId(13)
                 .setGroup(bezierGroup);
         increaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("+ Increase  ", "Increase horizontal force");
 
         // Decrease horizontal force button
         decreaseHorizontalForce = controlP5.addButton("- Decrease  ")
@@ -78,7 +79,6 @@ public class BezierOptionsMenu {
                 .setId(14)
                 .setGroup(bezierGroup);
         decreaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("- Decrease  ", "Decrease horizontal force");
 
         // Increase vertical force button
         increaseVerticalForce = controlP5.addButton("+ Increase   ")
@@ -87,7 +87,6 @@ public class BezierOptionsMenu {
                 .setId(15)
                 .setGroup(bezierGroup);
         increaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("+ Increase   ", "Increase vertical force");
 
         // Decrease vertical force button
         decreaseVerticalForce = controlP5.addButton("- Decrease   ")
@@ -96,7 +95,6 @@ public class BezierOptionsMenu {
                 .setId(16)
                 .setGroup(bezierGroup);
         decreaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
-        controlP5.getTooltip().register("- Decrease   ", "Decrease vertical force");
 
         // Source file dropdown
         sourceList = controlP5.addDropdownList("Texture sketch list ")
@@ -114,14 +112,11 @@ public class BezierOptionsMenu {
     }
 
     public void compileSourceList() {
-        File file = new File(parent.sketchPath + "/data/textures");
-
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-
-            for (int i = 0; i < files.length; i++) {
-                sourceList.addItem(files[i].getName(), i);
-            }
+        sourceList.clear();
+        int i = 0;
+        for (Sketch sketch : sketchMapper.getSketchList()) {
+            sourceList.addItem(sketch.getName(), i);
+            i++;
         }
     }
 

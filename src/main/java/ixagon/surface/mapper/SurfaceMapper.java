@@ -104,13 +104,6 @@ public class SurfaceMapper {
         surfaces = new ArrayList<SuperSurface>();
         selectedSurfaces = new ArrayList<SuperSurface>();
         allowUserInput = true;
-
-        parent.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                mouseWheelAction(evt.getWheelRotation());
-            }
-        });
-
         enableSelectionMouse = true;
     }
 
@@ -972,36 +965,6 @@ public class SurfaceMapper {
     public void mouseEvent(MouseEvent e) {
         if (allowUserInput) {
             ksMouseEvent(e);
-        }
-    }
-
-    /**
-     * Handles Mouse Wheel input
-     *
-     * @param delta
-     */
-    private void mouseWheelAction(int delta) {
-        if (allowUserInput && this.MODE == SurfaceMapper.MODE_CALIBRATE) {
-            if (delta < 0) {
-                if (ctrlDown) {
-                    if (this.getSnapDistance() < 60) {
-                        this.setSnapDistance(this.getSnapDistance() + 2);
-                    }
-                } else {
-                    if (this.getSelectionDistance() < 60)
-                        this.setSelectionDistance(this.getSelectionDistance() + 2);
-                }
-            }
-            if (delta > 0) {
-                if (ctrlDown) {
-                    if (this.getSnapDistance() > 6) {
-                        this.setSnapDistance(this.getSnapDistance() - 2);
-                    }
-                } else {
-                    if (this.getSelectionDistance() > 6)
-                        this.setSelectionDistance(this.getSelectionDistance() - 2);
-                }
-            }
         }
     }
 
