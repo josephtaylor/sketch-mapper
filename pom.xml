@@ -106,6 +106,13 @@
         </dependency>
     </dependencies>
 
+    <scm>
+        <connection>scm:git:https://github.com/josephtaylor/sketch-mapper.git</connection>
+        <developerConnection>scm:git:git@github.com:josephtaylor/sketch-mapper.git</developerConnection>
+        <url>https://josephtaylor.github.io/sketch-mapper</url>
+        <tag>${project.version}</tag>
+    </scm>
+
     <repositories>
         <!-- needed for the jai import -->
         <repository>
