@@ -14,9 +14,12 @@ public class MainSketch extends PApplet {
         sketchMapper.draw();
     }
 
+    public void settings() {
+        size(800, 600, PConstants.OPENGL);
+    }
+
     @Override
     public void setup() {
-        size(800, 600, PConstants.OPENGL);
         sketchMapper = new SketchMapper(this);
         sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
     }

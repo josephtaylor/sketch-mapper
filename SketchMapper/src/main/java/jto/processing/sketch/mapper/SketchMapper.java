@@ -67,7 +67,7 @@ public class SketchMapper {
 
             // Initialize custom menus
             quadOptions = new QuadOptionsMenu(this, parent, controlP5);
-            bezierOptions = new BezierOptionsMenu(parent, controlP5);
+            bezierOptions = new BezierOptionsMenu(this, parent, controlP5);
             programOptions = new ProgramOptionsMenu(parent, controlP5);
 
             // Hide the menus
@@ -81,7 +81,7 @@ public class SketchMapper {
             PApplet.println("Something went wrong in the initialization of SketchMapper");
             e.printStackTrace();
             //rethrow so processing halts.
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
