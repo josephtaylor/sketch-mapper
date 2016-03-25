@@ -1,6 +1,6 @@
 /**
  * Part of the SurfaceMapper library: http://surfacemapper.sourceforge.net/
- * Copyright (c) 2011-12 Ixagon AB 
+ * Copyright (c) 2011-12 Ixagon AB
  *
  * This source is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,15 @@
 
 package ixagon.surface.mapper;
 
+import java.awt.Rectangle;
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import jto.processing.sketch.mapper.Sketch;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -29,14 +38,6 @@ import processing.core.PVector;
 import processing.data.XML;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-
-import java.awt.Rectangle;
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class SurfaceMapper {
     final static public int MODE_RENDER = 0;
@@ -129,7 +130,7 @@ public class SurfaceMapper {
         eventHandlerObject = object;
         eventHandlerMethodName = methodName;
         try {
-            eventHandlerMethod = object.getClass().getMethod(methodName, new Class[]{int.class});
+            eventHandlerMethod = object.getClass().getMethod(methodName, new Class[] { int.class });
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -281,9 +282,7 @@ public class SurfaceMapper {
      * @return
      */
     public boolean findActiveBezierSurface(float mX, float mY) {
-        for (int i = 0; i < surfaces.size(); i++) {
-            SuperSurface surface = surfaces.get(i);
-
+        for (SuperSurface surface : surfaces) {
             if (surface.isInside(mX, mY) && surface.getSurfaceType() == SuperSurface.BEZIER) {
                 return true;
             }
@@ -300,9 +299,7 @@ public class SurfaceMapper {
      * @return
      */
     public boolean findActiveQuadSurface(float mX, float mY) {
-        for (int i = 0; i < surfaces.size(); i++) {
-            SuperSurface surface = surfaces.get(i);
-
+        for (SuperSurface surface : surfaces) {
             if (surface.isInside(mX, mY) && surface.getSurfaceType() == SuperSurface.QUAD) {
                 return true;
             }
@@ -319,9 +316,7 @@ public class SurfaceMapper {
      * @return
      */
     public boolean findActiveSurface(float mX, float mY) {
-        for (int i = 0; i < surfaces.size(); i++) {
-            SuperSurface surface = surfaces.get(i);
-
+        for (SuperSurface surface : surfaces) {
             if (surface.isInside(mX, mY)) {
                 return true;
             }
@@ -336,7 +331,7 @@ public class SurfaceMapper {
     public void fireEvent(int id) {
         if (eventHandlerMethod != null) {
             try {
-                eventHandlerMethod.invoke(eventHandlerObject, new Object[]{id});
+                eventHandlerMethod.invoke(eventHandlerObject, id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -370,20 +365,6 @@ public class SurfaceMapper {
         return disableSelectionTool;
     }
 
-    private int getNextIndex() {
-        if (surfaces.isEmpty()) {
-            return 0;
-        }
-
-        int index = 0;
-        for (SuperSurface superSurface : surfaces) {
-            if (superSurface.getId() > index) {
-                index = superSurface.getId();
-            }
-        }
-        return index + 1;
-    }
-
     /**
      * Get font for drawing text
      *
@@ -400,6 +381,20 @@ public class SurfaceMapper {
      */
     public int getMode() {
         return this.MODE;
+    }
+
+    private int getNextIndex() {
+        if (surfaces.isEmpty()) {
+            return 0;
+        }
+
+        int index = 0;
+        for (SuperSurface superSurface : surfaces) {
+            if (superSurface.getId() > index) {
+                index = superSurface.getId();
+            }
+        }
+        return index + 1;
     }
 
     public int getNumAddedSurfaces() {
@@ -609,14 +604,16 @@ public class SurfaceMapper {
                         // ALT is Offset!
                         if (altDown && !ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y + 0.05f, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x,
+                                        ss.getTextureWindow()[0].y + 0.05f, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
                             }
                         }
 
                         // CTRL is Size!
                         if (!altDown && ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y + 0.05f);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x,
+                                        ss.getTextureWindow()[1].y + 0.05f);
                             }
                         }
 
@@ -631,14 +628,16 @@ public class SurfaceMapper {
                         // ALT is Offset!
                         if (altDown && !ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y - 0.05f, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x,
+                                        ss.getTextureWindow()[0].y - 0.05f, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
                             }
                         }
 
                         // CTRL is Size!
                         if (!altDown && ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y - 0.05f);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x,
+                                        ss.getTextureWindow()[1].y - 0.05f);
                             }
                         }
 
@@ -654,14 +653,16 @@ public class SurfaceMapper {
                         // ALT is Offset!
                         if (altDown && !ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x + 0.05f, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x
+                                                    + 0.05f, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
                             }
                         }
 
                         // CTRL is Size!
                         if (!altDown && ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x + 0.05f, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y,
+                                        ss.getTextureWindow()[1].x + 0.05f, ss.getTextureWindow()[1].y);
                             }
                         }
 
@@ -677,14 +678,16 @@ public class SurfaceMapper {
                         // ALT is Offset!
                         if (altDown && !ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x - 0.05f, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x
+                                                    - 0.05f, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x, ss.getTextureWindow()[1].y);
                             }
                         }
 
                         // CTRL is Size!
                         if (!altDown && ctrlDown) {
                             for (SuperSurface ss : selectedSurfaces) {
-                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y, ss.getTextureWindow()[1].x - 0.05f, ss.getTextureWindow()[1].y);
+                                ss.setTextureWindow(ss.getTextureWindow()[0].x, ss.getTextureWindow()[0].y,
+                                        ss.getTextureWindow()[1].x - 0.05f, ss.getTextureWindow()[1].y);
                             }
                         }
                         break;
@@ -755,7 +758,9 @@ public class SurfaceMapper {
                         // Don't allow editing of surface if it's locked!
                         if (!ss.isLocked()) {
                             if (ss.getSelectedBezierControl() != -1) {
-                                ss.setBezierPoint(ss.getSelectedBezierControl(), ss.getBezierPoint(ss.getSelectedBezierControl()).x + deltaX, ss.getBezierPoint(ss.getSelectedBezierControl()).y + deltaY);
+                                ss.setBezierPoint(ss.getSelectedBezierControl(),
+                                        ss.getBezierPoint(ss.getSelectedBezierControl()).x + deltaX,
+                                        ss.getBezierPoint(ss.getSelectedBezierControl()).y + deltaY);
                             } else if (ss.getActivePoint() != -1) {
                                 // special case.
                                 // index 2000 is the center point so move all four
@@ -776,7 +781,10 @@ public class SurfaceMapper {
                                             cTemp[i].y = ss.getCornerPoint(i).y + deltaY;
 
                                             for (int j = 0; j < cTemp.length; j++) {
-                                                if (QuadSurface.CCW(cTemp[(j + 2) % cTemp.length], cTemp[(j + 1) % cTemp.length], cTemp[j % cTemp.length]) >= 0) {
+                                                if (QuadSurface.CCW(cTemp[(j + 2) % cTemp.length], cTemp[(j + 1)
+                                                                                                         % cTemp.length], cTemp[j
+                                                                                                                                % cTemp.length])
+                                                    >= 0) {
                                                     cornerMovementAllowed = false;
                                                 }
                                             }
@@ -784,10 +792,15 @@ public class SurfaceMapper {
                                         if (cornerMovementAllowed) {
                                             for (int i = 0; i < 4; i++) {
 
-                                                ss.setCornerPoint(i, ss.getCornerPoint(i).x + deltaX, ss.getCornerPoint(i).y + deltaY);
+                                                ss.setCornerPoint(i,
+                                                        ss.getCornerPoint(i).x + deltaX, ss.getCornerPoint(i).y + deltaY);
                                                 if (SuperSurface.BEZIER == ss.getSurfaceType()) {
-                                                    ss.setBezierPoint(i, ss.getBezierPoint(i).x + deltaX, ss.getBezierPoint(i).y + deltaY);
-                                                    ss.setBezierPoint(i + 4, ss.getBezierPoint(i + 4).x + deltaX, ss.getBezierPoint(i + 4).y + deltaY);
+                                                    ss.setBezierPoint(i,
+                                                            ss.getBezierPoint(i).x + deltaX, ss.getBezierPoint(i).y + deltaY);
+                                                    ss.setBezierPoint(
+                                                            i + 4,
+                                                            ss.getBezierPoint(i + 4).x + deltaX,
+                                                            ss.getBezierPoint(i + 4).y + deltaY);
                                                 }
                                             }
                                         }
@@ -796,12 +809,16 @@ public class SurfaceMapper {
                                 } else {
                                     // Move a corner point.
                                     int index = ss.getActivePoint();
-                                    ss.setCornerPoint(index, ss.getCornerPoint(ss.getActivePoint()).x + deltaX, ss.getCornerPoint(ss.getActivePoint()).y + deltaY);
+                                    ss.setCornerPoint(index,
+                                            ss.getCornerPoint(ss.getActivePoint()).x + deltaX,
+                                            ss.getCornerPoint(ss.getActivePoint()).y + deltaY);
                                     if (SuperSurface.BEZIER == ss.getSurfaceType()) {
                                         index = index * 2;
-                                        ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
+                                        ss.setBezierPoint(index,
+                                                ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
                                         index = index + 1;
-                                        ss.setBezierPoint(index, ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
+                                        ss.setBezierPoint(index,
+                                                ss.getBezierPoint(index).x + deltaX, ss.getBezierPoint(index).y + deltaY);
                                     }
                                     movingPolys[iteration] = true;
 
@@ -823,7 +840,8 @@ public class SurfaceMapper {
                         disableSelectionTool = true;
 
                     if (!disableSelectionTool && startPos != null) {
-                        selectionTool = new Rectangle((int) startPos.x, (int) startPos.y, (int) (mX - startPos.x), (int) (mY - startPos.y));
+                        selectionTool = new Rectangle((int) startPos.x, (int) startPos.y, (int) (mX - startPos.x), (int) (mY
+                                                                                                                          - startPos.y));
 
                         PVector sToolPos = new PVector(selectionTool.x, selectionTool.y);
 
@@ -939,12 +957,17 @@ public class SurfaceMapper {
                             if (ccolor.length > 0)
                                 loaded.setColor(ccolor[numAddedSurfaces % ccolor.length]);
                             loaded.setModeCalibrate();
+                            final String sketch = root.getChild(i).getString("sketch");
+                            if (null != sketch && sketch.trim().length() > 0) {
+                                loadSketch(loaded, sketch);
+                            }
                             surfaces.add(loaded);
                             numAddedSurfaces++;
                         }
                     }
                     if (this.getDebug())
-                        PApplet.println("Projection layout loaded from " + file.getName() + ". " + surfaces.size() + " surfaces were loaded!");
+                        PApplet.println("Projection layout loaded from " + file.getName() + ". " + surfaces.size()
+                                        + " surfaces were loaded!");
                 } catch (Exception e) {
                     PApplet.println("Error loading configuration!!!");
                     e.printStackTrace();
@@ -955,6 +978,13 @@ public class SurfaceMapper {
             }
         }
 
+    }
+
+    private void loadSketch(final SuperSurface loaded, final String sketchName) {
+        Optional<Sketch> sketch = sketchList.stream().filter(s -> sketchName.equals(s.getName())).findFirst();
+        if (sketch.isPresent()) {
+            loaded.setSketch(sketch.get());
+        }
     }
 
     /**
@@ -1014,8 +1044,8 @@ public class SurfaceMapper {
      * @param glos
      */
     public void render(PGraphics glos) {
-//        glos.beginDraw();
-//        glos.endDraw();
+        //        glos.beginDraw();
+        //        glos.endDraw();
         if (MODE == MODE_CALIBRATE) {
             parent.cursor();
             glos.beginDraw();
@@ -1030,7 +1060,7 @@ public class SurfaceMapper {
             glos.stroke(255, 255, 255, 40);
             glos.strokeWeight(1);
             /*
-			 * float gridRes = 32.0f;
+             * float gridRes = 32.0f;
 			 *
 			 * float step = (float) (width / gridRes);
 			 *
