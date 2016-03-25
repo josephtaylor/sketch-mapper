@@ -1,7 +1,9 @@
 # sketch-mapper
 
 This is the SketchMapper library for processing.
-![screenshot](http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png)
+
+<img src="http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png" alt="screenshot" width="500px" />
+
 SketchMapper is a GUI tool that allows you to map processing sketches on surfaces.<br/>
 This was built off of the [Surface Mapper] library by [Ixagon] and the original [SurfaceMapperGui] by Jason Webb.<br/>
 This is mostly *their* work ! This is just adapted to do some different things.
@@ -71,11 +73,17 @@ Notice in the `draw` method we are using `graphics` to do the drawing. `graphics
 `setup` is invoked once by `SketchMapper` when the sketch is initialized.<br/>
 The `keyEvent` and `mouseEvent` methods get invoked on key events and mouse events respectively.
 #### Using the SketchMapper object
-Construct the SketchMapper object by passing it `this` from your main sketch.
+Construct the `SketchMapper` object by passing it `this` from your main sketch.
 ```
 SketchMapper sketchMapper = new SketchMapper(this);
 ```
-Add sketches to the `SketchMapper` using the `addSketch` method.
+You can also construct a `SketchMapper` object that specifies a default layout file to load.   
+_If a relative path is specified it will look in the sketch's `data` folder, otherwise it looks at the absolute path specified._
+```
+SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
+```
+
+Add sketches to the `SketchMapper` using the `addSketch()` method.
 ```
 sketchMapper.addSketch(new TestSketch(this, 500, 500));
 ```
