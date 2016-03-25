@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProjectionMap>
+  <surface horizontalForce="0" id="0" lock="false" name="0" res="6" sketch="LoadLayoutTest$TestSketch" type="0" verticalForce="0">
+    <cornerpoint i="0" x="252.0" y="375.0"/>
+    <cornerpoint i="1" x="352.0" y="375.0"/>
+    <cornerpoint i="2" x="352.0" y="475.0"/>
+    <cornerpoint i="3" x="252.0" y="475.0"/>
+  </surface>
+  <surface horizontalForce="0" id="1" lock="false" name="1" res="6" sketch="LoadLayoutTest$TestSketch" type="0" verticalForce="0">
+    <cornerpoint i="0" x="352.0" y="375.0"/>
+    <cornerpoint i="1" x="432.0" y="317.0"/>
+    <cornerpoint i="2" x="432.0" y="416.0"/>
+    <cornerpoint i="3" x="352.0" y="475.0"/>
+  </surface>
+  <surface horizontalForce="0" id="2" lock="false" name="2" res="6" sketch="LoadLayoutTest$TestSketch" type="0" verticalForce="0">
+    <cornerpoint i="0" x="338.0" y="319.0"/>
+    <cornerpoint i="1" x="432.0" y="317.0"/>
+    <cornerpoint i="2" x="352.0" y="375.0"/>
+    <cornerpoint i="3" x="252.0" y="375.0"/>
+  </surface>
+</ProjectionMap>

@@ -1,6 +1,13 @@
 package jto.processing.sketch.mapper;
 
 
+import static ixagon.surface.mapper.SurfaceMapper.MODE_CALIBRATE;
+import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 import controlP5.ControlEvent;
 import controlP5.ControlListener;
 import controlP5.ControlP5;
@@ -12,19 +19,13 @@ import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
 public class SketchMapper {
 
-    public static final String LOAD_LAYOUT_HANDLER_METHOD_NAME = "loadLayoutHandler";
-    public static final String SAVE_LAYOUT_HANDLER_METHOD_NAME = "saveLayoutHandler";
+    private static final String LOAD_LAYOUT_HANDLER_METHOD_NAME = "loadLayoutHandler";
+    private static final String SAVE_LAYOUT_HANDLER_METHOD_NAME = "saveLayoutHandler";
     private final PApplet parent;
-    int initialSurfaceResolution = 6;
-    // Custom GUI objects
-    ControlP5 controlP5;
-    int mostRecentSurface = 0;
+    private int initialSurfaceResolution = 6;
+    private int mostRecentSurface = 0;
     // SurfaceMapper variables
     private PGraphics graphicsOffScreen;
     private SurfaceMapper surfaceMapper;
@@ -32,12 +33,25 @@ public class SketchMapper {
     private BezierOptionsMenu bezierOptions;
     private ProgramOptionsMenu programOptions;
     private PImage backgroundImage;
+    private String layoutFilename;
+    private boolean firstDraw = true;
 
     /**
-     * Constructor for SurfaceMapperGui objects.
+     * Constructor for SurfaceMapper objects.
+     *
      * @param parent the parent sketch.
      */
     public SketchMapper(final PApplet parent) {
+        this(parent, null);
+    }
+
+    /**
+     * Constructor for SurfaceMapper objects.
+     *
+     * @param parent   the parent sketch.
+     * @param filename the filename of the layout to load.
+     */
+    public SketchMapper(final PApplet parent, final String filename) {
         try {
             this.parent = parent;
 
@@ -46,14 +60,9 @@ public class SketchMapper {
             parent.registerMethod("keyEvent", this);
 
             // Setup the ControlP5 GUI
-            controlP5 = new ControlP5(parent);
+            ControlP5 controlP5 = new ControlP5(parent);
 
-            controlP5.addListener(new ControlListener() {
-                @Override
-                public void controlEvent(ControlEvent controlEvent) {
-                    controlEventDelegate(controlEvent);
-                }
-            });
+            controlP5.addListener((ControlListener) this::controlEventDelegate);
 
             // Create an off-screen buffer (makes graphics go fast!)
             graphicsOffScreen = parent.createGraphics(parent.width, parent.height, PApplet.OPENGL);
@@ -61,9 +70,6 @@ public class SketchMapper {
             // Create new instance of SurfaceMapper
             surfaceMapper = new SurfaceMapper(parent, parent.width, parent.height);
             surfaceMapper.setDisableSelectionTool(true);
-
-            // Creates one surface at center of screen
-            surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
 
             // Initialize custom menus
             quadOptions = new QuadOptionsMenu(this, parent, controlP5);
@@ -73,11 +79,15 @@ public class SketchMapper {
             // Hide the menus
             bezierOptions.hide();
 
+            //if a file is specified, load it and skip default initialization.
+            if (null != filename && filename.trim().length() > 0) {
+                layoutFilename = filename;
+            }
+
             // Update the GUI for the default surface
             quadOptions.setSurfaceName("0");
             bezierOptions.setSurfaceName("0");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             PApplet.println("Something went wrong in the initialization of SketchMapper");
             e.printStackTrace();
             //rethrow so processing halts.
@@ -88,7 +98,7 @@ public class SketchMapper {
     /**
      * Adds the sketch to the list of sketches.
      *
-     * @param sketch
+     * @param sketch the sketch to add.
      */
     public void addSketch(Sketch sketch) {
         sketch.setup();
@@ -105,7 +115,6 @@ public class SketchMapper {
 
     private void controlEventDelegate(ControlEvent e) {
         SuperSurface ss;
-        int diff;
 
         switch (e.getId()) {
             // Program Options -> Create quad surface button
@@ -220,18 +229,99 @@ public class SketchMapper {
     }
 
     /**
+     * The draw method. Invoke this in the parent sketch's draw method
+     * which overrides {@link processing.core.PApplet#draw}.
+     */
+    public void draw() {
+
+        /*
+            Deferred loading of layout until first draw so all added sketches are present in the list of sketches.
+            Only need to load the layout on the first frame draw.
+            Not the prettiest solution but it works...
+         */
+        if (firstDraw) {
+            if (null != layoutFilename) {
+                surfaceMapper.load(parent.dataFile(layoutFilename));
+            } else {
+                // Creates one surface at center of screen
+                surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+            }
+            firstDraw = false;
+        }
+
+        parent.background(0);
+
+        // Empty out the off-screen renderer
+        graphicsOffScreen.beginDraw();
+        graphicsOffScreen.background(0);
+        if ((null != backgroundImage) && surfaceMapper.getMode() == MODE_CALIBRATE) {
+            graphicsOffScreen.image(backgroundImage, 0, 0);
+        }
+        graphicsOffScreen.endDraw();
+
+        // Calibration mode
+        if (surfaceMapper.getMode() == MODE_CALIBRATE) {
+            surfaceMapper.render(graphicsOffScreen);
+
+            // Show the GUI
+            programOptions.show();
+
+            // Render mode
+        } else if (surfaceMapper.getMode() == MODE_RENDER) {
+            // Hide the GUI
+            quadOptions.hide();
+            bezierOptions.hide();
+            programOptions.hide();
+            // Render each surface to the GLOS using their textures
+            for (SuperSurface ss : surfaceMapper.getSurfaces()) {
+                ss.getSketch().draw();
+                ss.render(parent.g, ss.getSketch().getPGraphics().get());
+            }
+        }
+
+        // Display the GLOS to screen
+        if (surfaceMapper.getMode() == MODE_CALIBRATE) {
+            parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
+        }
+
+        // Render any stray GUI elements over the GLOS
+        if (surfaceMapper.getMode() == MODE_CALIBRATE) {
+            programOptions.render();
+
+            for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
+                mostRecentSurface = surface.getId();
+            }
+
+            SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
+
+            if (null == ss) {
+                return;
+            }
+            if (ss.getSurfaceType() == SuperSurface.QUAD)
+                quadOptions.render();
+            else if (ss.getSurfaceType() == SuperSurface.BEZIER)
+                bezierOptions.render();
+        }
+    }
+
+    public List<Sketch> getSketchList() {
+        return surfaceMapper.getSketchList();
+    }
+
+    /**
      * Invoked whenever a KeyEvent happens.
+     *
      * @param event the KeyEvent.
      */
     public void keyEvent(KeyEvent event) {
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
+        if (surfaceMapper.getMode() == MODE_CALIBRATE) {
             for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
                 mostRecentSurface = surface.getId();
             }
 
             if (java.awt.event.KeyEvent.VK_DELETE == event.getKeyCode()) {
                 Iterator<SuperSurface> it = surfaceMapper.getSurfaces().iterator();
-                while(it.hasNext()) {
+                while (it.hasNext()) {
                     SuperSurface superSurface = it.next();
                     if (superSurface.getId() == mostRecentSurface) {
                         it.remove();
@@ -247,71 +337,8 @@ public class SketchMapper {
     }
 
     /**
-     * The draw method. Invoke this in the parent sketch's draw method
-     * which overrides {@link processing.core.PApplet#draw}.
-     */
-    public void draw() {
-        parent.background(0);
-
-        // Empty out the off-screen renderer
-        graphicsOffScreen.beginDraw();
-        graphicsOffScreen.background(0);
-        if ((null != backgroundImage) && surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
-            graphicsOffScreen.image(backgroundImage, 0, 0);
-        }
-        graphicsOffScreen.endDraw();
-
-        // Calibration mode
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
-            surfaceMapper.render(graphicsOffScreen);
-
-            // Show the GUI
-            programOptions.show();
-
-            // Render mode
-        } else if (surfaceMapper.getMode() == surfaceMapper.MODE_RENDER) {
-            // Hide the GUI
-            quadOptions.hide();
-            bezierOptions.hide();
-            programOptions.hide();
-            // Render each surface to the GLOS using their textures
-            for (SuperSurface ss : surfaceMapper.getSurfaces()) {
-                ss.getSketch().draw();
-                ss.render(parent.g, ss.getSketch().getPGraphics().get());
-            }
-        }
-
-        // Display the GLOS to screen
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
-            parent.image(graphicsOffScreen.get(), 0, 0, parent.width, parent.height);
-        }
-
-        // Render any stray GUI elements over the GLOS
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
-            programOptions.render();
-
-            for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
-                mostRecentSurface = surface.getId();
-            }
-
-            SuperSurface ss = surfaceMapper.getSurfaceById(mostRecentSurface);
-
-            if (null == ss) {
-                return;
-            }
-            if (ss.getSurfaceType() == ss.QUAD)
-                quadOptions.render();
-            else if (ss.getSurfaceType() == ss.BEZIER)
-                bezierOptions.render();
-        }
-    }
-
-    public List<Sketch> getSketchList() {
-        return surfaceMapper.getSketchList();
-    }
-
-    /**
      * callback function for processing's load dialog.
+     *
      * @param file the file to load.
      */
     public void loadLayoutHandler(File file) {
@@ -324,6 +351,7 @@ public class SketchMapper {
 
     /**
      * Invoked whenever a mouseEvent happens.
+     *
      * @param event the mouse event.
      */
     public void mouseEvent(MouseEvent event) {
@@ -331,12 +359,12 @@ public class SketchMapper {
             return;
         }
         // Double click returns to calibration mode
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_RENDER && event.getCount() == 2) {
+        if (surfaceMapper.getMode() == MODE_RENDER && event.getCount() == 2) {
             surfaceMapper.toggleCalibration();
         }
 
         // Show and update the appropriate menu
-        if (surfaceMapper.getMode() == surfaceMapper.MODE_CALIBRATE) {
+        if (surfaceMapper.getMode() == MODE_CALIBRATE) {
             // Find selected surface
             for (SuperSurface surface : surfaceMapper.getSelectedSurfaces()) {
                 mostRecentSurface = surface.getId();
@@ -348,7 +376,7 @@ public class SketchMapper {
                 return;
             }
 
-            if (surface.getSurfaceType() == surface.QUAD) {
+            if (surface.getSurfaceType() == SuperSurface.QUAD) {
                 bezierOptions.hide();
                 quadOptions.show();
 
@@ -356,7 +384,7 @@ public class SketchMapper {
                 if (null != surface.getSketch()) {
                     quadOptions.setSelectedSketch(surface.getSketch().getName());
                 }
-            } else if (surface.getSurfaceType() == surface.BEZIER) {
+            } else if (surface.getSurfaceType() == SuperSurface.BEZIER) {
                 quadOptions.hide();
                 bezierOptions.show();
                 if (null != surface.getSketch()) {
@@ -378,6 +406,7 @@ public class SketchMapper {
 
     /**
      * callback function for processing's save dialog.
+     *
      * @param file the file to be saved.
      */
     public void saveLayoutHandler(File file) {
@@ -387,6 +416,7 @@ public class SketchMapper {
     /**
      * This allows you set a background image. It will be displayed behind
      * any rendered surfaces.
+     *
      * @param backgroundImage the background image.
      */
     public void setBackgroundImage(PImage backgroundImage) {

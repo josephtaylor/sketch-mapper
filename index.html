@@ -57,7 +57,7 @@
 				<h3>Download</h3>
                 <p>
 
-                  <a href="./SketchMapper.zip" class="downloadLink">4.0.0</a>
+                  <a href="./SketchMapper.zip" class="downloadLink">4.0.1</a>
                   <strong>for Processing 3</strong>
                   <small>released 10/10/2016</small>
 				</p>
@@ -69,6 +69,9 @@
 				</p>
 
         <h4>Previous Versions</h4>
+        <p>
+             <a href="./archive/4.0.0/SketchMapper.zip" class="downloadLink-archive">4.0.0</a>
+        </p>
         <p>
              <a href="./archive/3.0.1/SketchMapper.zip" class="downloadLink-archive">3.0.1</a>
         </p>
@@ -90,12 +93,21 @@
       <h3>Source Code</h3>
       <p>View the source on <a href="https://github.com/josephtaylor/sketch-mapper">GitHub</a>.
 
-			<h3>Example Sketch</h3>
+			<h3>Examples</h3>
 
+      <h4>SketchMapperTest</h4>
 			<p>
-        To run the example you will need both of these files:<br/>
+        Simple example. You will need both of these files:<br/>
 				<a href="./SketchMapper/examples/SketchMapperTest/SketchMapperTest.pde">SketchMapperTest.pde</a></br>
 				<a href="./SketchMapper/examples/SketchMapperTest/TestSketch.pde">TestSketch.pde</a></br>
+			</p>
+
+      <h4>LoadLayoutTest</h4>
+      <p>
+        Example showing loading a default layout. You will need:<br/>
+				<a href="./SketchMapper/examples/LoadLayoutTest/LoadLayoutTest.pde">SketchMapperTest.pde</a></br>
+				<a href="./SketchMapper/examples/LoadLayoutTest/TestSketch.pde">TestSketch.pde</a></br>
+        <a href="./SketchMapper/examples/LoadLayoutTest/data/test_layout.xml">test_layout.xml</a> ( in the sketch's <code>data</code> folder.)<br>
 			</p>
             <h3>Usage in Code</h3>
 
@@ -143,20 +155,24 @@ public class TestSketch extends AbstractSketch
 }
           </code></pre></p>
           <p>
-                The constructor must be present and at least have that<code>super</code>call.<br/>
+                The constructor must be present and at least have that<code>super</code>call.  
                   Notice in the<code>draw</code>method we are using<code>graphics</code>to do the drawing.<code>graphics</code>is defined in
-                  <code>AbstractSketch</code>and is an instance of<code>PGraphics</code>that is unique to this sketch.<br/>
+                  <code>AbstractSketch</code>and is an instance of<code>PGraphics</code>that is unique to this sketch.
                   <code>AbstractSketch</code>also has a<code>parent</code>variable that is the parent<code>PApplet</code>
-                    class or the main sketch creating this sketch.  Use the<code>parent</code>object when you need to call processing methods.<br/>
-                  <code>setup</code>is invoked once by<code>SketchMapper</code>when the sketch is initialized.<br/>
+                    class or the main sketch creating this sketch.  Use the<code>parent</code>object when you need to call processing methods.
+                  <code>setup</code>is invoked once by<code>SketchMapper</code>when the sketch is initialized.
                     The<code>keyEvent</code>and<code>mouseEvent</code> methods get invoked on key events and mouse events respectively.</p>
 
                     <h4>Using the SketchMapper object</h4>
 
-                    <p>Construct the SketchMapper object by passing it <code>this</code> from your main sketch.</p>
+                    <p>Construct the <code>SketchMapper</code> object by passing it <code>this</code> from your main sketch.</p>
                       <p><pre><code>
   SketchMapper sketchMapper = new SketchMapper(this);
                       </code></pre></p>
+                    <p>You can also construct a <code>SketchMapper</code> object with a default layout to load.</p>
+                    <p><pre><code>
+  SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
+                    </code></pre></p>
                       <p>Add sketches to the <code>SketchMapper</code> using the <code>addSketch</code> method.</p>
                       <pre><code>
   sketchMapper.addSketch(new TestSketch(this, 500, 500));

@@ -1,17 +1,20 @@
 # sketch-mapper
 
 This is the SketchMapper library for processing.
-![screenshot](http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png)
+
+<img src="http://s17.postimg.org/qfy5a6lz3/Screenshot_from_2015_02_09_22_18_18.png" alt="screenshot" width="500px" />
+
 SketchMapper is a GUI tool that allows you to map processing sketches on surfaces.<br/>
 This was built off of the [Surface Mapper] library by [Ixagon] and the original [SurfaceMapperGui] by Jason Webb.<br/>
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-Processing 3 - 4.0.0
+Processing 3 - 4.0.1   
 Processing 2 - 3.0.2
 
-### Libaray Dependencies
-uses [controlP5] version 2.2.5
+### Library Dependencies
+uses [ControlP5] version 2.2.5   
+when using this library, the ControlP5 library must be imported as well.
 
 ## Building
 This section will describe how to build the library
@@ -30,7 +33,7 @@ This will put the library folder called ```SketchMapper``` in the ```target``` d
 ## Usage in Code
 This section is about how to use the library in your processing sketches.
 #### Creating sketches
-This library provides a `Sketch` interface and `AbstractSketch` base implementation that are to be extended to create skeches.  This is a base template for a `TestSketch` the draws an ellipse in the middle of the screen:
+This library provides a `Sketch` interface and `AbstractSketch` base implementation that are to be extended to create skeches.  This is a base template for a `TestSketch` that draws an ellipse in the middle of the screen:
 ```
 public class TestSketch extends AbstractSketch {
 
@@ -70,13 +73,19 @@ Notice in the `draw` method we are using `graphics` to do the drawing. `graphics
 `setup` is invoked once by `SketchMapper` when the sketch is initialized.<br/>
 The `keyEvent` and `mouseEvent` methods get invoked on key events and mouse events respectively.
 #### Using the SketchMapper object
-Construct the SketchMapper object by passing it `this` from your main sketch.
+Construct the `SketchMapper` object by passing it `this` from your main sketch.
 ```
 SketchMapper sketchMapper = new SketchMapper(this);
 ```
-Add sketches to the `SketchMapper` using the `addSketch` method.
+You can also construct a `SketchMapper` object that specifies a default layout file to load.   
+_If a relative path is specified it will look in the sketch's `data` folder, otherwise it looks at the absolute path specified._
 ```
-sketchMapper.addSketch(new TestSketch(500, 500));
+SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
+```
+
+Add sketches to the `SketchMapper` using the `addSketch()` method.
+```
+sketchMapper.addSketch(new TestSketch(this, 500, 500));
 ```
 The sketches that are added will show up in the sketch dropdown in the UI.<br/>
 The only other requirement is that you call the `draw` method on the object at the top of your `draw` function.
@@ -99,23 +108,23 @@ You can change the shape of the surface by dragging it's corners.<br/>
 Alternatively, if you click on a corner to highlight it, you can use the arrow keys to move it more precisely<br/>
 #### Removing a surface
 Surfaces can be removed by clicking on them to highlight them and pressing the `delete` key.
-### Saving layouts
+#### Saving layouts
 Your surface layout can be saved by clicking on <b>Save Layout</b>.<br/>
 The sketch will prompt you for a place to save it.<br/>
 Layouts are saved in XML format and include the layout of the surfaces and which sketches are on which surfaces.
-### Loading layouts
+#### Loading layouts
 To load a layout, click on <b>Load Layout</b> and open the layout in the pop-up dialog.
 
-### Running the sketch(es)
+#### Running the sketch(es)
 To run the thing, click on <b>Switch to render mode</b>.
 
-### Returning to the configuration mode.
+#### Returning to the configuration mode.
 Double click anywhere on the canvas while in render mode to return to calibration mode.
 
 
-[surface mapper]:http://http://ixagon.se/SurfaceMapper
-[ixagon]:http://http://ixagon.se/
+[surface mapper]:http://ixagon.se/surfacemapper
+[ixagon]:http://ixagon.se/
 [surfacemappergui]:http://jason-webb.info/2013/11/surfacemappergui-a-simple-processing-interface-for-projection-mapping/
 [maven]:http//maven.apache.org
 [processing-deps]:https://github.com/josephtaylor/processing-deps
-[contorlP5]:http://www.sojamo.de/libraries/controlP5/
+[ControlP5]:http://www.sojamo.de/libraries/controlP5/
