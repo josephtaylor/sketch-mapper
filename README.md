@@ -13,7 +13,7 @@ Processing 3 - 4.0.1
 Processing 2 - 3.0.2
 
 ### Library Dependencies
-uses [ControlP5] version 2.2.5   
+uses [ControlP5] version 2.2.6   
 when using this library, the ControlP5 library must be imported as well.
 
 ## Building
