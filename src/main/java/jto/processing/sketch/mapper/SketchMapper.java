@@ -53,6 +53,13 @@ public class SketchMapper {
      */
     public SketchMapper(final PApplet parent, final String filename) {
         try {
+            Thread.currentThread().getContextClassLoader().loadClass("controlP5.ControlP5");
+        } catch (ClassNotFoundException e) {
+            parent.println("SketchMapper requires the ControlP5 library to also be installed.");
+            parent.println("Please install ControlP5 version 2.2.6 via the Contribution Manager and import into this sketch.");
+            throw new ControlP5MissingException();
+        }
+        try {
             this.parent = parent;
 
             //register our handler methods in this object on our parent.
