@@ -246,6 +246,19 @@ public class SketchMapper {
                 // Creates one surface at center of screen
                 surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
             }
+
+            // add sketches to surfaces, if not set
+            if ( surfaceMapper.getSketchList().size() > 0 ){
+                Sketch defaultSketch = surfaceMapper.getSketchList().get(0);
+
+                for (SuperSurface ss : surfaceMapper.getSurfaces()) {
+                    Sketch s = ss.getSketch();
+                    if ( s == null ){
+                        ss.setSketch(defaultSketch);
+                    }
+                }
+            }
+
             firstDraw = false;
         }
 
@@ -274,8 +287,13 @@ public class SketchMapper {
             programOptions.hide();
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
-                ss.getSketch().draw();
-                ss.render(parent.g, ss.getSketch().getPGraphics().get());
+                Sketch s = ss.getSketch();
+                if ( s != null ){
+                    s.draw();
+                    ss.render(parent.g, s.getPGraphics().get());
+                } else {
+                    PApplet.println("Sketch not set?");
+                }
             }
         }
 
