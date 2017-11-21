@@ -53,6 +53,13 @@ public class SketchMapper {
      */
     public SketchMapper(final PApplet parent, final String filename) {
         try {
+            Thread.currentThread().getContextClassLoader().loadClass("controlP5.ControlP5");
+        } catch (ClassNotFoundException e) {
+            parent.println("SketchMapper requires the ControlP5 library to also be installed.");
+            parent.println("Please install ControlP5 version 2.2.6 via the Contribution Manager and import into this sketch.");
+            throw new ControlP5MissingException();
+        }
+        try {
             this.parent = parent;
 
             //register our handler methods in this object on our parent.
@@ -246,6 +253,19 @@ public class SketchMapper {
                 // Creates one surface at center of screen
                 surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
             }
+
+            // add sketches to surfaces, if not set
+            if ( surfaceMapper.getSketchList().size() > 0 ){
+                Sketch defaultSketch = surfaceMapper.getSketchList().get(0);
+
+                for (SuperSurface ss : surfaceMapper.getSurfaces()) {
+                    Sketch s = ss.getSketch();
+                    if ( s == null ){
+                        ss.setSketch(defaultSketch);
+                    }
+                }
+            }
+
             firstDraw = false;
         }
 
@@ -274,8 +294,13 @@ public class SketchMapper {
             programOptions.hide();
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
-                ss.getSketch().draw();
-                ss.render(parent.g, ss.getSketch().getPGraphics().get());
+                Sketch s = ss.getSketch();
+                if ( s != null ){
+                    s.draw();
+                    ss.render(parent.g, s.getPGraphics().get());
+                } else {
+                    PApplet.println("Sketch not set?");
+                }
             }
         }
 

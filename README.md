@@ -9,11 +9,11 @@ This was built off of the [Surface Mapper] library by [Ixagon] and the original 
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-Processing 3 - 4.1.1
+Processing 3 - 4.1.2   
 Processing 2 - 3.0.2
 
 ### Library Dependencies
-uses [ControlP5] version 2.2.6
+uses [ControlP5] version 2.2.6   
 when using this library, the ControlP5 library must be imported as well.
 
 ## Building
@@ -77,7 +77,7 @@ Construct the `SketchMapper` object by passing it `this` from your main sketch.
 ```
 SketchMapper sketchMapper = new SketchMapper(this);
 ```
-You can also construct a `SketchMapper` object that specifies a default layout file to load.
+You can also construct a `SketchMapper` object that specifies a default layout file to load.   
 _If a relative path is specified it will look in the sketch's `data` folder, otherwise it looks at the absolute path specified._
 ```
 SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
