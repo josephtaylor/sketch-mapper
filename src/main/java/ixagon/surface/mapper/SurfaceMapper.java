@@ -20,6 +20,7 @@
 
 package ixagon.surface.mapper;
 
+import java.awt.Event;
 import java.awt.Rectangle;
 import java.io.File;
 import java.lang.reflect.Method;
@@ -574,6 +575,7 @@ public class SurfaceMapper {
                     case '1':
                         if (selectedSurfaces.size() == 1)
                             selectedSurfaces.get(0).setSelectedCorner(0);
+                        System.out.println("test");
                         break;
 
                     case '2':
@@ -706,8 +708,11 @@ public class SurfaceMapper {
 			 *
 			 * case KeyEvent.VK_T: for (SuperSurface ss : selectedSurfaces) { ss.toggleLocked(); } break;
 			 *
-			 * case KeyEvent.VK_BACK_SPACE: removeSelectedSurfaces(); break;
 			 */
+                    //SUPR key. Todo
+                    //case 147:
+                    //	removeSelectedSurfaces(); 
+                    //	break;
                     case KeyEvent.CTRL:
                     case CMD:
                         ctrlDown = true;
@@ -717,6 +722,10 @@ public class SurfaceMapper {
                     case KeyEvent.ALT:
                         altDown = true;
                         break;
+                    default:
+                    	System.out.println(k.getKeyCode());
+                    	break;
+                    	
                 }
         }
     }

@@ -6,6 +6,7 @@ import controlP5.ControlFont;
 import controlP5.ControlP5;
 import controlP5.DropdownList;
 import controlP5.Group;
+import controlP5.ScrollableList;
 import controlP5.Textfield;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -20,7 +21,7 @@ public class BezierOptionsMenu {
     private Button decreaseHorizontalForce;
     private Button increaseVerticalForce;
     private Button decreaseVerticalForce;
-    private DropdownList sourceList;
+    private ScrollableList sourceList;
     private PFont smallFont;
     private final SketchMapper sketchMapper;
 
@@ -33,73 +34,77 @@ public class BezierOptionsMenu {
 
         // Quad options group
         bezierGroup = controlP5.addGroup("Bezier options")
-                .setPosition(20, 40)
-                .setBackgroundHeight(300)
-                .setWidth(250)
+                .setPosition(20, 230)
+                .setBackgroundHeight(260)
+                .setWidth(280)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
         bezierGroup.getCaptionLabel().getStyle().marginTop = 6;
 
         // Name textfield
-        name = controlP5.addTextfield("Bezier surface name")
-                .setPosition(20, 20)
-                .setSize(200, 25)
-                .setFont(smallFont)
+        name = controlP5.addTextfield("BezierSurfaceName")
+        		.setCaptionLabel("Bezier surface name")
+                .setPosition(10, 20)
+                .setWidth(255)
+                .setAutoClear(false)
                 .setId(10)
                 .setGroup(bezierGroup);
 
         // Increase resolution button
-        increaseResolution = controlP5.addButton("+ Increase ")
-                .setPosition(20, 90)
-                .setSize(100, 20)
+        increaseResolution = controlP5.addButton("BezierIncreaseResolution")
+        		.setCaptionLabel("+ resolution")
+                .setPosition(10, 60)
+                .setWidth(125)
                 .setId(11)
                 .setGroup(bezierGroup);
-        increaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Decrease resolution button
-        decreaseResolution = controlP5.addButton("- Decrease ")
-                .setPosition(125, 90)
-                .setSize(100, 20)
+        decreaseResolution = controlP5.addButton("BezierDecreaseResolution")
+        		.setCaptionLabel("- resolution")
+                .setPosition(140, 60)
+                .setWidth(125)
                 .setId(12)
                 .setGroup(bezierGroup);
-        decreaseResolution.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Increase horizontal force button
-        increaseHorizontalForce = controlP5.addButton("+ Increase  ")
-                .setPosition(20, 140)
-                .setSize(100, 20)
+        increaseHorizontalForce = controlP5.addButton("BezierIncreaseHorizontal")
+        		.setCaptionLabel("+ Horizontal Force")
+                .setPosition(10, 100)
+                .setWidth(125)
                 .setId(13)
                 .setGroup(bezierGroup);
-        increaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Decrease horizontal force button
-        decreaseHorizontalForce = controlP5.addButton("- Decrease  ")
-                .setPosition(125, 140)
-                .setSize(100, 20)
+        decreaseHorizontalForce = controlP5.addButton("BezierDecreaseHorizontal")
+        		.setCaptionLabel("- Horizontal Force")
+                .setPosition(140, 100)
+                .setWidth(125)
                 .setId(14)
                 .setGroup(bezierGroup);
-        decreaseHorizontalForce.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Increase vertical force button
-        increaseVerticalForce = controlP5.addButton("+ Increase   ")
-                .setPosition(20, 190)
-                .setSize(100, 20)
+        increaseVerticalForce = controlP5.addButton("BezierIncreaseVertical")
+        		.setCaptionLabel("+ Vertical Force")
+                .setPosition(10, 140)
+                .setWidth(125)
                 .setId(15)
                 .setGroup(bezierGroup);
-        increaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Decrease vertical force button
-        decreaseVerticalForce = controlP5.addButton("- Decrease   ")
-                .setPosition(125, 190)
-                .setSize(100, 20)
+        decreaseVerticalForce = controlP5.addButton("BezierDecreaseVertical")
+        		.setCaptionLabel("- Vertical Force")
+                .setPosition(140, 140)
+                .setWidth(125)
                 .setId(16)
                 .setGroup(bezierGroup);
-        decreaseVerticalForce.getCaptionLabel().setFont(font).toUpperCase(false);
 
         // Source file dropdown
-        sourceList = controlP5.addDropdownList("Texture sketch list ")
-                .setPosition(20, 260)
-                .setSize(200, 150)
+        sourceList = controlP5.addScrollableList("Sketches Sourcelist")
+        		.setCaptionLabel("Sketches Sourcelist")
+                .setPosition(10, 180)
+                .setWidth(255)
+        		.setType(ControlP5.LIST)
+        		.setItemHeight(5)
                 .setBarHeight(20)
                 .setItemHeight(20)
                 .setId(17)
@@ -126,10 +131,10 @@ public class BezierOptionsMenu {
 
     public void render() {
         if (bezierGroup.isOpen()) {
-            parent.text("Resolution", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 85);
-            parent.text("Horizontal force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 135);
-            parent.text("Vertical force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 185);
-            parent.text("Source file", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 235);
+            //parent.text("Resolution", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 85);
+            //parent.text("Horizontal force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 135);
+            //parent.text("Vertical force", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 185);
+            //parent.text("Source file", bezierGroup.getPosition()[0] + 20, bezierGroup.getPosition()[1] + 235);
         }
     }
 
@@ -137,11 +142,15 @@ public class BezierOptionsMenu {
         this.name.setValue(name);
     }
 
-    public void setSelectedSketch(String sketch) {
-        this.sourceList.setLabel(sketch);
+    public void setSelectedSketch(int sketchIndex) {
+        this.sourceList.setValue(sketchIndex);
     }
 
     public void show() {
         bezierGroup.show();
     }
+
+	public String getName() {
+		return this.name.getStringValue();
+	}
 }

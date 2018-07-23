@@ -98,6 +98,7 @@ public class BezierSurface implements SuperSurface {
     private int bufferScreenWidth = 0;
 
     private Sketch sketch;
+    private int sketchIndex;
 
     /**
      * Constructor for creating a new surface at X,Y with RES subdivision.
@@ -744,6 +745,10 @@ public class BezierSurface implements SuperSurface {
             g.textSize(12);
             g.text("Surface locked", (float) this.getCenter().x, (float) this.getCenter().y + 26);
         }
+        if (sketch != null) {
+            g.textSize(10);
+            g.text(sketch.getName(), (float) this.getCenter().x, (float) this.getCenter().y + 40);
+        }
 
 
         g.noFill();
@@ -1158,6 +1163,14 @@ public class BezierSurface implements SuperSurface {
     public void setZ(float currentZ) {
         this.currentZ = currentZ;
     }
+    
+    public int getSketchIndex() {
+		return sketchIndex;
+	}
+
+	public void setSketchIndex(int sketchIndex) {
+		this.sketchIndex = sketchIndex;
+	}    
 
     /**
      * Tells surface to shake (will only do something if setShake has been called quite recently)
