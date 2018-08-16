@@ -21,6 +21,8 @@ public class BezierOptionsMenu {
     private Button decreaseHorizontalForce;
     private Button increaseVerticalForce;
     private Button decreaseVerticalForce;
+    private Button bringfront;
+    private Button bringback;
     private ScrollableList sourceList;
     private PFont smallFont;
     private final SketchMapper sketchMapper;
@@ -35,7 +37,7 @@ public class BezierOptionsMenu {
         // Quad options group
         bezierGroup = controlP5.addGroup("Bezier options")
                 .setPosition(20, 230)
-                .setBackgroundHeight(260)
+                .setBackgroundHeight(300)
                 .setWidth(280)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
@@ -97,11 +99,27 @@ public class BezierOptionsMenu {
                 .setWidth(125)
                 .setId(16)
                 .setGroup(bezierGroup);
+        
+        // Bring front
+        bringfront = controlP5.addButton("BezierBringfront")
+        		.setCaptionLabel("Bring to Front")
+                .setPosition(10, 180)
+                .setWidth(125)
+                .setId(20)
+                .setGroup(bezierGroup);
+        
+        // Bring back
+        bringback = controlP5.addButton("BezierBringback")
+        		.setCaptionLabel("Bring to Back")
+                .setPosition(140, 180)
+                .setWidth(125)
+                .setId(21)
+                .setGroup(bezierGroup);
 
         // Source file dropdown
         sourceList = controlP5.addScrollableList("Sketches Sourcelist")
         		.setCaptionLabel("Sketches Sourcelist")
-                .setPosition(10, 180)
+                .setPosition(10, 220)
                 .setWidth(255)
         		.setType(ControlP5.LIST)
         		.setItemHeight(5)

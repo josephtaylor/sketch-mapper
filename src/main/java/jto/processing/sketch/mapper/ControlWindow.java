@@ -1,6 +1,7 @@
 package jto.processing.sketch.mapper;
 
 import java.io.File;
+import java.util.Collections;
 
 import controlP5.ControlEvent;
 import controlP5.ControlListener;
@@ -44,7 +45,7 @@ public class ControlWindow extends PApplet {
 	}
 
 	public void settings() {
-		size(320, 510);
+		size(320, 550);
 	}
 
 	public void setup() {
@@ -207,6 +208,16 @@ public class ControlWindow extends PApplet {
                 //}
                 surfaceMapper.getSurfaces().get(sketchMapper.getMostRecentSurface()).setSketch(surfaceMapper.getSketchList().get(((int) e.getController().getValue())));
                 surfaceMapper.getSurfaces().get(sketchMapper.getMostRecentSurface()).setSketchIndex((int) e.getController().getValue());
+                break;
+            
+            //bring front
+            case 20:
+            	Collections.swap(surfaceMapper.getSurfaces(),sketchMapper.getMostRecentSurface(), surfaceMapper.getSurfaces().size()-1);
+                break;
+                
+            //bring back
+            case 21:
+            	Collections.swap(surfaceMapper.getSurfaces(), sketchMapper.getMostRecentSurface(), 0);
                 break;
         }
     }

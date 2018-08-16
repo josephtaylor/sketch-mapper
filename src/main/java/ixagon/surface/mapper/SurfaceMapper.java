@@ -191,6 +191,14 @@ public class SurfaceMapper {
         selectedSurfaces.clear();
         surfaces.clear();
     }
+    
+    public void bringFrontSurface() {
+    	
+    }
+    
+    public void bringBackSurface() {
+    	
+    }
 
     /**
      * Creates a Bezier surface with perspective transform. Res is the amount of subdivisioning. Returns the surface after it has been created.
@@ -575,7 +583,6 @@ public class SurfaceMapper {
                     case '1':
                         if (selectedSurfaces.size() == 1)
                             selectedSurfaces.get(0).setSelectedCorner(0);
-                        System.out.println("test");
                         break;
 
                     case '2':
@@ -723,7 +730,6 @@ public class SurfaceMapper {
                         altDown = true;
                         break;
                     default:
-                    	System.out.println(k.getKeyCode());
                     	break;
                     	
                 }

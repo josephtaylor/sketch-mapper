@@ -13,18 +13,18 @@ public class QuadOptionsMenu {
     private Textfield name;
     private Button increaseResolution;
     private Button decreaseResolution;
+    private Button bringfront;
+    private Button bringback;
     private ScrollableList sourceList;
-    private PFont smallFont;
 
     public QuadOptionsMenu(SketchMapper sketchMapper, PApplet parent, ControlP5 controlP5) {
         this.sketchMapper = sketchMapper;
         this.parent = parent;
-        smallFont = parent.createFont("Verdana", 11, false);
         
         // Quad options group
         quadGroup = controlP5.addGroup("Quad Options")
                 .setPosition(20, 230)
-                .setBackgroundHeight(180)
+                .setBackgroundHeight(220)
                 .setWidth(280)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
@@ -54,11 +54,28 @@ public class QuadOptionsMenu {
                 .setWidth(125)
                 .setId(8)
                 .setGroup(quadGroup);
+        
+        // Bring front
+        bringfront = controlP5.addButton("QuadBringfront")
+        		.setCaptionLabel("Bring to Front")
+                .setPosition(10, 100)
+                .setWidth(125)
+                .setId(20)
+                .setGroup(quadGroup);
+        
+        // Bring back
+        bringback = controlP5.addButton("QuadBringback")
+        		.setCaptionLabel("Bring to Back")
+                .setPosition(140, 100)
+                .setWidth(125)
+                .setId(21)
+                .setGroup(quadGroup);
+
 
         // Source file dropdown
         sourceList = controlP5.addScrollableList("QuadSketchesSourcelist")
         		.setCaptionLabel("Sketches Sourcelist")
-                .setPosition(10, 100)
+                .setPosition(10, 140)
                 .setWidth(255)
         		.setType(ControlP5.LIST)
         		.setItemHeight(5)

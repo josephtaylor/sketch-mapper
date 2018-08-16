@@ -272,7 +272,6 @@ public class SketchMapper {
 
                 quadOptions.setSurfaceName(surface.getSurfaceName());
                 if (null != surface.getSketch()) {
-                	System.out.println(surface.getSketchIndex());
                     quadOptions.setSelectedSketch(surface.getSketchIndex());
                 }
             } else if (surface.getSurfaceType() == SuperSurface.BEZIER) {

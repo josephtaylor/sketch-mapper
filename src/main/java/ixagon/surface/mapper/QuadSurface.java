@@ -79,7 +79,7 @@ public class QuadSurface implements SuperSurface {
     private boolean isLocked;
     private int selectedCorner;
     private boolean cornerMovementAllowed = true;
-    private int ccolor = 0xFF3c3c3c;
+    private int ccolor = 0xff800000;
     private Polygon poly = new Polygon();
     private float currentZ;
     private boolean shaking;
