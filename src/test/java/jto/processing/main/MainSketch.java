@@ -1,6 +1,5 @@
 package jto.processing.main;
 
-
 import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -21,7 +20,8 @@ public class MainSketch extends PApplet {
     @Override
     public void setup() {
         sketchMapper = new SketchMapper(this);
-        sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
+    	sketchMapper.addSketch(new TestSketchInvert(this, width / 2, height / 2));
+    	sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
     }
 
     public static void main(String[] args) {

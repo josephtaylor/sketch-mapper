@@ -16,65 +16,45 @@ public class ProgramOptionsMenu {
 
         // Program options menu
         programGroup = controlP5.addGroup("Program options")
-                .setPosition(parent.width - 300, 40)
-                .setBackgroundHeight(300)
+                .setPosition(20, 40)
+                .setBackgroundHeight(150)
                 .setWidth(280)
                 .setBarHeight(20)
                 .setBackgroundColor(parent.color(0, 50));
         programGroup.getCaptionLabel().getStyle().marginTop = 6;
 
         // Create new quad button
-        controlP5.addButton("newQuad")
+        controlP5.addButton("Add Quad Surface")
                 .setPosition(10, 20)
-                .setImages(
-                        parent.loadImage("buttons/new-quad-off.png"),
-                        parent.loadImage("buttons/new-quad-hover.png"),
-                        parent.loadImage("buttons/new-quad-click.png"))
-                .updateSize()
+                .setWidth(125)
                 .setId(1)
                 .setGroup(programGroup);
 
         // Create new bezier button
-        controlP5.addButton("newBezier")
-                .setPosition(10, 65)
-                .setImages(
-                        parent.loadImage("buttons/new-bezier-off.png"),
-                        parent.loadImage("buttons/new-bezier-hover.png"),
-                        parent.loadImage("buttons/new-bezier-click.png"))
-                .updateSize()
+        controlP5.addButton("Add Bezier Surface")
+                .setPosition(140, 20)
+                .setWidth(125)
                 .setId(2)
                 .setGroup(programGroup);
 
         // Load layout button
-        controlP5.addButton("loadLayout")
-                .setPosition(10, 130)
-                .setImages(
-                        parent.loadImage("buttons/load-layout-off.png"),
-                        parent.loadImage("buttons/load-layout-hover.png"),
-                        parent.loadImage("buttons/load-layout-click.png"))
-                .updateSize()
+        controlP5.addButton("Load Layout from file")
+                .setPosition(10, 60)
+                .setWidth(125)
                 .setId(3)
                 .setGroup(programGroup);
 
-        // Load layout button
-        controlP5.addButton("saveLayout")
-                .setPosition(130, 130)
-                .setImages(
-                        parent.loadImage("buttons/save-layout-off.png"),
-                        parent.loadImage("buttons/save-layout-hover.png"),
-                        parent.loadImage("buttons/save-layout-click.png"))
-                .updateSize()
+        // Save layout button
+        controlP5.addButton("Save Layout to file")
+                .setPosition(140, 60)
+                .setWidth(125)
                 .setId(4)
                 .setGroup(programGroup);
 
-        // Save layout button
-        controlP5.addButton("switchRender")
-                .setPosition(10, 195)
-                .setImages(
-                        parent.loadImage("buttons/switch-render-off.png"),
-                        parent.loadImage("buttons/switch-render-hover.png"),
-                        parent.loadImage("buttons/switch-render-click.png"))
-                .updateSize()
+        // Render layout button
+        controlP5.addButton("Render")
+                .setPosition(10, 100)
+                .setWidth(255)
                 .setId(5)
                 .setGroup(programGroup);
     }
@@ -84,17 +64,17 @@ public class ProgramOptionsMenu {
     }
 
     public void render() {
-        if (programGroup.isOpen()) {
-            parent.stroke(255, 150);
-            parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 115, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 115);
+        //if (programGroup.isOpen()) {
+        //    parent.stroke(255, 150);
+        //    parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 115, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 115);
 
-            parent.stroke(255, 150);
-            parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 177, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 177);
+        //    parent.stroke(255, 150);
+        //    parent.line(programGroup.getPosition()[0], programGroup.getPosition()[1] + 177, programGroup.getPosition()[0] + programGroup.getWidth(), programGroup.getPosition()[1] + 177);
 
-            parent.textFont(smallFont);
-            parent.fill(255);
-            parent.text("Double click to return to setup", programGroup.getPosition()[0] + 20, programGroup.getPosition()[1] + 245);
-        }
+        //    parent.textFont(smallFont);
+        //    parent.fill(255);
+        //    parent.text("Double click to return to setup", programGroup.getPosition()[0] + 20, programGroup.getPosition()[1] + 245);
+        //}
     }
 
     public void show() {

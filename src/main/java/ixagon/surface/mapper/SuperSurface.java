@@ -472,6 +472,16 @@ public interface SuperSurface {
      * Tells surface to shake (will only do something if setShake has been called quite recently)
      */
     public void shake();
+    
+    /**
+     * Get the actual sketch index.
+     */
+    public int getSketchIndex();
+    
+    /**
+     * Set the actual sketch index.
+     */
+	public void setSketchIndex(int sketchIndex);
 
     /**
      * Toggle if surface is locked
