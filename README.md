@@ -9,7 +9,7 @@ This was built off of the [Surface Mapper] library by [Ixagon] and the original 
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-Processing 3 - 4.1.2   
+Processing 3 - 4.1.3   
 Processing 2 - 3.0.2
 
 ### Library Dependencies
