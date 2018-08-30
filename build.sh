@@ -22,6 +22,7 @@ cp -r target/reference target/SketchMapper/
 cp -r examples target/SketchMapper/
 cp -r target/library target/SketchMapper/
 cp library.properties target/SketchMapper/
+cp LICENSE target/SketchMapper/
 
 echo ' -- generating zip file '
 cd target
