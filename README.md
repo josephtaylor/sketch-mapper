@@ -9,11 +9,11 @@ This was built off of the [Surface Mapper] library by [Ixagon] and the original 
 This is mostly *their* work ! This is just adapted to do some different things.
 
 ### Current Version
-Processing 3 - 4.1.3   
+Processing 3 - 4.2.0
 Processing 2 - 3.0.2
 
 ### Library Dependencies
-uses [ControlP5] version 2.2.6   
+uses [ControlP5] version 2.2.6
 when using this library, the ControlP5 library must be imported as well.
 
 ## Building
@@ -83,11 +83,15 @@ _If a relative path is specified it will look in the sketch's `data` folder, oth
 SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
 ```
 
-Add sketches to the `SketchMapper` using the `addSketch()` method.
+As of version `4.2.0`, SketchMapper will automatically find any sketches that
+extend `AbstractSketch` and will add them to the list.
+
+Alternatively, you can add sketches to the `SketchMapper` using the `addSketch()` method.
 ```
 sketchMapper.addSketch(new TestSketch(this, 500, 500));
 ```
-The sketches that are added will show up in the sketch dropdown in the UI.<br/>
+
+The sketches that are added will show up in the sketch drop-down in the UI.<br/>
 The only other requirement is that you call the `draw` method on the object at the top of your `draw` function.
 ```
 public void draw() {
