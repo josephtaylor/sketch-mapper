@@ -83,8 +83,8 @@ _If a relative path is specified it will look in the sketch's `data` folder, oth
 SketchMapper sketchMapper = new SketchMapper(this, "myLayout.xml");
 ```
 
-As of version `4.2.0`, SketchMapper will automatically find any sketches that
-extend `AbstractSketch` and will add them to the list.
+As of version `4.2.0`, SketchMapper will automatically find any classes that
+extend `AbstractSketch` and add them to the list.
 
 Alternatively, you can add sketches to the `SketchMapper` using the `addSketch()` method.
 ```
