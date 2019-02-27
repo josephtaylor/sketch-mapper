@@ -245,6 +245,10 @@ public class SketchMapper {
      * @param event the mouse event.
      */
     public void mouseEvent(MouseEvent event) {
+        for (Sketch sketch : getSketchList()) {
+            sketch.mouseEvent(event);
+        }
+
         if (MouseEvent.RELEASE != event.getAction()) {
             return;
         }
