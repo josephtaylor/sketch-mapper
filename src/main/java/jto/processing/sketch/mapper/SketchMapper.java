@@ -1,12 +1,6 @@
 package jto.processing.sketch.mapper;
 
 
-import static ixagon.surface.mapper.SurfaceMapper.MODE_CALIBRATE;
-import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
-
-import java.util.Iterator;
-import java.util.List;
-
 import ixagon.surface.mapper.SuperSurface;
 import ixagon.surface.mapper.SurfaceMapper;
 import processing.core.PApplet;
@@ -14,6 +8,12 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+
+import java.util.Iterator;
+import java.util.List;
+
+import static ixagon.surface.mapper.SurfaceMapper.MODE_CALIBRATE;
+import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
 
 public class SketchMapper {
 
@@ -132,12 +132,12 @@ public class SketchMapper {
             }
 
             // add sketches to surfaces, if not set
-            if ( surfaceMapper.getSketchList().size() > 0 ){
+            if (surfaceMapper.getSketchList().size() > 0) {
                 Sketch defaultSketch = surfaceMapper.getSketchList().get(0);
 
                 for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                     Sketch s = ss.getSketch();
-                    if ( s == null ){
+                    if (s == null) {
                         ss.setSketch(defaultSketch);
                     }
                 }
@@ -172,7 +172,7 @@ public class SketchMapper {
             // Render each surface to the GLOS using their textures
             for (SuperSurface ss : surfaceMapper.getSurfaces()) {
                 Sketch s = ss.getSketch();
-                if ( s != null ){
+                if (s != null) {
                     s.draw();
                     ss.render(parent.g, s.getPGraphics().get());
                 } else {
@@ -281,7 +281,7 @@ public class SketchMapper {
             } else if (surface.getSurfaceType() == SuperSurface.BEZIER) {
                 quadOptions.hide();
                 bezierOptions.show();
-                
+
                 bezierOptions.setSurfaceName(surface.getSurfaceName());
                 if (null != surface.getSketch()) {
                     bezierOptions.setSelectedSketch(surface.getSketchIndex());
@@ -291,13 +291,17 @@ public class SketchMapper {
     }
 
     public int getMostRecentSurface() {
-    	return mostRecentSurface;
+        return mostRecentSurface;
     }
-    
+
     public void resetMostRecentSurface() {
-    	mostRecentSurface = 0;
+        mostRecentSurface = 0;
     }
-    
+
+    public boolean isMouseWithinAnySurface() {
+        return surfaceMapper.findActiveSurface(parent.mouseX, parent.mouseY);
+    }
+
     /**
      * Removes the given sketch from the list of sketches.
      *
@@ -320,4 +324,5 @@ public class SketchMapper {
     public void setSketchList(List<Sketch> sketchList) {
         surfaceMapper.setSketchList(sketchList);
     }
+    
 }
