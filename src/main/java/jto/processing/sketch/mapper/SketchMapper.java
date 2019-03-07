@@ -294,7 +294,7 @@ public class SketchMapper {
         mostRecentSurface = 0;
     }
 
-    public boolean isMouseWithinActiveSurface() {
+    public boolean isMouseWithinAnySurface() {
         return surfaceMapper.findActiveSurface(parent.mouseX, parent.mouseY);
     }
 
