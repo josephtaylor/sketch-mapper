@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo ' -- building with maven'
-mvn clean package
+./mvnw clean package
 echo ' -- generating javadocs'
-mvn javadoc:javadoc
+./mvnw javadoc:javadoc
 
 echo ' -- moving javadocs'
 cd target/reference
@@ -14,6 +14,7 @@ cd ../..
 echo ' -- copying jars to library folder'
 mkdir ./target/library
 cp -v ./target/SketchMapper.jar ./target/library/
+cp -v ./target/dependency/*.jar ./target/library/
 
 echo ' -- moving everything to target/surface-mapper-gui'
 mkdir target/SketchMapper
