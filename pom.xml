@@ -95,6 +95,34 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>de.jutzig</groupId>
+                <artifactId>github-release-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <description>Version ${project.version}</description>
+                    <releaseName>Version ${project.version}</releaseName>
+                    <tag>${project.artifactId}-${project.version}</tag>
+
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>SketchMapper.jar</include>
+                                <include>SketchMapper.zip</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 
@@ -139,4 +167,10 @@
             <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com/josephtaylor/sketch-mapper.git</connection>
+        <url>scm:git:ssh://git@github.com/josephtaylor/sketch-mapper.git</url>
+        <tag>${project.artifactId}-${project.version}</tag>
+    </scm>
 </project>
