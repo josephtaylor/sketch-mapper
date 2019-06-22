@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo ' -- building with maven'
-mvn clean package
+./mvnw clean package
 echo ' -- generating javadocs'
-mvn javadoc:javadoc
+./mvnw javadoc:javadoc
 
 echo ' -- moving javadocs'
 cd target/reference
