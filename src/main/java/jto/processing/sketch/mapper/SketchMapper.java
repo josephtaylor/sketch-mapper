@@ -1,8 +1,14 @@
 package jto.processing.sketch.mapper;
 
 
-import static ixagon.surface.mapper.SurfaceMapper.MODE_CALIBRATE;
-import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
+import ixagon.surface.mapper.SuperSurface;
+import ixagon.surface.mapper.SurfaceMapper;
+import org.reflections.Reflections;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,15 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.reflections.Reflections;
-
-import ixagon.surface.mapper.SuperSurface;
-import ixagon.surface.mapper.SurfaceMapper;
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.event.KeyEvent;
-import processing.event.MouseEvent;
+import static ixagon.surface.mapper.SurfaceMapper.MODE_CALIBRATE;
+import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
 
 public class SketchMapper {
 
@@ -233,6 +232,10 @@ public class SketchMapper {
         return surfaceMapper.getSketchList();
     }
 
+    public boolean isMouseWithinAnySurface() {
+        return surfaceMapper.findActiveSurface(parent.mouseX, parent.mouseY);
+    }
+
     /**
      * Invoked whenever a KeyEvent happens.
      *
@@ -267,6 +270,10 @@ public class SketchMapper {
      * @param event the mouse event.
      */
     public void mouseEvent(MouseEvent event) {
+        for (Sketch sketch : getSketchList()) {
+            sketch.mouseEvent(event);
+        }
+
         if (MouseEvent.RELEASE != event.getAction()) {
             return;
         }
@@ -367,4 +374,5 @@ public class SketchMapper {
     public void setSketchList(List<Sketch> sketchList) {
         surfaceMapper.setSketchList(sketchList);
     }
+
 }
