@@ -3,7 +3,7 @@
 
     <groupId>jto.processing</groupId>
     <artifactId>sketch-mapper</artifactId>
-    <version>4.2.0</version>
+    <version>4.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>sketch-mapper</name>
@@ -170,6 +170,6 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/josephtaylor/sketch-mapper.git</connection>
         <url>scm:git:ssh://git@github.com/josephtaylor/sketch-mapper.git</url>
-        <tag>sketch-mapper-4.2.0</tag>
+        <tag>${project.artifactId}-${project.version}</tag>
     </scm>
 </project>
