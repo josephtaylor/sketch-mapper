@@ -872,26 +872,26 @@ public class BezierSurface implements SuperSurface {
                 g.vertex(vertexPoints[i][j].x,
                         vertexPoints[i][j].y,
                         vertexPoints[i][j].z + currentZ,
-                        ((float) i / GRID_RESOLUTION) * (tWidth + tOffX),
-                        ((float) j / GRID_RESOLUTION) * (tHeight + tOffY));
+                        ((float) i / GRID_RESOLUTION) * tWidth + tOffX,
+                        ((float) j / GRID_RESOLUTION) * tHeight + tOffY);
 
                 g.vertex(vertexPoints[i + 1][j].x,
                         vertexPoints[i + 1][j].y,
                         vertexPoints[i + 1][j].z + currentZ,
-                        (((float) i + 1) / GRID_RESOLUTION) * (tWidth + tOffX),
-                        ((float) j / GRID_RESOLUTION) * (tHeight + tOffY));
+                        (((float) i + 1) / GRID_RESOLUTION) * tWidth + tOffX,
+                        ((float) j / GRID_RESOLUTION) * tHeight + tOffY);
 
                 g.vertex(vertexPoints[i + 1][j + 1].x,
                         vertexPoints[i + 1][j + 1].y,
                         vertexPoints[i + 1][j + 1].z + currentZ,
-                        (((float) i + 1) / GRID_RESOLUTION) * (tWidth + tOffX),
-                        (((float) j + 1) / GRID_RESOLUTION) * (tHeight + tOffY));
+                        (((float) i + 1) / GRID_RESOLUTION) * tWidth + tOffX,
+                        (((float) j + 1) / GRID_RESOLUTION) * tHeight + tOffY);
 
                 g.vertex(vertexPoints[i][j + 1].x,
                         vertexPoints[i][j + 1].y,
                         vertexPoints[i][j + 1].z + currentZ,
-                        ((float) i / GRID_RESOLUTION) * (tWidth + tOffX),
-                        (((float) j + 1) / GRID_RESOLUTION) * (tHeight + tOffY));
+                        ((float) i / GRID_RESOLUTION) * tWidth + tOffX,
+                        (((float) j + 1) / GRID_RESOLUTION) * tHeight + tOffY);
 
 
             }
