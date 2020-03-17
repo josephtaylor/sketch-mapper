@@ -1,21 +1,16 @@
 package jto.processing.main;
 
-import jto.processing.sketch.mapper.AbstractSketch;
-import processing.core.PApplet;
+import jto.processing.sketch.mapper.AbstractCyclicSketch;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public class TestSketch extends AbstractSketch {
+public class TestSketchCyclic extends AbstractCyclicSketch {
 
     private static final int BLACK = 255;
     private static final int WHITE = 0;
     private static final int LOWER_INDEX = 0;
     private static final int UPPER_INDEX = 100;
     private static final int ELLIPSE_SIZE = 25;
-
-    public TestSketch(final PApplet parent, final int width, final int height) {
-        super(parent, width, height);
-    }
 
     @Override
     public void draw() {

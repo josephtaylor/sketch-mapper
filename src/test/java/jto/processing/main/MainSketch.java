@@ -1,34 +1,47 @@
 package jto.processing.main;
 
 import jto.processing.sketch.mapper.AbstractSketch;
+import jto.processing.sketch.mapper.CyclicSketch;
 import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 public class MainSketch extends PApplet {
 
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+    private static final int TWO = 2;
+    private static final int TIME_INTERVAL = 10000;
+    private static final int FRAME_RATE = 30;
+
     private SketchMapper sketchMapper;
 
-    @Override
-    public void draw() {
-        sketchMapper.draw();
+    public static void main(String[] args) {
+        PApplet.main(MainSketch.class.getName());
     }
 
     public void settings() {
-        size(800, 600, PConstants.OPENGL);
+        size(WIDTH, HEIGHT, P3D);
     }
 
     @Override
     public void setup() {
         sketchMapper = new SketchMapper(this);
-//    	sketchMapper.addSketch(new TestSketchInvert(this, width / 2, height / 2));
-//    	sketchMapper.addSketch(new TestSketch(this, width / 2, height / 2));
+        int sketchWidth = width / TWO;
+        int sketchHeight = height / TWO;
+        sketchMapper.addSketch(new TestSketch(this, sketchWidth, sketchHeight));
+        sketchMapper.addSketch(new TestSketchInvert(this, sketchWidth, sketchHeight));
+        TestSketchCyclic testSketchCyclic = new TestSketchCyclic();
+        ShapesSketch shapesSketch = new ShapesSketch();
+        SpiralSketch spiralSketch = new SpiralSketch();
+        sketchMapper.addSketch(new CyclicSketch(this, sketchWidth, sketchHeight, TIME_INTERVAL, testSketchCyclic, shapesSketch, spiralSketch));
+        frameRate(FRAME_RATE);
     }
 
-    public static void main(String[] args) {
-        PApplet.main(new String[]{ MainSketch.class.getName() });
+    @Override
+    public void draw() {
+        sketchMapper.draw();
     }
 
     /**
@@ -37,6 +50,12 @@ public class MainSketch extends PApplet {
      */
     public class InnerSketch extends AbstractSketch {
 
+        private static final int BLACK = 255;
+        private static final int UPPER_BOUND = 255;
+        private static final int LOWER_INDEX = 0;
+        private static final int UPPER_INDEX = 100;
+        private static final int ELLIPSE_SIZE = 25;
+
         public InnerSketch(final PApplet parent, final int width, final int height) {
             super(parent, width, height);
         }
@@ -44,10 +63,12 @@ public class MainSketch extends PApplet {
         @Override
         public void draw() {
             graphics.beginDraw();
-            graphics.background(255);
-            graphics.fill(random(255), random(255), random(255));
-            for (int i = 0; i < 100; i++) {
-                graphics.ellipse(parent.random(graphics.width), parent.random(graphics.height), 25, 25);
+            graphics.background(BLACK);
+            graphics.fill(random(UPPER_BOUND), random(UPPER_BOUND), random(UPPER_BOUND));
+            for (int index = LOWER_INDEX; index < UPPER_INDEX; index++) {
+                float ellipseXCoordinate = parent.random(graphics.width);
+                float ellipseYCoordinate = parent.random(graphics.height);
+                graphics.ellipse(ellipseXCoordinate, ellipseYCoordinate, ELLIPSE_SIZE, ELLIPSE_SIZE);
             }
             graphics.endDraw();
         }
@@ -66,5 +87,7 @@ public class MainSketch extends PApplet {
         public void setup() {
 
         }
+
     }
+
 }
