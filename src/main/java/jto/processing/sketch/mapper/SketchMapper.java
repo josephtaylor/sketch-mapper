@@ -22,9 +22,10 @@ import static ixagon.surface.mapper.SurfaceMapper.MODE_RENDER;
 
 public class SketchMapper {
 
+    private static final int INITIAL_SURFACE_RESOLUTION = 6;
+    private static final String PREFIX = "";
+
     private final PApplet parent;
-    private final Reflections reflections;
-    private int initialSurfaceResolution = 6;
     private int mostRecentSurface = 0;
     // SurfaceMapper variables
     private PGraphics graphicsOffScreen;
@@ -35,7 +36,6 @@ public class SketchMapper {
     private PImage backgroundImage;
     private String layoutFilename;
     private boolean firstDraw = true;
-    private ControlWindow controlWindow;
 
     /**
      * Constructor for SketchMapper objects.
@@ -63,8 +63,6 @@ public class SketchMapper {
         try {
             this.parent = parent;
 
-            reflections = new Reflections();
-
             //register our handler methods in this object on our parent.
             parent.registerMethod("mouseEvent", this);
             parent.registerMethod("keyEvent", this);
@@ -77,7 +75,7 @@ public class SketchMapper {
             surfaceMapper.setDisableSelectionTool(true);
 
             // Initialize custom menus
-            controlWindow = new ControlWindow(parent, parent.width, parent.height, surfaceMapper, this);
+            ControlWindow controlWindow = new ControlWindow(parent, parent.width, parent.height, surfaceMapper, this);
             quadOptions = controlWindow.getQuadOptions();
             bezierOptions = controlWindow.getBezierOptions();
             programOptions = controlWindow.getProgramOptions();
@@ -145,7 +143,7 @@ public class SketchMapper {
                 surfaceMapper.load(parent.dataFile(layoutFilename));
             } else {
                 // Creates one surface at center of screen
-                surfaceMapper.createQuadSurface(initialSurfaceResolution, parent.width / 2, parent.height / 2);
+                surfaceMapper.createQuadSurface(INITIAL_SURFACE_RESOLUTION, parent.width / 2, parent.height / 2);
             }
 
             // add sketches to surfaces, if not set
@@ -316,8 +314,12 @@ public class SketchMapper {
     }
 
     private void registerClasspathSketches() {
-        final Set<Class<? extends AbstractSketch>> sketchTypes = reflections.getSubTypesOf(AbstractSketch.class);
-        if (null == sketchTypes || sketchTypes.isEmpty()) {
+        Reflections reflections = new Reflections(PREFIX);
+        Set<Class<? extends AbstractSketch>> sketchTypes = reflections.getSubTypesOf(AbstractSketch.class)
+                .stream()
+                .filter(abstractSketch -> !abstractSketch.getName().equals(CyclicSketch.class.getName()))
+                .collect(Collectors.toSet());
+        if (sketchTypes.isEmpty()) {
             return;
         }
         for (Class<? extends AbstractSketch> sketchType : sketchTypes) {
