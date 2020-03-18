@@ -9,9 +9,8 @@ import jto.processing.sketch.mapper.SketchMapper;
 import processing.core.PApplet;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+import controlP5.*;
 
-private static final int WIDTH = 800;
-private static final int HEIGHT = 600;
 private static final int TWO = 2;
 private static final int TIME_INTERVAL = 10000;
 
@@ -19,7 +18,7 @@ private SketchMapper sketchMapper;
 
 @Override
   public void setup() {
-  size(WIDTH, HEIGHT, P3D);
+  size(800, 600, P3D);
   sketchMapper = new SketchMapper(this);
   int sketchWidth = width / TWO;
   int sketchHeight = height / TWO;

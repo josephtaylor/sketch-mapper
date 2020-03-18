@@ -315,8 +315,11 @@ public class SketchMapper {
 
     private void registerClasspathSketches() {
         Reflections reflections = new Reflections(PREFIX);
-        Set<Class<? extends AbstractSketch>> sketchTypes = reflections.getSubTypesOf(AbstractSketch.class);
-        if (null == sketchTypes || sketchTypes.isEmpty()) {
+        Set<Class<? extends AbstractSketch>> sketchTypes = reflections.getSubTypesOf(AbstractSketch.class)
+                .stream()
+                .filter(abstractSketch -> !abstractSketch.getName().equals(CyclicSketch.class.getName()))
+                .collect(Collectors.toSet());
+        if (sketchTypes.isEmpty()) {
             return;
         }
         for (Class<? extends AbstractSketch> sketchType : sketchTypes) {
